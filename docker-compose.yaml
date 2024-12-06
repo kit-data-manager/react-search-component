@@ -1,0 +1,25 @@
+version: '3'
+services:
+  elasticsearch:
+    container_name: elasticsearch-nmr-prov
+    image: elasticsearch:8.8.1
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 5s
+      timeout: 2s
+      retries: 40
+      start_period: 70s
+
+  kibana:
+    container_name: kibana-nmr-prov
+    image: kibana:8.8.1
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch

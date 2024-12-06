@@ -7,13 +7,23 @@ import {
     Results,
     ResultsPerPage,
     SearchProvider,
-    Sorting,
     WithSearch,
     SearchBox
 } from "@elastic/react-search-ui"
-import { Fragment, useMemo } from "react"
+import { useMemo } from "react"
 import { FairDOConfigProvider } from "./config/FairDOConfigProvider.ts"
-import "@elastic/react-search-ui-views/lib/styles/styles.css"
+import "./elastic-ui.css"
+import { ObjectRender } from "./components/ObjectRender.tsx"
+import { DefaultSearchBox } from "@/components/DefaultSearchBox.tsx"
+import { DefaultFacet } from "@/components/DefaultFacet.tsx"
+import { ClearFilters } from "@/components/ClearFilters.tsx"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select.tsx"
 
 export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }) {
     const elasticConfig = useMemo(() => {
@@ -43,13 +53,12 @@ export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }
                                         }}
                                         autocompleteSuggestions={true}
                                         debounceLength={0}
+                                        inputView={DefaultSearchBox}
                                     />
                                 }
                                 sideContent={
-                                    <div>
-                                        {wasSearched && (
-                                            <Sorting label={"Sort by"} sortOptions={[]} />
-                                        )}
+                                    <div className="space-y-4">
+                                        <ClearFilters />
                                         {facetFields.map((field) => (
                                             <Facet
                                                 key={field.key}
@@ -59,16 +68,78 @@ export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }
                                                         ? field.label
                                                         : field.key.substring(0, 20)
                                                 }
+                                                view={DefaultFacet}
                                             />
                                         ))}
+                                        <ClearFilters />
                                     </div>
                                 }
-                                bodyContent={<Results shouldTrackClickThrough={true} />}
+                                bodyContent={
+                                    <Results
+                                        shouldTrackClickThrough={true}
+                                        resultView={(props) => (
+                                            <div
+                                                className={
+                                                    "p-4 mb-4 border border-secondary shadow rounded-lg"
+                                                }
+                                            >
+                                                <ObjectRender data={props.result} />
+                                            </div>
+                                        )}
+                                    />
+                                }
                                 bodyHeader={
-                                    <Fragment>
-                                        {wasSearched && <PagingInfo />}
-                                        {wasSearched && <ResultsPerPage />}
-                                    </Fragment>
+                                    <div className="mb-4 flex justify-between w-full items-center">
+                                        {wasSearched && (
+                                            <PagingInfo
+                                                view={(props) => (
+                                                    <div>
+                                                        Showing {props.start} - {props.end} out of{" "}
+                                                        {props.totalResults}
+                                                        {props.searchTerm &&
+                                                            ` - Searching for "${props.searchTerm}"`}
+                                                    </div>
+                                                )}
+                                            />
+                                        )}
+                                        {wasSearched && (
+                                            <ResultsPerPage
+                                                view={(props) => {
+                                                    return (
+                                                        <div className="flex items-center gap-2 h-full">
+                                                            <div>Results per Page</div>
+                                                            <Select
+                                                                value={props.value + ""}
+                                                                onValueChange={(v) =>
+                                                                    props.onChange(parseInt(v))
+                                                                }
+                                                            >
+                                                                <SelectTrigger className="w-[80px]">
+                                                                    <SelectValue />
+                                                                </SelectTrigger>
+                                                                <SelectContent>
+                                                                    {props.options?.map(
+                                                                        (option) => {
+                                                                            return (
+                                                                                <SelectItem
+                                                                                    value={
+                                                                                        option + ""
+                                                                                    }
+                                                                                    key={option}
+                                                                                >
+                                                                                    {option}
+                                                                                </SelectItem>
+                                                                            )
+                                                                        }
+                                                                    )}
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                    )
+                                                }}
+                                            />
+                                        )}
+                                    </div>
                                 }
                                 bodyFooter={<Paging />}
                             />

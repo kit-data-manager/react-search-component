@@ -47,10 +47,6 @@ const objConfig: FairDOConfig = {
                     label: "Username"
                 },
                 {
-                    key: "metadataDocument.entry.instrument.stage.stageAlignmentDone",
-                    label: "Stage Alignment Done"
-                },
-                {
                     key: "metadataDocument.entry.instrument.eBeamSource.accelerationVoltage.value",
                     label: "Acceleration Voltage",
                     renderer: "multiCheckbox",
@@ -124,7 +120,13 @@ const objConfig: FairDOConfig = {
 const fairConfig = new FairDOConfigProvider(objConfig)
 
 function App() {
-    return <FairDOElasticSearch config={fairConfig} />
+    return (
+        <div className="bg-gray-200 p-10">
+            <div className="bg-white">
+                <FairDOElasticSearch config={fairConfig} />
+            </div>
+        </div>
+    )
 }
 
 export default App
