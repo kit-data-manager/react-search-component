@@ -1,5 +1,6 @@
 import config from "../config/config.json"
 import moment from "moment"
+import { FacetConfiguration, FilterValueRange } from "@elastic/search-ui"
 
 /**
  * This file abstracts most logic around the configuration of the Reference UI.
@@ -10,17 +11,15 @@ import moment from "moment"
  * that end, this file attempts to contain most of that logic to one place.
  */
 
+type ConfigFileFacetConfig = (typeof config.indices)[0]["facets"][0]
+
 export function getConfig() {
     return config
 }
 
-function capitalizeFirstLetter(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1)
-}
-
 export function getFacetFields() {
-    let facets = []
-    let uniqueKeys = []
+    const facets: ConfigFileFacetConfig[] = []
+    const uniqueKeys: string[] = []
     for (const index of config.indices) {
         for (const facet of index.facets) {
             //check for potential duplicates
@@ -34,15 +33,11 @@ export function getFacetFields() {
     return facets
 }
 
-export function getSortFields() {
-    return getConfig().sortFields || []
-}
-
 export function buildSearchOptionsFromConfig() {
     const config = getConfig()
-    let index_names = []
-    let allSearchFields = {}
-    let allResultFields = {}
+    const index_names: string[] = []
+    let allSearchFields: Record<string, Record<never, never>> = {}
+    let allResultFields: Record<string, { raw: Record<never, never> }> = {}
 
     for (const index of config.indices) {
         //store index name
@@ -85,24 +80,31 @@ export function buildSearchOptionsFromConfig() {
         )
     }
 
-    const searchOptions = {}
-    searchOptions.index_names = index_names
-    searchOptions.search_fields = allSearchFields
-    searchOptions.result_fields = allResultFields
-
-    return searchOptions
+    return {
+        index_names: index_names,
+        search_fields: allSearchFields,
+        result_fields: allResultFields
+    }
 }
 
 export function buildFacetConfigFromConfig() {
     const config = getConfig()
-    let allFacets = {}
+    let allFacets: Record<string, FacetConfiguration> = {}
     for (const index of config.indices) {
         allFacets = (index.facets || []).reduce((acc, n) => {
             acc = acc || {}
-            if (n.hasOwnProperty("type") && n.type === "numeric") {
-                buildNumericRangeFacetFromConfig(n, acc)
-            } else if (n.hasOwnProperty("type") && n.type.startsWith("date_")) {
-                buildDateRangeFacetFromConfig(n, acc)
+            if ("type" in n && n.type === "numeric") {
+                const facetRanges = buildNumericRangeFacetFromConfig(n)
+                acc[n.key] = {
+                    type: "range",
+                    ranges: facetRanges
+                }
+            } else if ("type" in n && n.type?.startsWith("date_")) {
+                const facetRanges = buildDateRangeFacetFromConfig(n)
+                acc[n.key] = {
+                    type: "range",
+                    ranges: facetRanges
+                }
             } else {
                 //no specific range facet, use default arguments
                 acc[n.key] = {
@@ -117,25 +119,24 @@ export function buildFacetConfigFromConfig() {
     return allFacets
 }
 
-function buildNumericRangeFacetFromConfig(facetConfig, accumulator) {
-    let ranges = facetConfig.ranges
+function buildNumericRangeFacetFromConfig(facetConfig: ConfigFileFacetConfig) {
+    const ranges = facetConfig.ranges
     //ranges are an array which each element in the format <X or X-Y or >Y
-    let facetRanges = ranges.reduce((acc, n) => {
-        acc = acc || []
+    return ranges?.reduce((acc: { to?: number; from?: number; name: string }[], n) => {
         if (n.startsWith("<")) {
-            let toValue = n.replace("<", "")
+            const toValue = n.replace("<", "")
             acc.push({
                 to: parseStringValueToNumber(toValue),
                 name: n
             })
         } else if (n.startsWith(">")) {
-            let fromValue = n.replace(">", "")
+            const fromValue = n.replace(">", "")
             acc.push({
                 from: parseStringValueToNumber(fromValue),
                 name: n
             })
         } else {
-            let fromToValue = n.split("-")
+            const fromToValue = n.split("-")
             acc.push({
                 from: parseStringValueToNumber(fromToValue[0]),
                 to: parseStringValueToNumber(fromToValue[1]),
@@ -143,23 +144,18 @@ function buildNumericRangeFacetFromConfig(facetConfig, accumulator) {
             })
         }
         return acc
-    }, undefined)
-
-    accumulator[facetConfig.key] = {
-        type: "range",
-        ranges: facetRanges
-    }
+    }, [])
 }
 
-function parseStringValueToNumber(value) {
+function parseStringValueToNumber(value: string) {
     if (value.includes(".")) {
         return parseFloat(value)
     }
     return parseInt(value)
 }
 
-function buildDateRangeFacetFromConfig(facetConfig, accumulator) {
-    let ranges = []
+function buildDateRangeFacetFromConfig(facetConfig: ConfigFileFacetConfig) {
+    let ranges: FilterValueRange[] = []
     if (facetConfig["type"] === "date_year") {
         ranges = [
             {
@@ -252,38 +248,11 @@ function buildDateRangeFacetFromConfig(facetConfig, accumulator) {
         ]
     }
 
-    accumulator[facetConfig.key] = {
-        type: "range",
-        ranges: ranges
-    }
-}
-
-export function buildSortOptionsFromConfig() {
-    const config = getConfig()
-    return [
-        {
-            name: "Relevance",
-            value: "",
-            direction: ""
-        },
-        ...(config.sortFields || []).reduce((acc, sortField) => {
-            acc.push({
-                name: `${capitalizeFirstLetter(sortField)} ASC`,
-                value: sortField,
-                direction: "asc"
-            })
-            acc.push({
-                name: `${capitalizeFirstLetter(sortField)} DESC`,
-                value: sortField,
-                direction: "desc"
-            })
-            return acc
-        }, [])
-    ]
+    return ranges
 }
 
 export function buildAutocompleteQueryConfig() {
-    const querySuggestFields = getConfig().querySuggestFields
+    /*const querySuggestFields = getConfig().querySuggestFields
     if (
         !querySuggestFields ||
         !Array.isArray(querySuggestFields) ||
@@ -300,5 +269,6 @@ export function buildAutocompleteQueryConfig() {
                 }
             }
         }
-    }
+    }*/
+    return {}
 }
