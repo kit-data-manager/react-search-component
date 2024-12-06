@@ -11,37 +11,21 @@ import {
     WithSearch,
     SearchBox
 } from "@elastic/react-search-ui"
-import { Fragment } from "react"
-import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
-import {
-    buildAutocompleteQueryConfig,
-    buildFacetConfigFromConfig,
-    buildSearchOptionsFromConfig,
-    getConfig,
-    getFacetFields
-} from "./config/config-helper.ts"
+import { Fragment, useMemo } from "react"
+import { FairDOConfigProvider } from "./config/FairDOConfigProvider.ts"
 import "@elastic/react-search-ui-views/lib/styles/styles.css"
 
-const searchOptions = buildSearchOptionsFromConfig()
+export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }) {
+    const elasticConfig = useMemo(() => {
+        return config.buildElasticSearchConfig()
+    }, [config])
 
-const connector = new ElasticsearchAPIConnector({
-    host: getConfig().host,
-    index: searchOptions.index_names.join(",")
-})
+    const facetFields = useMemo(() => {
+        return config.getFacetFields()
+    }, [config])
 
-const config = {
-    searchQuery: {
-        facets: buildFacetConfigFromConfig(),
-        ...buildSearchOptionsFromConfig()
-    },
-    autocompleteQuery: buildAutocompleteQueryConfig(),
-    apiConnector: connector,
-    alwaysSearchOnInitialLoad: true
-}
-
-export function FairDOElasticSearch() {
     return (
-        <SearchProvider config={config}>
+        <SearchProvider config={elasticConfig}>
             <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
                 {({ wasSearched }) => {
                     return (
@@ -66,7 +50,7 @@ export function FairDOElasticSearch() {
                                         {wasSearched && (
                                             <Sorting label={"Sort by"} sortOptions={[]} />
                                         )}
-                                        {getFacetFields().map((field) => (
+                                        {facetFields.map((field) => (
                                             <Facet
                                                 key={field.key}
                                                 field={field.key}
