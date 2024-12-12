@@ -22,7 +22,23 @@ const objConfig: FairDOConfig = {
                     label: "License"
                 }
             ],
-            resultFields: [], // Leave empty to get all fields
+            resultFields: [
+                "id",
+                "pid",
+                "21.T11148/076759916209e5d62bd5",
+                "21.T11148/f3f0cbaa39fa9966b279",
+                "21.T11148/6ae999552a0d2dca14d6",
+                "21.T11148/aafd5fb4c7222e2d950a",
+                "21.T11148/397d831aa3a9d18eb52c",
+                "21.T11148/2f314c8fe5fb6a0063a8",
+                "21.T11148/b8457812905b83046284",
+                "21.T11148/8710d753ad10f371189b",
+                "21.T11148/c83481d4bf467110e7c9",
+                "21.T11148/82e2503c49209e987740",
+                "21.T11148/68aed8017b345bf87643",
+                "21.T11148/1c699a5d1b4ad3ba4956",
+                "21.T11148/6f0d1c34a6ab5d67049f"
+            ], // Leave empty to get all fields
             searchFields: ["T11148/4295aedecbcbfdd1433c"]
         }
         // {

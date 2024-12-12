@@ -7,7 +7,7 @@ import {
     FairDODateRangeFacetConfig
 } from "./FairDOConfig.ts"
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
-import { parseStringValueToNumber } from "../helpers.ts"
+import { parseStringValueToNumber } from "./helpers.ts"
 
 /**
  * This file abstracts most logic around the configuration of the Reference UI.
