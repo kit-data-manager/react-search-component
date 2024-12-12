@@ -13,7 +13,6 @@ import {
 import { useMemo } from "react"
 import { FairDOConfigProvider } from "./config/FairDOConfigProvider.ts"
 import "./elastic-ui.css"
-import { ObjectRender } from "./components/ObjectRender.tsx"
 import { DefaultSearchBox } from "@/components/DefaultSearchBox.tsx"
 import { DefaultFacet } from "@/components/DefaultFacet.tsx"
 import { ClearFilters } from "@/components/ClearFilters.tsx"
@@ -24,7 +23,7 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select.tsx"
-import { ResultView } from "@/components/ResultView.tsx"
+import { NMRResultView } from "@/components/NMRResultView.tsx"
 
 export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }) {
     const elasticConfig = useMemo(() => {
@@ -79,14 +78,9 @@ export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }
                                     <Results
                                         shouldTrackClickThrough={true}
                                         resultView={(props) => (
-                                            <div
-                                                className={
-                                                    "p-4 mb-4 border border-border rounded-lg"
-                                                }
-                                            >
-                                                <ObjectRender data={props.result} />
-                                                <ResultView result={props.result} config={config} />
-                                            </div>
+                                            <>
+                                                <NMRResultView result={props.result} />
+                                            </>
                                         )}
                                     />
                                 }
