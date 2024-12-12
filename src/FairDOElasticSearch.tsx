@@ -24,6 +24,7 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select.tsx"
+import { ResultView } from "@/components/ResultView.tsx"
 
 export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }) {
     const elasticConfig = useMemo(() => {
@@ -84,6 +85,7 @@ export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }
                                                 }
                                             >
                                                 <ObjectRender data={props.result} />
+                                                <ResultView result={props.result} config={config} />
                                             </div>
                                         )}
                                     />

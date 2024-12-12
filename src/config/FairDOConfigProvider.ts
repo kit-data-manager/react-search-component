@@ -64,6 +64,11 @@ export class FairDOConfigProvider {
         return facets
     }
 
+    getFieldMappings(index: string) {
+        const indexConfig = this.getConfig().indices.find((c) => c.name === index)
+        return indexConfig?.fieldMappings
+    }
+
     getSearchOptions() {
         const config = this.getConfig()
         const index_names: string[] = []

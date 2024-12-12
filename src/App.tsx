@@ -39,7 +39,11 @@ const objConfig: FairDOConfig = {
                 "21.T11148/1c699a5d1b4ad3ba4956",
                 "21.T11148/6f0d1c34a6ab5d67049f"
             ], // Leave empty to get all fields
-            searchFields: ["T11148/4295aedecbcbfdd1433c"]
+            searchFields: ["T11148/4295aedecbcbfdd1433c"],
+            fieldMappings: {
+                title: "21.T11148/6ae999552a0d2dca14d6",
+                bodyText: "21.T11148/82e2503c49209e987740"
+            }
         }
         // {
         //     name: "metastore-scanning-electron-microscopy",
