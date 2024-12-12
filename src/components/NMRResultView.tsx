@@ -10,7 +10,9 @@ import { DateTime } from "luxon"
 
 function autoUnwrap(item: string | { raw: string }) {
     if (typeof item === "string") return item
-    else return item.raw
+    else if (typeof item === "object" && "raw" in item && typeof item.raw === "string")
+        return item.raw
+    else return JSON.stringify(item)
 }
 
 export function NMRResultView({ result }: { result: SearchResult }) {
