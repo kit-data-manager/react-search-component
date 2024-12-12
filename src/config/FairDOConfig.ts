@@ -4,6 +4,7 @@ export interface FairDONumericRangeFacetConfig {
     renderer: string
     type: "numeric"
     ranges: string[]
+    isFilterable?: boolean
 }
 
 export interface FairDODateRangeFacetConfig {
@@ -11,11 +12,13 @@ export interface FairDODateRangeFacetConfig {
     label: string
     renderer: string
     type: "date_time" | "date_year"
+    isFilterable?: boolean
 }
 
 export interface FairDODefaultFacetConfig {
     key: string
     label: string
+    isFilterable?: boolean
 }
 
 export type FairDOFacetConfig =

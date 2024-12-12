@@ -28,5 +28,7 @@
       ]
     }
   },
-  "include": ["src"]
+  "include": ["src",
+    "web-components.d.ts"
+  ]
 }

@@ -57,8 +57,7 @@ export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }
                                     />
                                 }
                                 sideContent={
-                                    <div className="space-y-4">
-                                        <ClearFilters />
+                                    <div>
                                         {facetFields.map((field) => (
                                             <Facet
                                                 key={field.key}
@@ -69,6 +68,7 @@ export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }
                                                         : field.key.substring(0, 20)
                                                 }
                                                 view={DefaultFacet}
+                                                isFilterable={field.isFilterable}
                                             />
                                         ))}
                                         <ClearFilters />
@@ -80,7 +80,7 @@ export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }
                                         resultView={(props) => (
                                             <div
                                                 className={
-                                                    "p-4 mb-4 border border-secondary shadow rounded-lg"
+                                                    "p-4 mb-4 border border-border rounded-lg"
                                                 }
                                             >
                                                 <ObjectRender data={props.result} />
