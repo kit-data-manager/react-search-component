@@ -31,9 +31,11 @@ export function DefaultSearchBox(props: InputViewProps) {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <DropdownMenuItem>
-                        <ExternalLink className="w-4 h-4" /> Go to SparQL search
-                    </DropdownMenuItem>
+                    <a href="https://metarepo.nffa.eu/start_query" target="_blank">
+                        <DropdownMenuItem>
+                            <ExternalLink className="w-4 h-4" /> Go to SparQL search
+                        </DropdownMenuItem>
+                    </a>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>
