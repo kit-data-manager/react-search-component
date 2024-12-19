@@ -32,7 +32,8 @@ export class FairDOConfigProvider {
     buildConnector() {
         return new ElasticsearchAPIConnector({
             host: this.getConfig().host,
-            index: this.getSearchOptions().index_names.join(",")
+            index: this.getSearchOptions().index_names.join(","),
+            apiKey: "LWVOaTNwTUJvZEpsU1VFYXZjazI6Vm4zNUplVjVTUkthbVBVek9wWWxxdw=="
         })
     }
 

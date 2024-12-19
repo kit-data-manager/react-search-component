@@ -9,7 +9,7 @@ export function ObjectRender({ data }: { data: Record<string, unknown> }) {
     }
 
     return (
-        <div>
+        <div className="break-words min-w-0">
             {Object.keys(data)
                 .filter((k) => !k.startsWith("_"))
                 .map((key) => (

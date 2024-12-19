@@ -1,12 +1,12 @@
 import { SearchResult } from "@elastic/search-ui"
 import { useCallback, useMemo } from "react"
-import { nmrFields } from "@/lib/nmrFields.ts"
 import { Badge } from "@/components/ui/badge.tsx"
 import { Button } from "@/components/ui/button.tsx"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx"
 import { ObjectRender } from "@/components/ObjectRender.tsx"
-import { Download } from "lucide-react"
+import { ExternalLink } from "lucide-react"
 import { DateTime } from "luxon"
+import { PidDisplay } from "@/components/PidDisplay.tsx"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog.tsx"
 
 function autoUnwrap(item: string | { raw: string }) {
     if (typeof item === "string") return item
@@ -24,70 +24,85 @@ export function NMRResultView({ result }: { result: SearchResult }) {
     )
 
     const title = useMemo(() => {
-        return getField(nmrFields.name)
+        return getField("name")
     }, [getField])
 
     const identifier = useMemo(() => {
-        return getField(nmrFields.identifier)
+        return getField("identifier")
     }, [getField])
 
     const formula = useMemo(() => {
-        return getField(nmrFields.ChemicalFormula)
+        return getField("hadPrimarySource")
     }, [getField])
 
     const license = useMemo(() => {
-        return getField(nmrFields.licenseURL)
+        return getField("licenseURL")
     }, [getField])
 
     const fileType = useMemo(() => {
-        return getField(nmrFields.genericObjectType)
-    }, [getField])
-
-    const medicalImageModality = useMemo(() => {
-        return getField(nmrFields.MedicalImageModality)
+        return getField("digitalObjectType")
     }, [getField])
 
     const doLocation = useMemo(() => {
-        return getField(nmrFields.digitalObjectLocation)
+        return getField("digitalObjectLocation")
+    }, [getField])
+
+    const previewImage = useMemo(() => {
+        return getField("locationPreview/Sample")
     }, [getField])
 
     const creationDate = useMemo(() => {
-        const value = getField(nmrFields.dateCreatedRfc3339)
+        const value = getField("dateCreatedRfc3339")
         return DateTime.fromISO(value).toLocaleString()
     }, [getField])
 
     return (
         <div className="m-2 p-4 border border-border rounded-lg">
-            <div className="text-xl font-bold">
-                {title}
-                <span className="ml-2 font-normal  text-sm text-muted-foreground">
-                    {identifier} - {creationDate}
-                </span>
-            </div>
-            <div className="flex gap-2">
-                <Badge variant="secondary">🧪 {formula}</Badge>
-                <Badge variant="secondary">⚖️ {license}</Badge>
-                <Badge variant="secondary">📄 {fileType}</Badge>
-            </div>
+            <div className="grid grid-cols-[200px_1fr] gap-4">
+                <div className="flex justify-center p-2 dark:bg-white rounded">
+                    <img className="w-[200px] h-[200px]" src={previewImage} alt={title} />
+                </div>
+                <div className="flex flex-col">
+                    <div className="text-xl font-bold mb-1">
+                        {title}
+                        <span className="ml-2 font-normal  text-sm text-muted-foreground">
+                            {identifier} - {creationDate}
+                        </span>
+                    </div>
+                    <div className="flex gap-2 flex-wrap">
+                        <Badge variant="secondary" className="truncate">
+                            <span className="truncate">🧪 {formula}</span>
+                        </Badge>
+                        <Badge variant="secondary" className="truncate">
+                            <span className="truncate">⚖️ {license}</span>
+                        </Badge>
+                        <Badge variant="secondary" className="truncate">
+                            <span className="truncate">
+                                📄 <PidDisplay pid={fileType} />
+                            </span>
+                        </Badge>
+                    </div>
 
-            <div className="mt-4">{medicalImageModality}</div>
+                    <div className="grow" />
 
-            <div className="flex gap-4 items-center mt-8 justify-end">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant="secondary" size="sm">
-                            Show FDO fields
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[1000px]">
-                        <ObjectRender data={result} />
-                    </PopoverContent>
-                </Popover>
-                <a href={doLocation} target={"_blank"}>
-                    <Button size="sm">
-                        <Download className="w-4 h-4 mr-1" /> Download file
-                    </Button>
-                </a>
+                    <div className="flex gap-4 items-center mt-8 justify-end">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="secondary" size="sm">
+                                    Show FDO
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className={"max-w-[1000px]"}>
+                                <ObjectRender data={result} />
+                            </DialogContent>
+                        </Dialog>
+                        <a href={doLocation} target={"_blank"}>
+                            <Button size="sm">
+                                <ExternalLink className="w-4 h-4 mr-1" /> Open
+                            </Button>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     )

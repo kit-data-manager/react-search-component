@@ -27,9 +27,5 @@ export function PidDisplay({ pid }: { pid: string }) {
 
     if (error) return <div className="text-red-500">{JSON.stringify(error) || "Unknown error"}</div>
 
-    return (
-        <div>
-            {!isLoading && content} <div className="text-xs text-muted-foreground">{pid}</div>
-        </div>
-    )
+    return <span>{!isLoading && content}</span>
 }

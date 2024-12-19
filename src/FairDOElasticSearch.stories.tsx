@@ -13,7 +13,7 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const objConfig: FairDOConfig = {
+const localConfig: FairDOConfig = {
     logo: "/images/nfdi-logo.png",
     title: "NFDI4MatWerk Metadata Search",
     debug: false,
@@ -55,10 +55,42 @@ const objConfig: FairDOConfig = {
     disjunctiveFacets: []
 }
 
-const fairConfig = new FairDOConfigProvider(objConfig)
+const localFairConfig = new FairDOConfigProvider(localConfig)
 
-export const Default: Story = {
+export const LocalElastic: Story = {
     args: {
-        config: fairConfig
+        config: localFairConfig
+    }
+}
+
+const demoConfig: FairDOConfig = {
+    logo: "/images/nfdi-logo.png",
+    title: "NFDI4MatWerk Metadata Search",
+    debug: false,
+    alwaysSearchOnInitialLoad: true,
+    //host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
+    host: "https://4103e5b9-9a45-47a7-b9a4-6b1d36f49460.ka.bw-cloud-instance.org:9200",
+    indices: [
+        {
+            name: "fdo-test-1",
+            facets: [
+                // {
+                //     key: "licenseURL",
+                //     label: "License"
+                // }
+            ],
+            resultFields: [], // Leave empty to get all fields
+            searchFields: ["name"],
+            fieldMappings: {}
+        }
+    ],
+    disjunctiveFacets: []
+}
+
+const demoFairConfig = new FairDOConfigProvider(demoConfig)
+
+export const DemoElastic: Story = {
+    args: {
+        config: demoFairConfig
     }
 }
