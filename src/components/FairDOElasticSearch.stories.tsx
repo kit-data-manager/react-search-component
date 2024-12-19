@@ -59,7 +59,8 @@ const localFairConfig = new FairDOConfigProvider(localConfig)
 
 export const LocalElastic: Story = {
     args: {
-        config: localFairConfig
+        config: localFairConfig,
+        debug: false
     }
 }
 
@@ -91,6 +92,7 @@ const demoFairConfig = new FairDOConfigProvider(demoConfig)
 
 export const DemoElastic: Story = {
     args: {
-        config: demoFairConfig
+        config: demoFairConfig,
+        debug: false
     }
 }

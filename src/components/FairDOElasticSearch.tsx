@@ -26,7 +26,13 @@ import {
 import { NMRResultView } from "@/components/NMRResultView.tsx"
 import { ErrorView } from "@/components/ErrorView.tsx"
 
-export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }) {
+export function FairDOElasticSearch({
+    config,
+    debug
+}: {
+    config: FairDOConfigProvider
+    debug?: boolean
+}) {
     const elasticConfig = useMemo(() => {
         return config.buildElasticSearchConfig()
     }, [config])
@@ -80,7 +86,10 @@ export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }
                                         shouldTrackClickThrough={true}
                                         resultView={(props) => (
                                             <>
-                                                <NMRResultView result={props.result} />
+                                                <NMRResultView
+                                                    result={props.result}
+                                                    debug={debug}
+                                                />
                                             </>
                                         )}
                                     />
