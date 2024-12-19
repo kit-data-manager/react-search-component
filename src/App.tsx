@@ -16,25 +16,25 @@ const objConfig: FairDOConfig = {
             facets: [
                 {
                     key: nmrFields.ChemicalFormula,
-                    label: "Chemische Formel"
+                    label: "Chemical Formula"
                 },
                 {
                     key: nmrFields.genericObjectType,
-                    label: "Dateiformat"
+                    label: "Data Type"
                 },
                 {
                     key: nmrFields.dateCreatedRfc3339,
-                    label: "Erstellt",
+                    label: "Created",
                     type: "date_year"
                 },
                 {
                     key: nmrFields.dateModified,
-                    label: "Zuletzt bearbeitet",
+                    label: "Last Modified",
                     type: "date_year"
                 },
                 {
                     key: nmrFields.licenseURL,
-                    label: "Lizenz"
+                    label: "License"
                 }
             ],
             resultFields: ["id", "pid", ...Object.values(nmrFields)], // Leave empty to get all fields

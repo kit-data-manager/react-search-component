@@ -76,7 +76,7 @@ export function NMRResultView({ result }: { result: SearchResult }) {
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button variant="secondary" size="sm">
-                            Details anzeigen
+                            Show FDO fields
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-[1000px]">
@@ -85,7 +85,7 @@ export function NMRResultView({ result }: { result: SearchResult }) {
                 </Popover>
                 <a href={doLocation} target={"_blank"}>
                     <Button size="sm">
-                        <Download className="w-4 h-4 mr-1" /> Herunterladen
+                        <Download className="w-4 h-4 mr-1" /> Download file
                     </Button>
                 </a>
             </div>

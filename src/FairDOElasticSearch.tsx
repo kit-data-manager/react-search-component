@@ -24,6 +24,7 @@ import {
     SelectValue
 } from "@/components/ui/select.tsx"
 import { NMRResultView } from "@/components/NMRResultView.tsx"
+import { ErrorView } from "@/components/ErrorView.tsx"
 
 export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }) {
     const elasticConfig = useMemo(() => {
@@ -39,7 +40,7 @@ export function FairDOElasticSearch({ config }: { config: FairDOConfigProvider }
             <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
                 {({ wasSearched }) => {
                     return (
-                        <ErrorBoundary>
+                        <ErrorBoundary view={ErrorView}>
                             <Layout
                                 header={
                                     <SearchBox
