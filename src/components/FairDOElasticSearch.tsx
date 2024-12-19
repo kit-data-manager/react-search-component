@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select.tsx"
 import { NMRResultView } from "@/components/NMRResultView.tsx"
 import { ErrorView } from "@/components/ErrorView.tsx"
+import { GlobalModalProvider } from "@/components/GlobalModalProvider.tsx"
 
 export function FairDOElasticSearch({
     config,
@@ -43,116 +44,119 @@ export function FairDOElasticSearch({
 
     return (
         <SearchProvider config={elasticConfig}>
-            <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
-                {({ wasSearched }) => {
-                    return (
-                        <ErrorBoundary view={ErrorView}>
-                            <Layout
-                                header={
-                                    <SearchBox
-                                        autocompleteMinimumCharacters={3}
-                                        autocompleteResults={{
-                                            linkTarget: "_blank",
-                                            sectionTitle: "Results",
-                                            titleField: "title",
-                                            urlField: "url",
-                                            shouldTrackClickThrough: true
-                                        }}
-                                        autocompleteSuggestions={true}
-                                        debounceLength={0}
-                                        inputView={DefaultSearchBox}
-                                    />
-                                }
-                                sideContent={
-                                    <div>
-                                        {facetFields.map((field) => (
-                                            <Facet
-                                                key={field.key}
-                                                field={field.key}
-                                                label={
-                                                    field.label
-                                                        ? field.label
-                                                        : field.key.substring(0, 20)
-                                                }
-                                                view={DefaultFacet}
-                                                isFilterable={field.isFilterable}
-                                            />
-                                        ))}
-                                        <ClearFilters />
-                                    </div>
-                                }
-                                bodyContent={
-                                    <Results
-                                        shouldTrackClickThrough={true}
-                                        resultView={(props) => (
-                                            <>
-                                                <NMRResultView
-                                                    result={props.result}
-                                                    debug={debug}
+            <GlobalModalProvider>
+                <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
+                    {({ wasSearched }) => {
+                        return (
+                            <ErrorBoundary view={ErrorView}>
+                                <Layout
+                                    header={
+                                        <SearchBox
+                                            autocompleteMinimumCharacters={3}
+                                            autocompleteResults={{
+                                                linkTarget: "_blank",
+                                                sectionTitle: "Results",
+                                                titleField: "title",
+                                                urlField: "url",
+                                                shouldTrackClickThrough: true
+                                            }}
+                                            autocompleteSuggestions={true}
+                                            debounceLength={0}
+                                            inputView={DefaultSearchBox}
+                                        />
+                                    }
+                                    sideContent={
+                                        <div>
+                                            {facetFields.map((field) => (
+                                                <Facet
+                                                    key={field.key}
+                                                    field={field.key}
+                                                    label={
+                                                        field.label
+                                                            ? field.label
+                                                            : field.key.substring(0, 20)
+                                                    }
+                                                    view={DefaultFacet}
+                                                    isFilterable={field.isFilterable}
                                                 />
-                                            </>
-                                        )}
-                                    />
-                                }
-                                bodyHeader={
-                                    <div className="mb-4 flex justify-between w-full items-center">
-                                        {wasSearched && (
-                                            <PagingInfo
-                                                view={(props) => (
-                                                    <div>
-                                                        Showing {props.start} - {props.end} out of{" "}
-                                                        {props.totalResults}
-                                                        {props.searchTerm &&
-                                                            ` - Searching for "${props.searchTerm}"`}
-                                                    </div>
-                                                )}
-                                            />
-                                        )}
-                                        {wasSearched && (
-                                            <ResultsPerPage
-                                                view={(props) => {
-                                                    return (
-                                                        <div className="flex items-center gap-2 h-full">
-                                                            <div>Results per Page</div>
-                                                            <Select
-                                                                value={props.value + ""}
-                                                                onValueChange={(v) =>
-                                                                    props.onChange(parseInt(v))
-                                                                }
-                                                            >
-                                                                <SelectTrigger className="w-[80px]">
-                                                                    <SelectValue />
-                                                                </SelectTrigger>
-                                                                <SelectContent>
-                                                                    {props.options?.map(
-                                                                        (option) => {
-                                                                            return (
-                                                                                <SelectItem
-                                                                                    value={
-                                                                                        option + ""
-                                                                                    }
-                                                                                    key={option}
-                                                                                >
-                                                                                    {option}
-                                                                                </SelectItem>
-                                                                            )
-                                                                        }
-                                                                    )}
-                                                                </SelectContent>
-                                                            </Select>
+                                            ))}
+                                            <ClearFilters />
+                                        </div>
+                                    }
+                                    bodyContent={
+                                        <Results
+                                            shouldTrackClickThrough={true}
+                                            resultView={(props) => (
+                                                <>
+                                                    <NMRResultView
+                                                        result={props.result}
+                                                        debug={debug}
+                                                    />
+                                                </>
+                                            )}
+                                        />
+                                    }
+                                    bodyHeader={
+                                        <div className="mb-4 flex justify-between w-full items-center">
+                                            {wasSearched && (
+                                                <PagingInfo
+                                                    view={(props) => (
+                                                        <div>
+                                                            Showing {props.start} - {props.end} out
+                                                            of {props.totalResults}
+                                                            {props.searchTerm &&
+                                                                ` - Searching for "${props.searchTerm}"`}
                                                         </div>
-                                                    )
-                                                }}
-                                            />
-                                        )}
-                                    </div>
-                                }
-                                bodyFooter={<Paging />}
-                            />
-                        </ErrorBoundary>
-                    )
-                }}
-            </WithSearch>
+                                                    )}
+                                                />
+                                            )}
+                                            {wasSearched && (
+                                                <ResultsPerPage
+                                                    view={(props) => {
+                                                        return (
+                                                            <div className="flex items-center gap-2 h-full">
+                                                                <div>Results per Page</div>
+                                                                <Select
+                                                                    value={props.value + ""}
+                                                                    onValueChange={(v) =>
+                                                                        props.onChange(parseInt(v))
+                                                                    }
+                                                                >
+                                                                    <SelectTrigger className="w-[80px]">
+                                                                        <SelectValue />
+                                                                    </SelectTrigger>
+                                                                    <SelectContent>
+                                                                        {props.options?.map(
+                                                                            (option) => {
+                                                                                return (
+                                                                                    <SelectItem
+                                                                                        value={
+                                                                                            option +
+                                                                                            ""
+                                                                                        }
+                                                                                        key={option}
+                                                                                    >
+                                                                                        {option}
+                                                                                    </SelectItem>
+                                                                                )
+                                                                            }
+                                                                        )}
+                                                                    </SelectContent>
+                                                                </Select>
+                                                            </div>
+                                                        )
+                                                    }}
+                                                />
+                                            )}
+                                        </div>
+                                    }
+                                    bodyFooter={<Paging />}
+                                />
+                            </ErrorBoundary>
+                        )
+                    }}
+                </WithSearch>
+            </GlobalModalProvider>{" "}
         </SearchProvider>
     )
 }

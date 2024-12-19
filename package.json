@@ -25,6 +25,7 @@
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@types/luxon": "^3.4.2",
+    "@xyflow/react": "^12.3.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "data-card-react": "^0.0.12",

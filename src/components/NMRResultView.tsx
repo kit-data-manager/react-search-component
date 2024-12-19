@@ -1,5 +1,5 @@
 import { SearchResult } from "@elastic/search-ui"
-import { useCallback, useMemo } from "react"
+import { useCallback, useContext, useMemo } from "react"
 import { Badge } from "@/components/ui/badge.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { ObjectRender } from "@/components/ObjectRender.tsx"
@@ -7,6 +7,7 @@ import { ExternalLink, File, Globe, ImageOff, Scale } from "lucide-react"
 import { DateTime } from "luxon"
 import { PidDisplay } from "@/components/PidDisplay.tsx"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog.tsx"
+import { GlobalModalContext } from "@/components/GlobalModalContext.tsx"
 
 function autoUnwrap(item: string | { raw: string }) {
     if (typeof item === "string") return item
@@ -22,6 +23,8 @@ function autoUnwrapArray(item: string[] | { raw: string[] }) {
 }
 
 export function NMRResultView({ result, debug }: { result: SearchResult; debug?: boolean }) {
+    const { openRelationGraph } = useContext(GlobalModalContext)
+
     const getField = useCallback(
         (field: string) => {
             return autoUnwrap(result[field])
@@ -38,7 +41,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
 
     const pid = useMemo(() => {
         const _pid = getField("pid")
-        if (_pid.startsWith("https://")) {
+        if (_pid && _pid.startsWith("https://")) {
             return /https:\/\/.*?\/(.*)/gm.exec(_pid)?.[1] ?? _pid
         } else return _pid
     }, [getField])
@@ -83,6 +86,10 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
         const value = getField("dateCreatedRfc3339")
         return DateTime.fromISO(value).toLocaleString()
     }, [getField])
+
+    const showRelations = useCallback(() => {
+        openRelationGraph(pid, isMetadataFor)
+    }, [isMetadataFor, openRelationGraph, pid])
 
     return (
         <div className="m-2 p-4 border border-border rounded-lg">
@@ -146,6 +153,9 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                                 </DialogContent>
                             </Dialog>
                         )}
+                        <Button size="sm" onClick={showRelations}>
+                            Show Relations ({isMetadataFor.length})
+                        </Button>
                         <a
                             href={"https://kit-data-manager.github.io/fairdoscope/?pid=" + pid}
                             target={"_blank"}
