@@ -1,7 +1,17 @@
-import { FairDOElasticSearch } from "./FairDOElasticSearch.tsx"
-import { FairDOConfigProvider } from "./config/FairDOConfigProvider.ts"
-import { FairDOConfig } from "./config/FairDOConfig.ts"
+import type { Meta, StoryObj } from "@storybook/react"
+
+import { FairDOElasticSearch } from "./FairDOElasticSearch"
+import { FairDOConfig } from "@/config/FairDOConfig.ts"
 import { nmrFields } from "@/lib/nmrFields.ts"
+import { FairDOConfigProvider } from "@/config/FairDOConfigProvider.ts"
+
+const meta = {
+    component: FairDOElasticSearch
+} satisfies Meta<typeof FairDOElasticSearch>
+
+export default meta
+
+type Story = StoryObj<typeof meta>
 
 const objConfig: FairDOConfig = {
     logo: "/images/nfdi-logo.png",
@@ -47,14 +57,8 @@ const objConfig: FairDOConfig = {
 
 const fairConfig = new FairDOConfigProvider(objConfig)
 
-function App() {
-    return (
-        <div className="bg-gray-200 p-10">
-            <div className="bg-white">
-                <FairDOElasticSearch config={fairConfig} />
-            </div>
-        </div>
-    )
+export const Default: Story = {
+    args: {
+        config: fairConfig
+    }
 }
-
-export default App
