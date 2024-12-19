@@ -3,7 +3,7 @@ import { useCallback, useMemo } from "react"
 import { Badge } from "@/components/ui/badge.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { ObjectRender } from "@/components/ObjectRender.tsx"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, File, Globe, Scale } from "lucide-react"
 import { DateTime } from "luxon"
 import { PidDisplay } from "@/components/PidDisplay.tsx"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog.tsx"
@@ -58,12 +58,16 @@ export function NMRResultView({ result }: { result: SearchResult }) {
 
     return (
         <div className="m-2 p-4 border border-border rounded-lg">
-            <div className="grid grid-cols-[200px_1fr] gap-4">
-                <div className="flex justify-center p-2 dark:bg-white rounded">
-                    <img className="w-[200px] h-[200px]" src={previewImage} alt={title} />
+            <div className="grid md:grid-cols-[200px_1fr] md:grid-rows-1 grid-rows-[100px_1fr] md:max-w-full overflow-x-auto gap-4">
+                <div className="flex justify-center md:p-2 dark:bg-white rounded">
+                    <img
+                        className="md:w-[200px] md:h-[200px]"
+                        src={previewImage}
+                        alt={"Preview for " + title}
+                    />
                 </div>
-                <div className="flex flex-col">
-                    <div className="text-xl font-bold mb-1">
+                <div className="flex flex-col md:max-w-full overflow-x-auto">
+                    <div className="md:text-xl font-bold mb-1">
                         {title}
                         <span className="ml-2 font-normal  text-sm text-muted-foreground">
                             {identifier} - {creationDate}
@@ -71,33 +75,38 @@ export function NMRResultView({ result }: { result: SearchResult }) {
                     </div>
                     <div className="flex gap-2 flex-wrap">
                         <Badge variant="secondary" className="truncate">
-                            <span className="truncate">🧪 {formula}</span>
+                            <span className="truncate flex">
+                                <Globe className="w-4 h-4 mr-2 shrink-0" /> {formula}
+                            </span>
                         </Badge>
                         <Badge variant="secondary" className="truncate">
-                            <span className="truncate">⚖️ {license}</span>
+                            <span className="truncate flex">
+                                <Scale className="w-4 h-4 mr-2 shrink-0" />️ {license}
+                            </span>
                         </Badge>
                         <Badge variant="secondary" className="truncate">
-                            <span className="truncate">
-                                📄 <PidDisplay pid={fileType} />
+                            <span className="truncate flex">
+                                <File className="w-4 h-4 mr-2 shrink-0" />
+                                <PidDisplay pid={fileType} />
                             </span>
                         </Badge>
                     </div>
 
                     <div className="grow" />
 
-                    <div className="flex gap-4 items-center mt-8 justify-end">
+                    <div className="flex gap-2 md:gap-4 md:items-center mt-8 justify-end md:flex-row flex-col">
                         <Dialog>
                             <DialogTrigger asChild>
                                 <Button variant="secondary" size="sm">
                                     Show FDO
                                 </Button>
                             </DialogTrigger>
-                            <DialogContent className={"max-w-[1000px]"}>
+                            <DialogContent className={"max-w-[1000px] max-h-full overflow-y-auto"}>
                                 <ObjectRender data={result} />
                             </DialogContent>
                         </Dialog>
                         <a href={doLocation} target={"_blank"}>
-                            <Button size="sm">
+                            <Button size="sm" className="w-full">
                                 <ExternalLink className="w-4 h-4 mr-1" /> Open
                             </Button>
                         </a>

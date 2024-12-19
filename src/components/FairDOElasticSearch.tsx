@@ -11,8 +11,8 @@ import {
     SearchBox
 } from "@elastic/react-search-ui"
 import { useMemo } from "react"
-import { FairDOConfigProvider } from "./config/FairDOConfigProvider.ts"
-import "./elastic-ui.css"
+import { FairDOConfigProvider } from "../config/FairDOConfigProvider.ts"
+import "../elastic-ui.css"
 import { DefaultSearchBox } from "@/components/DefaultSearchBox.tsx"
 import { DefaultFacet } from "@/components/DefaultFacet.tsx"
 import { ClearFilters } from "@/components/ClearFilters.tsx"

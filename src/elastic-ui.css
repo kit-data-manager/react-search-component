@@ -77,7 +77,8 @@
         width: 100%;
         margin: 0;
         padding: 0 15px 30px 15px;
-        background-color: #fcfcfc;
+        color: hsl(var(--foreground));
+        background-color: hsl(var(--background));
         overflow: auto;
     }
 }
@@ -95,12 +96,11 @@
         padding: 10px;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         line-height: 1.5;
-        font-weight: 400;
         font-size: 14px;
-        font-weight: 700;
-        color: #3a56e4;
-        background-color: #ffffff;
-        border: 1px solid #3a56e4;
+        font-weight: 500;
+        color: hsl(var(--secondary-foreground));
+        background-color: hsl(var(--secondary));
+        border: 1px solid hsl(var(--border));
         border-radius: 4px;
     }
     .sui-layout-sidebar .sui-layout-sidebar-toggle {

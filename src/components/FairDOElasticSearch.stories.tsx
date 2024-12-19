@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
-import { FairDOElasticSearch } from "./FairDOElasticSearch"
+import { FairDOElasticSearch } from "./FairDOElasticSearch.tsx"
 import { FairDOConfig } from "@/config/FairDOConfig.ts"
 import { nmrFields } from "@/lib/nmrFields.ts"
 import { FairDOConfigProvider } from "@/config/FairDOConfigProvider.ts"
