@@ -1,36 +1,5 @@
-version: '3'
 services:
-  elasticsearch:
-    container_name: elasticsearch-nmr-prov
-    image: elasticsearch:8.8.1
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - node.name=es01
-      - cluster.name=es-docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - http.host=0.0.0.0
-      - http.port=9200
-      - "http.cors.allow-origin=http://localhost:5173,http://localhost:6006"
-      - "http.cors.enabled=true"
-      - "http.cors.allow-headers=origin,X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization,x-elastic-client-meta"
-      - "http.cors.allow-credentials=true"
+  storybook:
+    build: .
     ports:
-      - "9200:9200"
-      - "9300:9300"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9200"]
-      interval: 5s
-      timeout: 2s
-      retries: 40
-    volumes:
-      - "./_elasticdata:/usr/share/elasticsearch/data"
-
-  kibana:
-    container_name: kibana-nmr-prov
-    image: kibana:8.8.1
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
+      - "6006:6006"
