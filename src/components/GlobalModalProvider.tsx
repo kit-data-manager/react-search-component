@@ -2,22 +2,23 @@ import { PropsWithChildren, useCallback, useState } from "react"
 import { RelationsGraphModal } from "@/components/RelationsGraphModal.tsx"
 import { GlobalModalContext } from "./GlobalModalContext.tsx"
 import { ReactFlowProvider } from "@xyflow/react"
+import { RelationNode } from "@/components/RelationsGraph.tsx"
 
 export function GlobalModalProvider(props: PropsWithChildren) {
     const [relationGraphState, setRelationGraphState] = useState<{
-        basePid: string
-        referencedPids: string[]
+        base: RelationNode
+        referenced: RelationNode[]
         isOpen: boolean
     }>({
-        basePid: "",
-        referencedPids: [],
+        base: { id: "", label: "" },
+        referenced: [],
         isOpen: false
     })
 
-    const openRelationGraph = useCallback((basePid: string, referencedPids: string[]) => {
+    const openRelationGraph = useCallback((base: RelationNode, referenced: RelationNode[]) => {
         setRelationGraphState({
-            basePid,
-            referencedPids,
+            base: base,
+            referenced: referenced,
             isOpen: true
         })
     }, [])
@@ -32,8 +33,8 @@ export function GlobalModalProvider(props: PropsWithChildren) {
                 <RelationsGraphModal
                     isOpen={relationGraphState.isOpen}
                     onOpenChange={onRelationGraphOpenChange}
-                    basePid={relationGraphState.basePid}
-                    referencePids={relationGraphState.referencedPids}
+                    base={relationGraphState.base}
+                    referenced={relationGraphState.referenced}
                 />
 
                 {props.children}

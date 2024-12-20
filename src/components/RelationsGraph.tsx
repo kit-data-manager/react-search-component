@@ -1,8 +1,5 @@
 import {
-    NodeProps,
     ReactFlow,
-    Handle,
-    Position,
     useNodesState,
     useEdgesState,
     useReactFlow,
@@ -12,59 +9,34 @@ import {
 } from "@xyflow/react"
 
 import "@xyflow/react/dist/style.css"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { Button } from "@/components/ui/button.tsx"
-import { ExternalLink, Search } from "lucide-react"
-import { Badge } from "@/components/ui/badge.tsx"
+import { useEffect, useMemo } from "react"
+import { PlainNode } from "@/components/PlainNode.tsx"
 
-function PlainNode(data: NodeProps) {
-    const [expand, setExpand] = useState(false)
-
-    const toggleExpand = useCallback(() => {
-        setExpand((v) => !v)
-    }, [])
-
-    return (
-        <>
-            <Handle type="target" position={Position.Left} />
-            <div
-                className={`border border-border bg-background rounded-lg grid transition-all ${expand ? "grid-rows-[auto_1fr] shadow-lg" : "grid-rows-[auto_0fr]"}`}
-            >
-                <div onClick={toggleExpand} className="p-4">
-                    <div className="flex gap-3 items-centers">
-                        <Badge>FDO</Badge>
-                        <div className="font-semibold">{data.data.pid as string}</div>
-                    </div>
-                </div>
-                <div className="overflow-hidden">
-                    <div className="flex justify-around p-4 pt-0">
-                        <Button size="sm" variant="secondary">
-                            <Search className="w-4 h-4" /> Find
-                        </Button>
-                        <Button size="sm">
-                            <ExternalLink className="w-4 h-4" /> Open
-                        </Button>
-                    </div>
-                </div>
-            </div>
-            <Handle type="source" position={Position.Right} id="a" />
-        </>
-    )
+export interface RelationNode {
+    id: string
+    label: string
+    remoteURL?: string
+    searchQuery?: string
 }
 
-function buildGraphForReferences(basePid: string, referencedPids: string[]) {
-    const yStart = -((referencedPids.length - 1) * 100) / 2
-    const nodes = [{ id: "base", type: "plain", position: { x: 0, y: 0 }, data: { pid: basePid } }]
+function buildGraphForReferences(base: RelationNode, _referenced: RelationNode[]) {
+    const referenced = _referenced.filter((pid) => pid !== base)
+    const yStart = -((referenced.length - 1) * 100) / 2
+    const nodes = [{ id: base.id, type: "plain", position: { x: 0, y: 0 }, data: { ...base } }]
     const edges: { id: string; source: string; target: string }[] = []
 
-    for (let i = 0; i < referencedPids.length; i++) {
+    for (let i = 0; i < referenced.length; i++) {
         nodes.push({
-            id: `ref-${i}`,
+            id: referenced[i].id,
             type: "plain",
             position: { x: 800, y: yStart + i * 100 },
-            data: { pid: referencedPids[i] }
+            data: { ...referenced[i] }
         })
-        edges.push({ id: `base-ref-${i}`, source: "base", target: `ref-${i}` })
+        edges.push({
+            id: `e-${base.id}-${referenced[i].id}`,
+            source: base.id,
+            target: referenced[i].id
+        })
     }
 
     return { initialNodes: nodes, initialEdges: edges }
@@ -74,13 +46,13 @@ const nodeTypes = {
     plain: PlainNode
 }
 
-export function RelationsGraph(props: { basePid: string; referencedPids: string[] }) {
+export function RelationsGraph(props: { base: RelationNode; referenced: RelationNode[] }) {
     const { initialEdges, initialNodes } = useMemo(() => {
-        return buildGraphForReferences(props.basePid, props.referencedPids)
-    }, [props.basePid, props.referencedPids])
+        return buildGraphForReferences(props.base, props.referenced)
+    }, [props.base, props.referenced])
 
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+    const [nodes, , onNodesChange] = useNodesState(initialNodes)
+    const [edges, , onEdgesChange] = useEdgesState(initialEdges)
     const { fitView } = useReactFlow()
     const nodesInitialized = useNodesInitialized()
 

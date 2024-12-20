@@ -1,13 +1,15 @@
 import { SearchResult } from "@elastic/search-ui"
-import { useCallback, useContext, useMemo } from "react"
+import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { Badge } from "@/components/ui/badge.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { ObjectRender } from "@/components/ObjectRender.tsx"
-import { ExternalLink, File, Globe, ImageOff, Scale } from "lucide-react"
+import { ExternalLink, File, GitFork, Globe, ImageOff, Scale } from "lucide-react"
 import { DateTime } from "luxon"
 import { PidDisplay } from "@/components/PidDisplay.tsx"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog.tsx"
 import { GlobalModalContext } from "@/components/GlobalModalContext.tsx"
+import { basicRelationNode } from "@/components/helpers.ts"
+import { SearchContext } from "@elastic/react-search-ui"
 
 function autoUnwrap(item: string | { raw: string }) {
     if (typeof item === "string") return item
@@ -17,6 +19,7 @@ function autoUnwrap(item: string | { raw: string }) {
 }
 
 function autoUnwrapArray(item: string[] | { raw: string[] }) {
+    if (!item) return []
     if (Array.isArray(item)) return item
     else if (typeof item === "object" && "raw" in item && Array.isArray(item.raw)) return item.raw
     else return [JSON.stringify(item)]
@@ -24,6 +27,7 @@ function autoUnwrapArray(item: string[] | { raw: string[] }) {
 
 export function NMRResultView({ result, debug }: { result: SearchResult; debug?: boolean }) {
     const { openRelationGraph } = useContext(GlobalModalContext)
+    const { driver } = useContext(SearchContext)
 
     const getField = useCallback(
         (field: string) => {
@@ -84,12 +88,44 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
 
     const creationDate = useMemo(() => {
         const value = getField("dateCreatedRfc3339")
-        return DateTime.fromISO(value).toLocaleString()
+        const dateTime = DateTime.fromISO(value)
+        return dateTime.isValid ? dateTime.toLocaleString() : ""
+    }, [getField])
+
+    const hasMetadata = useMemo(() => {
+        return getField("hasMetadata")
     }, [getField])
 
     const showRelations = useCallback(() => {
-        openRelationGraph(pid, isMetadataFor)
-    }, [isMetadataFor, openRelationGraph, pid])
+        openRelationGraph(
+            {
+                id: pid,
+                label: title,
+                remoteURL: doLocation,
+                searchQuery: pid
+            },
+            isMetadataFor.map(basicRelationNode)
+        )
+    }, [doLocation, isMetadataFor, openRelationGraph, pid, title])
+
+    const goToMetadata = useCallback(() => {
+        driver.clearFilters()
+        driver.setSearchTerm(hasMetadata)
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    }, [driver, hasMetadata])
+
+    const [exactPidMatch, setExactPidMatch] = useState(
+        driver.getState().searchTerm === pid || driver.getState().searchTerm === doLocation
+    )
+
+    useEffect(() => {
+        const handler = (newState: ReturnType<typeof driver.getState>) => {
+            setExactPidMatch(newState.searchTerm === pid || newState.searchTerm === doLocation)
+        }
+
+        driver.subscribeToStateChanges(handler)
+        return () => driver.unsubscribeToStateChanges(handler)
+    }, [doLocation, driver, pid])
 
     return (
         <div className="m-2 p-4 border border-border rounded-lg">
@@ -103,18 +139,27 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                         />
                     ) : (
                         <div className="flex flex-col justify-center dark:text-background">
-                            <ImageOff className="w-6 h-6" />
+                            <ImageOff className="w-6 h-6 text-muted-foreground" />
                         </div>
                     )}
                 </div>
                 <div className="flex flex-col md:max-w-full overflow-x-auto">
+                    {exactPidMatch && (
+                        <div className="mb-2">
+                            <Badge>Exact Match</Badge>
+                        </div>
+                    )}
                     <div className="md:text-xl font-bold">
                         {title}
                         <span className="ml-2 font-normal text-sm text-muted-foreground">
                             {identifier} - {creationDate}
                         </span>
                     </div>
-                    <a href={id} target="_blank" className="hover:underline mb-2 block leading-3">
+                    <a
+                        href={"https://hdl.handle.net/" + id}
+                        target="_blank"
+                        className="hover:underline mb-2 block leading-3"
+                    >
                         <span className="text-sm text-muted-foreground">{id}</span>
                     </a>
                     <div className="flex gap-2 flex-wrap">
@@ -135,10 +180,8 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                             </span>
                         </Badge>
                     </div>
-
                     <div className="grow"></div>
-
-                    <div className="flex gap-2 md:gap-4 md:items-center mt-8 justify-end md:flex-row flex-col">
+                    <div className="flex gap-2 md:gap-4 md:items-center mt-8 justify-end md:flex-row flex-col flex-wrap">
                         {debug && (
                             <Dialog>
                                 <DialogTrigger asChild>
@@ -153,9 +196,36 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                                 </DialogContent>
                             </Dialog>
                         )}
-                        <Button size="sm" onClick={showRelations}>
-                            Show Relations ({isMetadataFor.length})
-                        </Button>
+                        {isMetadataFor.length > 0 && (
+                            <div className="flex items-center">
+                                <Button
+                                    className="rounded-r-none grow"
+                                    size="sm"
+                                    variant="secondary"
+                                    onClick={showRelations}
+                                >
+                                    <GitFork className="w-4 h-4 mr-1" /> Show Relations
+                                </Button>
+                                <Button
+                                    className="border-l border-l-border rounded-l-none text-xs font-bold"
+                                    size="sm"
+                                    variant="secondary"
+                                    onClick={showRelations}
+                                >
+                                    {isMetadataFor.length}
+                                </Button>
+                            </div>
+                        )}
+                        {hasMetadata && (
+                            <Button
+                                className=""
+                                size="sm"
+                                variant="secondary"
+                                onClick={goToMetadata}
+                            >
+                                <GitFork className="w-4 h-4 mr-1" /> Go to Metadata
+                            </Button>
+                        )}
                         <a
                             href={"https://kit-data-manager.github.io/fairdoscope/?pid=" + pid}
                             target={"_blank"}

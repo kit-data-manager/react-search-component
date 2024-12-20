@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 
 import { RelationsGraph } from "./RelationsGraph"
 import { ReactFlowProvider } from "@xyflow/react"
+import { basicRelationNode } from "@/components/helpers.ts"
 
 const meta = {
     component: RelationsGraph
@@ -15,21 +16,21 @@ export const Default: Story = {
     decorators: [
         (Story) => (
             <ReactFlowProvider>
-                <div style={{ width: "500px", height: "500px" }}>
+                <div style={{ width: "100%", height: "min(70vh, 700px)" }}>
                     <Story />{" "}
                 </div>
             </ReactFlowProvider>
         )
     ],
     args: {
-        basePid: "T10/436895408650943",
-        referencedPids: [
-            "T10/436895408650943",
-            "T10/436895408650943",
-            "T10/436895408650943",
-            "T10/436895408650943",
-            "T10/436895408650943",
-            "T10/436895408650943"
+        base: basicRelationNode("T10/436895408650943"),
+        referenced: [
+            basicRelationNode("T10/436895408650941"),
+            basicRelationNode("T10/436895408650942"),
+            basicRelationNode("T10/436895408650944"),
+            basicRelationNode("T10/436895408650945"),
+            basicRelationNode("T10/436895408650946"),
+            basicRelationNode("T10/436895408650947")
         ]
     }
 }

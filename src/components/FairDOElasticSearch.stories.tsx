@@ -81,7 +81,7 @@ const demoConfig: FairDOConfig = {
                 // }
             ],
             resultFields: [], // Leave empty to get all fields
-            searchFields: ["name"],
+            searchFields: ["name", "pid"],
             fieldMappings: {}
         }
     ],

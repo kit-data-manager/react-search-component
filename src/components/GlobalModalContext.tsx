@@ -1,8 +1,8 @@
 import { createContext } from "react"
+import { RelationNode } from "@/components/RelationsGraph.tsx"
 
 export const GlobalModalContext = createContext<{
-    // eslint-disable-next-line no-unused-vars
-    openRelationGraph(basePid: string, referencedPids: string[]): void
+    openRelationGraph(base: RelationNode, referenced: RelationNode[]): void
 }>({
     openRelationGraph: (): void => {
         throw "GlobalModalProvider not mounted"
