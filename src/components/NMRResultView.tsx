@@ -117,9 +117,11 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
     }, [doLocation, pid, searchTerm])
 
     return (
-        <div className="m-2 p-4 border border-border rounded-lg">
+        <div
+            className={`m-2 p-4 border border-border rounded-lg ${exactPidMatch ? "animate-outline-ping" : ""}`}
+        >
             <div className="grid md:grid-cols-[200px_1fr] md:grid-rows-1 grid-rows-[100px_1fr] md:max-w-full overflow-x-auto gap-4">
-                <div className="flex justify-center md:p-2 dark:bg-white rounded">
+                <div className="flex justify-center md:items-center md:p-2 dark:bg-white rounded">
                     {previewImage ? (
                         <img
                             className="md:w-[200px] md:h-[200px]"

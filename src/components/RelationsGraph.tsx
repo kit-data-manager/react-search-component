@@ -69,7 +69,7 @@ export function RelationsGraph(props: { base: RelationNode; referenced: Relation
             onEdgesChange={onEdgesChange}
             proOptions={{ hideAttribution: true }}
         >
-            <Background color="#f5f5f5" variant={BackgroundVariant.Lines} />
+            <Background color="hsl(var(--border))" variant={BackgroundVariant.Lines} />
         </ReactFlow>
     )
 }

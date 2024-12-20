@@ -53,6 +53,19 @@ export default {
                     4: "hsl(var(--chart-4))",
                     5: "hsl(var(--chart-5))"
                 }
+            },
+            keyframes: {
+                "outline-ping": {
+                    "0%, 100%": {
+                        outline: "5px solid transparent"
+                    },
+                    "75%": {
+                        outline: "5px solid hsl(var(--primary))"
+                    }
+                }
+            },
+            animation: {
+                "outline-ping": "outline-ping 1s ease-in-out"
             }
         }
     },

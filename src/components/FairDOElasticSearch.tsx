@@ -28,6 +28,7 @@ import { ErrorView } from "@/components/ErrorView.tsx"
 import { GlobalModalProvider } from "@/components/GlobalModalProvider.tsx"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
 import { SearchContextState } from "@elastic/search-ui"
+import { LoaderCircle } from "lucide-react"
 
 export function FairDOElasticSearch({
     config,
@@ -52,19 +53,22 @@ export function FairDOElasticSearch({
                         wasSearched,
                         searchTerm,
                         setSearchTerm,
-                        clearFilters
+                        clearFilters,
+                        isLoading
                     }: SearchContextState) => ({
                         wasSearched,
                         searchTerm,
                         setSearchTerm,
-                        clearFilters
+                        clearFilters,
+                        isLoading
                     })}
                 >
                     {({
                         wasSearched,
                         searchTerm,
                         setSearchTerm,
-                        clearFilters
+                        clearFilters,
+                        isLoading
                     }: SearchContextState) => {
                         return (
                             <ErrorBoundary view={ErrorView}>
@@ -119,6 +123,12 @@ export function FairDOElasticSearch({
                                                 }
                                             }}
                                         >
+                                            {isLoading && !wasSearched && (
+                                                <div className="flex justify-center">
+                                                    <LoaderCircle className="w-6 h-6 animate-spin" />
+                                                </div>
+                                            )}
+
                                             <Results
                                                 shouldTrackClickThrough={true}
                                                 resultView={(props) => (
