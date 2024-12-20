@@ -35,7 +35,7 @@ export function RelationsGraphModal({
                     <DialogTitle>FDOs related to {base.label}</DialogTitle>
                 </VisuallyHidden.Root>
 
-                <FairDOSearchContext.Provider value={{ searchFor }}>
+                <FairDOSearchContext.Provider value={{ searchFor, searchTerm: "" }}>
                     <RelationsGraph base={base} referenced={referenced} />
                 </FairDOSearchContext.Provider>
             </DialogContent>

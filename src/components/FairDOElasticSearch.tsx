@@ -26,6 +26,8 @@ import {
 import { NMRResultView } from "@/components/NMRResultView.tsx"
 import { ErrorView } from "@/components/ErrorView.tsx"
 import { GlobalModalProvider } from "@/components/GlobalModalProvider.tsx"
+import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
+import { SearchContextState } from "@elastic/search-ui"
 
 export function FairDOElasticSearch({
     config,
@@ -45,8 +47,25 @@ export function FairDOElasticSearch({
     return (
         <SearchProvider config={elasticConfig}>
             <GlobalModalProvider>
-                <WithSearch mapContextToProps={({ wasSearched }) => ({ wasSearched })}>
-                    {({ wasSearched }) => {
+                <WithSearch
+                    mapContextToProps={({
+                        wasSearched,
+                        searchTerm,
+                        setSearchTerm,
+                        clearFilters
+                    }: SearchContextState) => ({
+                        wasSearched,
+                        searchTerm,
+                        setSearchTerm,
+                        clearFilters
+                    })}
+                >
+                    {({
+                        wasSearched,
+                        searchTerm,
+                        setSearchTerm,
+                        clearFilters
+                    }: SearchContextState) => {
                         return (
                             <ErrorBoundary view={ErrorView}>
                                 <Layout
@@ -76,7 +95,9 @@ export function FairDOElasticSearch({
                                                             ? field.label
                                                             : field.key.substring(0, 20)
                                                     }
-                                                    view={DefaultFacet}
+                                                    view={(props) => (
+                                                        <DefaultFacet {...props} config={config} />
+                                                    )}
                                                     isFilterable={field.isFilterable}
                                                 />
                                             ))}
@@ -84,17 +105,32 @@ export function FairDOElasticSearch({
                                         </div>
                                     }
                                     bodyContent={
-                                        <Results
-                                            shouldTrackClickThrough={true}
-                                            resultView={(props) => (
-                                                <>
-                                                    <NMRResultView
-                                                        result={props.result}
-                                                        debug={debug}
-                                                    />
-                                                </>
-                                            )}
-                                        />
+                                        <FairDOSearchContext.Provider
+                                            value={{
+                                                searchTerm: searchTerm ?? "",
+                                                searchFor(query: string) {
+                                                    clearFilters()
+                                                    setSearchTerm(query)
+                                                    window.scrollTo({
+                                                        top: 0,
+                                                        left: 0,
+                                                        behavior: "smooth"
+                                                    })
+                                                }
+                                            }}
+                                        >
+                                            <Results
+                                                shouldTrackClickThrough={true}
+                                                resultView={(props) => (
+                                                    <>
+                                                        <NMRResultView
+                                                            result={props.result}
+                                                            debug={debug}
+                                                        />
+                                                    </>
+                                                )}
+                                            />
+                                        </FairDOSearchContext.Provider>
                                     }
                                     bodyHeader={
                                         <div className="mb-4 flex justify-between w-full items-center">

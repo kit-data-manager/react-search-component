@@ -23,12 +23,12 @@ export const Default: Story = {
         )
     ],
     args: {
-        base: basicRelationNode("T10/436895408650943"),
+        base: basicRelationNode("T10/436895408650943", "Source"),
         referenced: [
-            basicRelationNode("T10/436895408650941"),
+            basicRelationNode("T10/436895408650941", "Something else"),
             basicRelationNode("T10/436895408650942"),
             basicRelationNode("T10/436895408650944"),
-            basicRelationNode("T10/436895408650945"),
+            basicRelationNode("T10/436895408650945", "Another example"),
             basicRelationNode("T10/436895408650946"),
             basicRelationNode("T10/436895408650947")
         ]

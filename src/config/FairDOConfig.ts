@@ -1,25 +1,24 @@
-export interface FairDONumericRangeFacetConfig {
+import { ComponentType } from "react"
+
+export interface FairDOCoreFacetConfig {
     key: string
     label: string
+    isFilterable?: boolean
+    optionsTextDisplay?: ComponentType<{ text: string }>
+}
+
+export interface FairDONumericRangeFacetConfig extends FairDOCoreFacetConfig {
     renderer: string
     type: "numeric"
     ranges: string[]
-    isFilterable?: boolean
 }
 
-export interface FairDODateRangeFacetConfig {
-    key: string
-    label: string
+export interface FairDODateRangeFacetConfig extends FairDOCoreFacetConfig {
     renderer: string
     type: "date_time" | "date_year"
-    isFilterable?: boolean
 }
 
-export interface FairDODefaultFacetConfig {
-    key: string
-    label: string
-    isFilterable?: boolean
-}
+export type FairDODefaultFacetConfig = FairDOCoreFacetConfig
 
 export type FairDOFacetConfig =
     | FairDONumericRangeFacetConfig
@@ -41,6 +40,8 @@ export interface FairDOIndexConfig {
     searchFields: string[]
     resultFields: string[]
     facets: FairDOFacetConfig[]
+
+    // Remove?
     fieldMappings: FairDOFieldMappingConfig
 }
 

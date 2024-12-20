@@ -1,9 +1,9 @@
 import { RelationNode } from "@/components/RelationsGraph.tsx"
 
-export function basicRelationNode(pid: string): RelationNode {
+export function basicRelationNode(pid: string, label?: string): RelationNode {
     return {
         id: pid,
-        label: "",
+        label: label ?? "",
         remoteURL: "https://hdl.handle.net/" + pid,
         searchQuery: pid
     }

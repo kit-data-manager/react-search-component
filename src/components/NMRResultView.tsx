@@ -1,5 +1,5 @@
 import { SearchResult } from "@elastic/search-ui"
-import { useCallback, useContext, useEffect, useMemo, useState } from "react"
+import { useCallback, useContext, useMemo } from "react"
 import { Badge } from "@/components/ui/badge.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { ObjectRender } from "@/components/ObjectRender.tsx"
@@ -9,7 +9,7 @@ import { PidDisplay } from "@/components/PidDisplay.tsx"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog.tsx"
 import { GlobalModalContext } from "@/components/GlobalModalContext.tsx"
 import { basicRelationNode } from "@/components/helpers.ts"
-import { SearchContext } from "@elastic/react-search-ui"
+import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
 
 function autoUnwrap(item: string | { raw: string }) {
     if (typeof item === "string") return item
@@ -27,7 +27,7 @@ function autoUnwrapArray(item: string[] | { raw: string[] }) {
 
 export function NMRResultView({ result, debug }: { result: SearchResult; debug?: boolean }) {
     const { openRelationGraph } = useContext(GlobalModalContext)
-    const { driver } = useContext(SearchContext)
+    const { searchFor, searchTerm } = useContext(FairDOSearchContext)
 
     const getField = useCallback(
         (field: string) => {
@@ -58,7 +58,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
         return getField("identifier")
     }, [getField])
 
-    const formula = useMemo(() => {
+    const hadPrimarySource = useMemo(() => {
         return getField("hadPrimarySource")
     }, [getField])
 
@@ -104,28 +104,17 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                 remoteURL: doLocation,
                 searchQuery: pid
             },
-            isMetadataFor.map(basicRelationNode)
+            isMetadataFor.map((pid) => basicRelationNode(pid))
         )
     }, [doLocation, isMetadataFor, openRelationGraph, pid, title])
 
     const goToMetadata = useCallback(() => {
-        driver.clearFilters()
-        driver.setSearchTerm(hasMetadata)
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
-    }, [driver, hasMetadata])
+        searchFor(hasMetadata)
+    }, [hasMetadata, searchFor])
 
-    const [exactPidMatch, setExactPidMatch] = useState(
-        driver.getState().searchTerm === pid || driver.getState().searchTerm === doLocation
-    )
-
-    useEffect(() => {
-        const handler = (newState: ReturnType<typeof driver.getState>) => {
-            setExactPidMatch(newState.searchTerm === pid || newState.searchTerm === doLocation)
-        }
-
-        driver.subscribeToStateChanges(handler)
-        return () => driver.unsubscribeToStateChanges(handler)
-    }, [doLocation, driver, pid])
+    const exactPidMatch = useMemo(() => {
+        return searchTerm === pid || searchTerm === doLocation
+    }, [doLocation, pid, searchTerm])
 
     return (
         <div className="m-2 p-4 border border-border rounded-lg">
@@ -165,7 +154,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                     <div className="flex gap-2 flex-wrap">
                         <Badge variant="secondary" className="truncate">
                             <span className="truncate flex">
-                                <Globe className="w-4 h-4 mr-2 shrink-0" /> {formula}
+                                <Globe className="w-4 h-4 mr-2 shrink-0" /> {hadPrimarySource}
                             </span>
                         </Badge>
                         <Badge variant="secondary" className="truncate">

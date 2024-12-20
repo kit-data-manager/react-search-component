@@ -5,14 +5,23 @@ import { Button } from "@/components/ui/button.tsx"
 import { PlusIcon, Search } from "lucide-react"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx"
 import { Input } from "@/components/ui/input.tsx"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import { FairDOConfigProvider } from "@/config/FairDOConfigProvider.ts"
 
-export function DefaultFacet(props: FacetViewProps) {
+export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvider }) {
     const [search, setSearch] = useState("")
 
     useEffect(() => {
         props.onSearch(search)
     }, [props, search])
+
+    const selfConfig = useMemo(() => {
+        return props.config.getFacetFields().find((f) => f.label === props.label)
+    }, [props.config, props.label])
+
+    const OptionsTextDisplay = useMemo(() => {
+        return selfConfig?.optionsTextDisplay ?? ((props: { text: string }) => props.text)
+    }, [selfConfig?.optionsTextDisplay])
 
     return (
         <div className="p-4 rounded-lg">
@@ -50,7 +59,9 @@ export function DefaultFacet(props: FacetViewProps) {
                             }
                         />
                         <Label htmlFor={id} className="grow break-words min-w-0">
-                            {option.value.toString() || (
+                            {option.value.toString() ? (
+                                <OptionsTextDisplay text={option.value.toString()} />
+                            ) : (
                                 <span className="text-muted-foreground">None</span>
                             )}
                         </Label>
