@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
-import { RelationsGraph } from "./RelationsGraph"
+import { RelationsGraph } from "./RelationsGraph.tsx"
 import { ReactFlowProvider } from "@xyflow/react"
-import { basicRelationNode } from "@/components/helpers.ts"
+import { BasicRelationNode } from "@/lib/RelationNode.ts"
 
 const meta = {
     component: RelationsGraph
@@ -23,14 +23,14 @@ export const Default: Story = {
         )
     ],
     args: {
-        base: basicRelationNode("T10/436895408650943", "Source"),
+        base: new BasicRelationNode("T10/436895408650943", "Source"),
         referenced: [
-            basicRelationNode("T10/436895408650941", "Something else"),
-            basicRelationNode("T10/436895408650942"),
-            basicRelationNode("T10/436895408650944"),
-            basicRelationNode("T10/436895408650945", "Another example"),
-            basicRelationNode("T10/436895408650946"),
-            basicRelationNode("T10/436895408650947")
+            new BasicRelationNode("T10/436895408650941", "Something else"),
+            new BasicRelationNode("T10/436895408650942"),
+            new BasicRelationNode("T10/436895408650944"),
+            new BasicRelationNode("T10/436895408650945", "Another example"),
+            new BasicRelationNode("T10/436895408650946"),
+            new BasicRelationNode("T10/436895408650947")
         ]
     }
 }

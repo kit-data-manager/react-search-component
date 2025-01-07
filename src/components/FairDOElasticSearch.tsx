@@ -13,9 +13,9 @@ import {
 import { useMemo } from "react"
 import { FairDOConfigProvider } from "../config/FairDOConfigProvider.ts"
 import "../elastic-ui.css"
-import { DefaultSearchBox } from "@/components/DefaultSearchBox.tsx"
-import { DefaultFacet } from "@/components/DefaultFacet.tsx"
-import { ClearFilters } from "@/components/ClearFilters.tsx"
+import { DefaultSearchBox } from "@/components/search/DefaultSearchBox.tsx"
+import { DefaultFacet } from "@/components/search/DefaultFacet.tsx"
+import { ClearFilters } from "@/components/search/ClearFilters.tsx"
 import {
     Select,
     SelectContent,
@@ -23,20 +23,33 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select.tsx"
-import { NMRResultView } from "@/components/NMRResultView.tsx"
-import { ErrorView } from "@/components/ErrorView.tsx"
+import { NMRResultView } from "@/components/result/NMRResultView.tsx"
+import { ErrorView } from "@/components/search/ErrorView.tsx"
 import { GlobalModalProvider } from "@/components/GlobalModalProvider.tsx"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
 import { SearchContextState } from "@elastic/search-ui"
 import { LoaderCircle } from "lucide-react"
+import { FairDOConfig } from "@/config/FairDOConfig.ts"
 
+/**
+ * All-in-one component for rendering an elastic search UI based on the provided configuration. Includes
+ * an interactive graph of related records
+ * @constructor
+ */
 export function FairDOElasticSearch({
-    config,
+    config: rawConfig,
     debug
 }: {
-    config: FairDOConfigProvider
+    /**
+     * Make sure the config is either memoized or constant (defined outside any components)
+     */
+    config: FairDOConfig
     debug?: boolean
 }) {
+    const config = useMemo(() => {
+        return new FairDOConfigProvider(rawConfig)
+    }, [rawConfig])
+
     const elasticConfig = useMemo(() => {
         return config.buildElasticSearchConfig()
     }, [config])

@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog.tsx"
-import { RelationNode, RelationsGraph } from "@/components/RelationsGraph.tsx"
+import { RelationNode, RelationsGraph } from "@/components/graph/RelationsGraph.tsx"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
 import { useCallback, useContext } from "react"
 import { SearchContext } from "@elastic/react-search-ui"

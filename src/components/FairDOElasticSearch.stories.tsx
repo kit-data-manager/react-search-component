@@ -2,8 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 
 import { FairDOElasticSearch } from "./FairDOElasticSearch.tsx"
 import { FairDOConfig } from "@/config/FairDOConfig.ts"
-import { FairDOConfigProvider } from "@/config/FairDOConfigProvider.ts"
-import { PidDisplay } from "@/components/PidDisplay.tsx"
+import { PidDisplay } from "@/components/result/PidDisplay.tsx"
 
 const meta = {
     component: FairDOElasticSearch
@@ -102,11 +101,9 @@ const demoConfig: FairDOConfig = {
     disjunctiveFacets: []
 }
 
-const demoFairConfig = new FairDOConfigProvider(demoConfig)
-
 export const DemoElastic: Story = {
     args: {
-        config: demoFairConfig,
+        config: demoConfig,
         debug: false
     }
 }

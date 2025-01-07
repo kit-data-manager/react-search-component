@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
-import { NMRResultView } from "./NMRResultView"
+import { NMRResultView } from "./NMRResultView.tsx"
 import { DateTime } from "luxon"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
 

@@ -2,14 +2,14 @@ import { SearchResult } from "@elastic/search-ui"
 import { useCallback, useContext, useMemo } from "react"
 import { Badge } from "@/components/ui/badge.tsx"
 import { Button } from "@/components/ui/button.tsx"
-import { ObjectRender } from "@/components/ObjectRender.tsx"
+import { ObjectRender } from "@/components/result/ObjectRender.tsx"
 import { ExternalLink, File, GitFork, Globe, ImageOff, Scale } from "lucide-react"
 import { DateTime } from "luxon"
-import { PidDisplay } from "@/components/PidDisplay.tsx"
+import { PidDisplay } from "@/components/result/PidDisplay.tsx"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog.tsx"
 import { GlobalModalContext } from "@/components/GlobalModalContext.tsx"
-import { basicRelationNode } from "@/components/helpers.ts"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
+import { BasicRelationNode } from "@/lib/RelationNode.ts"
 
 function autoUnwrap(item: string | { raw: string }) {
     if (typeof item === "string") return item
@@ -25,6 +25,12 @@ function autoUnwrapArray(item: string[] | { raw: string[] }) {
     else return [JSON.stringify(item)]
 }
 
+/**
+ * Renders the result card for one search entry. Specifically for NMR data.
+ * @param result The search entry to render
+ * @param debug Set to true to display the full record received from elastic
+ * @constructor
+ */
 export function NMRResultView({ result, debug }: { result: SearchResult; debug?: boolean }) {
     const { openRelationGraph } = useContext(GlobalModalContext)
     const { searchFor, searchTerm } = useContext(FairDOSearchContext)
@@ -104,7 +110,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                 remoteURL: doLocation,
                 searchQuery: pid
             },
-            isMetadataFor.map((pid) => basicRelationNode(pid))
+            isMetadataFor.map((pid) => new BasicRelationNode(pid))
         )
     }, [doLocation, isMetadataFor, openRelationGraph, pid, title])
 

@@ -1,6 +1,11 @@
-import { PidDisplay } from "@/components/PidDisplay.tsx"
+import { PidDisplay } from "@/components/result/PidDisplay.tsx"
 import { PidResolver } from "@/lib/pidResolver.ts"
 
+/**
+ * @internal For debugging purposes
+ * @param data
+ * @constructor
+ */
 export function ObjectRender({ data }: { data: Record<string, unknown> }) {
     if ("raw" in data && typeof data.raw === "string") {
         if (PidResolver.isPID(data.raw)) {

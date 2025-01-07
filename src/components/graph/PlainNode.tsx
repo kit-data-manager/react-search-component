@@ -4,8 +4,8 @@ import { Badge } from "@/components/ui/badge.tsx"
 import { Button } from "@/components/ui/button.tsx"
 import { ExternalLink, Search } from "lucide-react"
 import { createStore, useStore } from "zustand"
-import { RelationNode } from "@/components/RelationsGraph.tsx"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
+import { RelationNode } from "@/lib/RelationNode.ts"
 
 interface PlainNodeStore {
     activeNodeLabel: string
@@ -23,6 +23,11 @@ const plainNodeStore = createStore<PlainNodeStore>()((set) => ({
     }
 }))
 
+/**
+ * Renders a node for one elastic search entry in the relations graph
+ * @param data Should contain the RelationNode that should be displayed in the `data` field
+ * @constructor
+ */
 export function PlainNode(data: NodeProps) {
     const { searchFor } = useContext(FairDOSearchContext)
 

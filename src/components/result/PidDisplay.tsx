@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useState } from "react"
 import { PidResolver, pidResolver } from "@/lib/pidResolver.ts"
 
+/**
+ * Resolves a PID and displays the name of the received record
+ * @param pid A valid PID
+ * @constructor
+ */
 export function PidDisplay({ pid }: { pid: string }) {
     const [content, setContent] = useState("")
     const [isLoading, setIsLoading] = useState(true)

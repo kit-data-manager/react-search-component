@@ -8,6 +8,12 @@ function autoUnwrap(item: string | { raw: string }) {
     else return item.raw
 }
 
+/**
+ * @deprecated Unused
+ * @param result
+ * @param config
+ * @constructor
+ */
 export function ResultView({
     result,
     config
