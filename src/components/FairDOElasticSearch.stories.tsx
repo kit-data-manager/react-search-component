@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
-import { FairDOElasticSearch } from "./FairDOElasticSearch.tsx"
-import { FairDOConfig } from "@/config/FairDOConfig.ts"
-import { PidDisplay } from "@/components/result/PidDisplay.tsx"
+import { FairDOElasticSearch } from "./FairDOElasticSearch"
+import { FairDOConfig } from "@/config/FairDOConfig"
+import { PidDisplay } from "@/components/result/PidDisplay"
 
 const meta = {
     component: FairDOElasticSearch

@@ -1,4 +1,4 @@
-import { RelationNode } from "@/lib/RelationNode.ts"
+import { RelationNode } from "@/lib/RelationNode"
 
 export function buildGraphForReferences(base: RelationNode, _referenced: RelationNode[]) {
     const referenced = _referenced.filter((pid) => pid !== base)

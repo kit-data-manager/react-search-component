@@ -1,5 +1,5 @@
 import { SearchX } from "lucide-react"
-import { Button } from "@/components/ui/button.tsx"
+import { Button } from "@/components/ui/button"
 import { useContext } from "react"
 import { SearchContext } from "@elastic/react-search-ui"
 

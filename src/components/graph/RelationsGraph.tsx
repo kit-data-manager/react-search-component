@@ -10,9 +10,9 @@ import {
 
 import "@xyflow/react/dist/style.css"
 import { useEffect, useMemo } from "react"
-import { PlainNode } from "@/components/graph/PlainNode.tsx"
-import { RelationNode } from "@/lib/RelationNode.ts"
-import { buildGraphForReferences } from "@/components/graph/helpers.ts"
+import { PlainNode } from "@/components/graph/PlainNode"
+import { RelationNode } from "@/lib/RelationNode"
+import { buildGraphForReferences } from "@/components/graph/helpers"
 
 const nodeTypes = {
     plain: PlainNode

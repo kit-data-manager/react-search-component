@@ -11,25 +11,25 @@ import {
     SearchBox
 } from "@elastic/react-search-ui"
 import { useMemo } from "react"
-import { FairDOConfigProvider } from "../config/FairDOConfigProvider.ts"
+import { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
 import "../elastic-ui.css"
-import { DefaultSearchBox } from "@/components/search/DefaultSearchBox.tsx"
-import { DefaultFacet } from "@/components/search/DefaultFacet.tsx"
-import { ClearFilters } from "@/components/search/ClearFilters.tsx"
+import { DefaultSearchBox } from "@/components/search/DefaultSearchBox"
+import { DefaultFacet } from "@/components/search/DefaultFacet"
+import { ClearFilters } from "@/components/search/ClearFilters"
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue
-} from "@/components/ui/select.tsx"
-import { NMRResultView } from "@/components/result/NMRResultView.tsx"
-import { ErrorView } from "@/components/search/ErrorView.tsx"
-import { GlobalModalProvider } from "@/components/GlobalModalProvider.tsx"
-import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
+} from "@/components/ui/select"
+import { NMRResultView } from "@/components/result/NMRResultView"
+import { ErrorView } from "@/components/search/ErrorView"
+import { GlobalModalProvider } from "@/components/GlobalModalProvider"
+import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 import { SearchContextState } from "@elastic/search-ui"
 import { LoaderCircle } from "lucide-react"
-import { FairDOConfig } from "@/config/FairDOConfig.ts"
+import { FairDOConfig } from "@/config/FairDOConfig"
 
 /**
  * All-in-one component for rendering an elastic search UI based on the provided configuration. Includes

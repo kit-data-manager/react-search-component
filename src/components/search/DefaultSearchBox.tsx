@@ -1,13 +1,13 @@
 import { InputViewProps } from "@elastic/react-search-ui-views"
 import { ChevronDown, ExternalLink, SearchIcon } from "lucide-react"
-import { Input } from "@/components/ui/input.tsx"
-import { Button } from "@/components/ui/button.tsx"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu.tsx"
+} from "@/components/ui/dropdown-menu"
 
 export function DefaultSearchBox(props: InputViewProps) {
     return (

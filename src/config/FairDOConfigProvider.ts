@@ -5,9 +5,9 @@ import {
     FairDOFacetConfig,
     FairDONumericRangeFacetConfig,
     FairDODateRangeFacetConfig
-} from "./FairDOConfig.ts"
+} from "./FairDOConfig"
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
-import { parseStringValueToNumber } from "./helpers.ts"
+import { parseStringValueToNumber } from "./helpers"
 
 export class FairDOConfigProvider {
     private readonly config: FairDOConfig

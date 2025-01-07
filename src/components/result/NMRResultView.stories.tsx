@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
-import { NMRResultView } from "./NMRResultView.tsx"
+import { NMRResultView } from "./NMRResultView"
 import { DateTime } from "luxon"
-import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
+import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 
 const meta = {
     component: NMRResultView

@@ -9,11 +9,11 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": true,
+    "outDir": "out",
     "jsx": "react-jsx",
+    "declaration": true,
 
     /* Linting */
     "strict": true,
@@ -28,7 +28,5 @@
       ]
     }
   },
-  "include": ["src",
-    "web-components.d.ts"
-  ]
+  "include": ["src"]
 }

@@ -1,15 +1,15 @@
 import { SearchResult } from "@elastic/search-ui"
 import { useCallback, useContext, useMemo } from "react"
-import { Badge } from "@/components/ui/badge.tsx"
-import { Button } from "@/components/ui/button.tsx"
-import { ObjectRender } from "@/components/result/ObjectRender.tsx"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { ObjectRender } from "@/components/result/ObjectRender"
 import { ExternalLink, File, GitFork, Globe, ImageOff, Scale } from "lucide-react"
 import { DateTime } from "luxon"
-import { PidDisplay } from "@/components/result/PidDisplay.tsx"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog.tsx"
-import { GlobalModalContext } from "@/components/GlobalModalContext.tsx"
-import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
-import { BasicRelationNode } from "@/lib/RelationNode.ts"
+import { PidDisplay } from "@/components/result/PidDisplay"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { GlobalModalContext } from "@/components/GlobalModalContext"
+import { FairDOSearchContext } from "@/components/FairDOSearchContext"
+import { BasicRelationNode } from "@/lib/RelationNode"
 
 function autoUnwrap(item: string | { raw: string }) {
     if (typeof item === "string") return item

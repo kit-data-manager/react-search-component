@@ -1,5 +1,5 @@
 import { createContext } from "react"
-import { RelationNode } from "@/components/graph/RelationsGraph.tsx"
+import { RelationNode } from "@/lib/RelationNode"
 
 export const GlobalModalContext = createContext<{
     openRelationGraph(base: RelationNode, referenced: RelationNode[]): void

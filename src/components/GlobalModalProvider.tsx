@@ -1,8 +1,8 @@
 import { PropsWithChildren, useCallback, useState } from "react"
-import { RelationsGraphModal } from "@/components/graph/RelationsGraphModal.tsx"
-import { GlobalModalContext } from "./GlobalModalContext.tsx"
+import { RelationsGraphModal } from "@/components/graph/RelationsGraphModal"
+import { GlobalModalContext } from "./GlobalModalContext"
 import { ReactFlowProvider } from "@xyflow/react"
-import { RelationNode } from "@/components/graph/RelationsGraph.tsx"
+import { RelationNode } from "@/lib/RelationNode"
 
 export function GlobalModalProvider(props: PropsWithChildren) {
     const [relationGraphState, setRelationGraphState] = useState<{

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { PidResolver, pidResolver } from "@/lib/pidResolver.ts"
+import { PidResolver, pidResolver } from "@/lib/pidResolver"
 
 /**
  * Resolves a PID and displays the name of the received record

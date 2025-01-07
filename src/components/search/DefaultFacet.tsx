@@ -1,12 +1,12 @@
-import { Checkbox } from "@/components/ui/checkbox.tsx"
-import { Label } from "@/components/ui/label.tsx"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 import { FacetViewProps } from "@elastic/react-search-ui-views"
-import { Button } from "@/components/ui/button.tsx"
+import { Button } from "@/components/ui/button"
 import { PlusIcon, Search } from "lucide-react"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx"
-import { Input } from "@/components/ui/input.tsx"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Input } from "@/components/ui/input"
 import { useEffect, useMemo, useState } from "react"
-import { FairDOConfigProvider } from "@/config/FairDOConfigProvider.ts"
+import { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
 
 export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvider }) {
     const [search, setSearch] = useState("")

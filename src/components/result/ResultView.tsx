@@ -1,6 +1,6 @@
 import { SearchResult } from "@elastic/search-ui"
 import { useMemo } from "react"
-import { FairDOConfigProvider } from "@/config/FairDOConfigProvider.ts"
+import { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
 import { DataCard } from "data-card-react"
 
 function autoUnwrap(item: string | { raw: string }) {

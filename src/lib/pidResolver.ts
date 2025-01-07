@@ -1,4 +1,4 @@
-import { PIDData, PIDDataSchema } from "@/lib/PIDDataType.ts"
+import { PIDData, PIDDataSchema } from "@/lib/PIDDataType"
 
 export class PidResolver {
     private readonly resolverUrl = "https://hdl.handle.net/"

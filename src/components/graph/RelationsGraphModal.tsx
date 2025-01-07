@@ -1,9 +1,10 @@
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog.tsx"
-import { RelationNode, RelationsGraph } from "@/components/graph/RelationsGraph.tsx"
-import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import { RelationsGraph } from "@/components/graph/RelationsGraph"
+import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 import { useCallback, useContext } from "react"
 import { SearchContext } from "@elastic/react-search-ui"
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
+import { RelationNode } from "@/lib/RelationNode"
 
 export function RelationsGraphModal({
     isOpen,

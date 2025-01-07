@@ -1,11 +1,11 @@
 import { Handle, NodeProps, Position } from "@xyflow/react"
 import { useCallback, useContext, useMemo, useRef } from "react"
-import { Badge } from "@/components/ui/badge.tsx"
-import { Button } from "@/components/ui/button.tsx"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { ExternalLink, Search } from "lucide-react"
 import { createStore, useStore } from "zustand"
-import { FairDOSearchContext } from "@/components/FairDOSearchContext.tsx"
-import { RelationNode } from "@/lib/RelationNode.ts"
+import { FairDOSearchContext } from "@/components/FairDOSearchContext"
+import { RelationNode } from "@/lib/RelationNode"
 
 interface PlainNodeStore {
     activeNodeLabel: string

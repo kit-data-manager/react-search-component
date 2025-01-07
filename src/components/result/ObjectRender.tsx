@@ -1,5 +1,5 @@
-import { PidDisplay } from "@/components/result/PidDisplay.tsx"
-import { PidResolver } from "@/lib/pidResolver.ts"
+import { PidDisplay } from "@/components/result/PidDisplay"
+import { PidResolver } from "@/lib/pidResolver"
 
 /**
  * @internal For debugging purposes
