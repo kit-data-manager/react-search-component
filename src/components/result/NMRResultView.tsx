@@ -3,13 +3,29 @@ import { useCallback, useContext, useMemo } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ObjectRender } from "@/components/result/ObjectRender"
-import { ExternalLink, File, GitFork, Globe, ImageOff, Scale } from "lucide-react"
+import {
+    BookText,
+    ChevronDown,
+    File,
+    GitFork,
+    Globe,
+    ImageOff,
+    LinkIcon,
+    Microscope,
+    Scale
+} from "lucide-react"
 import { DateTime } from "luxon"
 import { PidDisplay } from "@/components/result/PidDisplay"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { GlobalModalContext } from "@/components/GlobalModalContext"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 import { BasicRelationNode } from "@/lib/RelationNode"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
 
 function autoUnwrap(item: string | { raw: string }) {
     if (typeof item === "string") return item
@@ -102,7 +118,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
         return getField("hasMetadata")
     }, [getField])
 
-    const showRelations = useCallback(() => {
+    const showRelatedItems = useCallback(() => {
         openRelationGraph(
             {
                 id: pid,
@@ -199,15 +215,15 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                                     className="rounded-r-none grow"
                                     size="sm"
                                     variant="secondary"
-                                    onClick={showRelations}
+                                    onClick={showRelatedItems}
                                 >
-                                    <GitFork className="w-4 h-4 mr-1" /> Show Relations
+                                    <GitFork className="w-4 h-4 mr-1" /> Show Related Items
                                 </Button>
                                 <Button
                                     className="border-l border-l-border rounded-l-none text-xs font-bold"
                                     size="sm"
                                     variant="secondary"
-                                    onClick={showRelations}
+                                    onClick={showRelatedItems}
                                 >
                                     {isMetadataFor.length}
                                 </Button>
@@ -220,22 +236,43 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                                 variant="secondary"
                                 onClick={goToMetadata}
                             >
-                                <GitFork className="w-4 h-4 mr-1" /> Go to Metadata
+                                <BookText className="w-4 h-4 mr-1" /> Find Metadata
                             </Button>
                         )}
-                        <a
-                            href={"https://kit-data-manager.github.io/fairdoscope/?pid=" + pid}
-                            target={"_blank"}
-                        >
-                            <Button size="sm" variant="secondary" className="w-full">
-                                <ExternalLink className="w-4 h-4 mr-1" /> Open in FairDO Scope
-                            </Button>
-                        </a>
-                        <a href={doLocation} target={"_blank"}>
-                            <Button size="sm" className="w-full">
-                                <ExternalLink className="w-4 h-4 mr-1" /> Open
-                            </Button>
-                        </a>
+
+                        <div className="flex items-center">
+                            <a href={doLocation} target={"_blank"}>
+                                <Button size="sm" className="w-full rounded-r-none px-4">
+                                    Open
+                                </Button>
+                            </a>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild={true}>
+                                    <Button size="sm" className="rounded-l-none border-l">
+                                        <ChevronDown className="w-4 h-4 mr-1" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <a href={doLocation} target={"_blank"}>
+                                        <DropdownMenuItem>
+                                            <LinkIcon className="w-4 h-4 mr-1" /> Open Source
+                                        </DropdownMenuItem>
+                                    </a>
+                                    <a
+                                        href={
+                                            "https://kit-data-manager.github.io/fairdoscope/?pid=" +
+                                            pid
+                                        }
+                                        target={"_blank"}
+                                    >
+                                        <DropdownMenuItem>
+                                            <Microscope className="w-4 h-4 mr-1" /> Open in
+                                            FAIR-DOscope
+                                        </DropdownMenuItem>
+                                    </a>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
                     </div>
                 </div>
             </div>

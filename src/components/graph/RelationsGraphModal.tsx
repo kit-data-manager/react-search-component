@@ -1,10 +1,9 @@
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { RelationsGraph } from "@/components/graph/RelationsGraph"
-import { FairDOSearchContext } from "@/components/FairDOSearchContext"
-import { useCallback, useContext } from "react"
-import { SearchContext } from "@elastic/react-search-ui"
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
 import { RelationNode } from "@/lib/RelationNode"
+import { useCallback, useContext } from "react"
+import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 
 export function RelationsGraphModal({
     isOpen,
@@ -17,16 +16,14 @@ export function RelationsGraphModal({
     base: RelationNode
     referenced: RelationNode[]
 }) {
-    const searchApi = useContext(SearchContext)
+    const searchContext = useContext(FairDOSearchContext)
 
-    const searchFor = useCallback(
+    const localSearchFor = useCallback(
         (query: string) => {
             onOpenChange(false)
-            searchApi.driver.clearFilters()
-            searchApi.driver.setSearchTerm(query)
-            window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+            searchContext.searchFor(query)
         },
-        [onOpenChange, searchApi.driver]
+        [onOpenChange, searchContext]
     )
 
     return (
@@ -36,7 +33,9 @@ export function RelationsGraphModal({
                     <DialogTitle>FDOs related to {base.label}</DialogTitle>
                 </VisuallyHidden.Root>
 
-                <FairDOSearchContext.Provider value={{ searchFor, searchTerm: "" }}>
+                <FairDOSearchContext.Provider
+                    value={{ searchFor: localSearchFor, searchTerm: searchContext.searchTerm }}
+                >
                     <RelationsGraph base={base} referenced={referenced} />
                 </FairDOSearchContext.Provider>
             </DialogContent>

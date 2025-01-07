@@ -82,7 +82,7 @@ export function PlainNode(data: NodeProps) {
                 <div className="overflow-hidden">
                     <div className="flex p-4 pt-0 gap-4">
                         {relationNode.searchQuery && (
-                            <Button className="grow" variant="secondary" onClick={executeFind}>
+                            <Button className="grow" onClick={executeFind}>
                                 <Search className="w-4 h-4" /> Find
                             </Button>
                         )}
@@ -94,7 +94,7 @@ export function PlainNode(data: NodeProps) {
                                 rel="noopener noreferrer"
                                 className="grow"
                             >
-                                <Button className="w-full">
+                                <Button className="w-full" variant="secondary">
                                     <ExternalLink className="w-4 h-4" /> Open
                                 </Button>
                             </a>
