@@ -11,7 +11,7 @@ import {
 
 export function DefaultSearchBox(props: InputViewProps) {
     return (
-        <div className="flex w-full items-center md:flex-row flex-col gap-4">
+        <div className="relative flex w-full items-center md:flex-row flex-col gap-4 max-w-[1300px]">
             <SearchIcon className="w-4 h-4 absolute left-4 md:top-auto top-3 text-muted-foreground" />
             <Input
                 {...props.getInputProps()}

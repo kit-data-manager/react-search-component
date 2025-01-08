@@ -23,7 +23,7 @@ export const Default: Story = {
             hadPrimarySource: "https://www.example.com/",
             licenseURL: "https://www.example.com/",
             digitalObjectType: "21.T11148/ca9fd0b2414177b79ac2",
-            "locationPreview/Sample": "/src/assets/react.svg",
+            "locationPreview/Sample": "/react.svg",
             hasMetadata: "mockMetadataPID",
             isMetadataFor: ["mockPID1", "mockPID2", "mockPID3", "mockPID4"]
         }
