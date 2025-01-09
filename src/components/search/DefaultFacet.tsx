@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { PlusIcon, Search } from "lucide-react"
 import { useEffect, useMemo, useRef, useState } from "react"
+import { PidDisplay } from "@/components/result/PidDisplay"
 
 export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvider }) {
     const [search, setSearch] = useState("")
@@ -15,11 +16,10 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvi
         return props.config.getFacetFields().find((f) => f.label === props.label)
     }, [props.config, props.label])
 
-    const OptionsTextDisplay = useMemo(() => {
-        return selfConfig?.optionsTextDisplay ?? ((props: { text: string }) => props.text)
-    }, [selfConfig?.optionsTextDisplay])
-
     const onSearchDebounced = useRef(props.onSearch)
+    useEffect(() => {
+        onSearchDebounced.current = props.onSearch
+    }, [props.onSearch])
 
     useEffect(() => {
         onSearchDebounced.current(search)
@@ -47,22 +47,15 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvi
             {props.options.map((option) => {
                 const id = option.value.toString()
                 return (
-                    <div
-                        key={id}
-                        className="flex max-w-full items-center gap-2 break-words p-1 pb-2"
-                    >
-                        <Checkbox
-                            id={id}
-                            checked={option.selected}
-                            onCheckedChange={(v) =>
-                                v
-                                    ? props.onSelect(option.value.toString())
-                                    : props.onRemove(option.value.toString())
-                            }
-                        />
+                    <div key={id} className="flex max-w-full items-center gap-2 break-words p-1 pb-2">
+                        <Checkbox id={id} checked={option.selected} onCheckedChange={(v) => (v ? props.onSelect(option.value.toString()) : props.onRemove(option.value.toString()))} />
                         <Label htmlFor={id} className="min-w-0 grow break-words">
                             {option.value.toString() ? (
-                                <OptionsTextDisplay text={option.value.toString()} />
+                                selfConfig.usePidResolver ? (
+                                    <PidDisplay pid={option.value.toString()} />
+                                ) : (
+                                    option.value.toString()
+                                )
                             ) : (
                                 <span className="text-muted-foreground">None</span>
                             )}

@@ -16,33 +16,32 @@ const demoConfig: FairDOConfig = {
             facets: [
                 {
                     key: "resourceType.keyword",
-                    label: "Resource Type",
+                    label: "Resource Type"
                 },
                 {
                     key: "digitalObjectType.keyword",
                     label: "File Type",
-                    // optionsTextDisplay: (props) => <PidDisplay pid={props.text} />
+                    usePidResolver: true
                 },
                 {
                     key: "hadPrimarySource.keyword",
-                    label: "Source",
+                    label: "Source"
                 },
                 {
                     key: "licenseURL.keyword",
-                    label: "License",
+                    label: "License"
                 },
                 {
                     key: "NMR_Method.keyword",
-                    label: "NMR Method",
-                    // optionsTextDisplay: (props) => <PidDisplay pid={props.text} />
-                },
+                    label: "NMR Method"
+                }
             ],
             resultFields: [], // Leave empty to get all fields
             searchFields: ["name", "pid", "hasMetadata", "isMetadataFor", "NMR_Method"],
-            fieldMappings: {},
-        },
+            fieldMappings: {}
+        }
     ],
-    disjunctiveFacets: [],
+    disjunctiveFacets: []
 }
 
 export default function Page() {

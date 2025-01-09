@@ -1,19 +1,12 @@
 # fairdo-elastic-search
 
-## Development
+Install dependencies with
 
-### Prerequisites
+    npm install
 
- - Node.js 16 or newer (prefer 22)
- - npm (comes with Node.js)
+Run development server with
 
-Local development is done via Storybook. To start the web interface simply execute this in the terminal:
+    npm run dev
 
-```bash
-  npm install
-  npm run storybook
-```
+Deploy using provided docker compose (Runs on port 3000, should be placed behind a reverse proxy)
 
-## Publishing
-
-For local testing you can use `npm pack`. To publish to the npm registry, use `npm publish`

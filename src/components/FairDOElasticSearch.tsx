@@ -9,25 +9,9 @@ import { ClearFilters } from "@/components/search/ClearFilters"
 import { DefaultFacet } from "@/components/search/DefaultFacet"
 import { DefaultSearchBox } from "@/components/search/DefaultSearchBox"
 import { ErrorView } from "@/components/search/ErrorView"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue
-} from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
-import {
-    ErrorBoundary,
-    Facet,
-    Paging,
-    PagingInfo,
-    Results,
-    ResultsPerPage,
-    SearchBox,
-    SearchProvider,
-    WithSearch
-} from "@elastic/react-search-ui"
+import { ErrorBoundary, Facet, Paging, PagingInfo, Results, ResultsPerPage, SearchBox, SearchProvider, WithSearch } from "@elastic/react-search-ui"
 import { Layout } from "@elastic/react-search-ui-views"
 import { LoaderCircle } from "lucide-react"
 import { useMemo } from "react"
@@ -96,17 +80,8 @@ export function FairDOElasticSearch({
                                                     <Facet
                                                         key={field.key}
                                                         field={field.key}
-                                                        label={
-                                                            field.label
-                                                                ? field.label
-                                                                : field.key.substring(0, 20)
-                                                        }
-                                                        view={(props) => (
-                                                            <DefaultFacet
-                                                                {...props}
-                                                                config={config}
-                                                            />
-                                                        )}
+                                                        label={field.label ? field.label : field.key.substring(0, 20)}
+                                                        view={(props) => <DefaultFacet {...props} config={config} />}
                                                         isFilterable={field.isFilterable}
                                                     />
                                                 ))}
@@ -121,17 +96,7 @@ export function FairDOElasticSearch({
                                                     </div>
                                                 )}
 
-                                                <Results
-                                                    shouldTrackClickThrough
-                                                    resultView={(props) => (
-                                                        <>
-                                                            <NMRResultView
-                                                                result={props.result}
-                                                                debug={debug}
-                                                            />
-                                                        </>
-                                                    )}
-                                                />
+                                                <Results shouldTrackClickThrough resultView={(props) => <NMRResultView result={props.result} debug={debug} />} />
                                             </>
                                         }
                                         bodyHeader={
@@ -140,10 +105,8 @@ export function FairDOElasticSearch({
                                                     <PagingInfo
                                                         view={(props) => (
                                                             <div>
-                                                                Showing {props.start} -{props.end}{" "}
-                                                                out of {props.totalResults}
-                                                                {props.searchTerm &&
-                                                                    ` - Searching for "${props.searchTerm}"`}
+                                                                Showing {props.start} -{props.end} out of {props.totalResults}
+                                                                {props.searchTerm && ` - Searching for "${props.searchTerm}"`}
                                                             </div>
                                                         )}
                                                     />
@@ -154,34 +117,18 @@ export function FairDOElasticSearch({
                                                             return (
                                                                 <div className="flex h-full items-center gap-2">
                                                                     <div>Results per Page</div>
-                                                                    <Select
-                                                                        value={`${props.value}`}
-                                                                        onValueChange={(v) =>
-                                                                            props.onChange(
-                                                                                Number.parseInt(v)
-                                                                            )
-                                                                        }
-                                                                    >
+                                                                    <Select value={`${props.value}`} onValueChange={(v) => props.onChange(Number.parseInt(v))}>
                                                                         <SelectTrigger className="w-[80px]">
                                                                             <SelectValue />
                                                                         </SelectTrigger>
                                                                         <SelectContent>
-                                                                            {props.options?.map(
-                                                                                (option) => {
-                                                                                    return (
-                                                                                        <SelectItem
-                                                                                            value={`${
-                                                                                                option
-                                                                                            }`}
-                                                                                            key={
-                                                                                                option
-                                                                                            }
-                                                                                        >
-                                                                                            {option}
-                                                                                        </SelectItem>
-                                                                                    )
-                                                                                }
-                                                                            )}
+                                                                            {props.options?.map((option) => {
+                                                                                return (
+                                                                                    <SelectItem value={`${option}`} key={option}>
+                                                                                        {option}
+                                                                                    </SelectItem>
+                                                                                )
+                                                                            })}
                                                                         </SelectContent>
                                                                     </Select>
                                                                 </div>

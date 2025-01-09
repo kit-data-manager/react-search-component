@@ -1,10 +1,8 @@
-import type { ComponentType } from "react"
-
 export interface FairDOCoreFacetConfig {
     key: string
     label: string
     isFilterable?: boolean
-    optionsTextDisplay?: ComponentType<{ text: string }>
+    usePidResolver?: boolean
 }
 
 export interface FairDONumericRangeFacetConfig extends FairDOCoreFacetConfig {
@@ -20,14 +18,9 @@ export interface FairDODateRangeFacetConfig extends FairDOCoreFacetConfig {
 
 export type FairDODefaultFacetConfig = FairDOCoreFacetConfig
 
-export type FairDOFacetConfig =
-    | FairDONumericRangeFacetConfig
-    | FairDODefaultFacetConfig
-    | FairDODateRangeFacetConfig
+export type FairDOFacetConfig = FairDONumericRangeFacetConfig | FairDODefaultFacetConfig | FairDODateRangeFacetConfig
 
-type ExtensibleField<A extends object> =
-    | string
-    | ({ field: string; valueMapper?: (fieldValue: unknown) => string } & A)
+type ExtensibleField<A extends object> = string | ({ field: string; valueMapper?: (fieldValue: unknown) => string } & A)
 
 export interface FairDOFieldMappingConfig {
     title?: ExtensibleField<{ label: string }>
