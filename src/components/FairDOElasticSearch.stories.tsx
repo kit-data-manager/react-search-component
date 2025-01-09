@@ -76,6 +76,10 @@ const demoConfig: FairDOConfig = {
             name: "fdo-test-1",
             facets: [
                 {
+                    key: "resourceType.keyword",
+                    label: "Resource Type"
+                },
+                {
                     key: "digitalObjectType.keyword",
                     label: "File Type",
                     optionsTextDisplay: (props) => <PidDisplay pid={props.text} />
@@ -85,17 +89,17 @@ const demoConfig: FairDOConfig = {
                     label: "Source"
                 },
                 {
-                    key: "dateCreatedRfc3339",
-                    label: "Created",
-                    type: "date_year"
-                },
-                {
                     key: "licenseURL.keyword",
                     label: "License"
+                },
+                {
+                    key: "NMR_Method.keyword",
+                    label: "NMR Method",
+                    optionsTextDisplay: (props) => <PidDisplay pid={props.text} />
                 }
             ],
             resultFields: [], // Leave empty to get all fields
-            searchFields: ["name", "pid", "hasMetadata", "isMetadataFor"],
+            searchFields: ["name", "pid", "hasMetadata", "isMetadataFor", "NMR_Method"],
             fieldMappings: {}
         }
     ],
