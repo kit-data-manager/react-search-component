@@ -1,11 +1,14 @@
-import { SearchResult } from "@elastic/search-ui"
-import { useMemo } from "react"
-import { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
+import type { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
+import type { SearchResult } from "@elastic/search-ui"
 import { DataCard } from "data-card-react"
+import { useMemo } from "react"
 
 function autoUnwrap(item: string | { raw: string }) {
-    if (typeof item === "string") return item
-    else return item.raw
+    if (typeof item === "string") {
+        return item
+    } else {
+        return item.raw
+    }
 }
 
 /**
@@ -30,13 +33,17 @@ export function ResultView({
     }, [config, index])
 
     const titleValue = useMemo(() => {
-        if (!indexConfig) return `No mapper configured for index ${index}`
+        if (!indexConfig) {
+            return `No mapper configured for index ${index}`
+        }
 
         if (typeof indexConfig.title === "string") {
             return autoUnwrap(result[indexConfig.title])
         } else if (indexConfig.title) {
             let value = autoUnwrap(result[indexConfig.title.field])
-            if (indexConfig.title.valueMapper) value = indexConfig.title.valueMapper(value)
+            if (indexConfig.title.valueMapper) {
+                value = indexConfig.title.valueMapper(value)
+            }
 
             return indexConfig.title.label
                 ? {

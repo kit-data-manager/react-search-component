@@ -16,7 +16,7 @@ export class BasicRelationNode implements RelationNode {
         public label: string = ""
     ) {
         this.label = label ?? ""
-        this.remoteURL = "https://hdl.handle.net/" + id
+        this.remoteURL = `https://hdl.handle.net/${id}`
         this.searchQuery = id
     }
 }

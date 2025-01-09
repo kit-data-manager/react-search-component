@@ -1,5 +1,5 @@
 services:
-  storybook:
-    build: .
-    ports:
-      - "6006:6006"
+    storybook:
+        build: .
+        ports:
+            - "6006:6006"

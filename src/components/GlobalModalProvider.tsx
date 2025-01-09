@@ -1,8 +1,11 @@
-import { PropsWithChildren, useCallback, useState } from "react"
+"use client"
+
+import type { RelationNode } from "@/lib/RelationNode"
+import type { PropsWithChildren } from "react"
 import { RelationsGraphModal } from "@/components/graph/RelationsGraphModal"
-import { GlobalModalContext } from "./GlobalModalContext"
 import { ReactFlowProvider } from "@xyflow/react"
-import { RelationNode } from "@/lib/RelationNode"
+import { useCallback, useState } from "react"
+import { GlobalModalContext } from "./GlobalModalContext"
 
 export function GlobalModalProvider(props: PropsWithChildren) {
     const [relationGraphState, setRelationGraphState] = useState<{
@@ -17,8 +20,8 @@ export function GlobalModalProvider(props: PropsWithChildren) {
 
     const openRelationGraph = useCallback((base: RelationNode, referenced: RelationNode[]) => {
         setRelationGraphState({
-            base: base,
-            referenced: referenced,
+            base,
+            referenced,
             isOpen: true
         })
     }, [])

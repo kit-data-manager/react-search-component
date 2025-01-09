@@ -1,10 +1,11 @@
+import type { FairDOConfig } from "@/config/FairDOConfig"
+import type { SearchContextState } from "@elastic/search-ui"
+import type { PropsWithChildren } from "react"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext"
-import { PropsWithChildren, useCallback, useMemo } from "react"
-import { WithSearch } from "@elastic/react-search-ui"
-import { SearchContextState } from "@elastic/search-ui"
-import { FairDOConfig } from "@/config/FairDOConfig"
 import { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
 import { arrayToObjectEntries } from "@/lib/utils"
+import { WithSearch } from "@elastic/react-search-ui"
+import { useCallback, useMemo } from "react"
 
 /**
  * Extends the elasticsearch SearchContext with additional functionality. This provider automatically

@@ -1,11 +1,14 @@
-import { PIDData, PIDDataSchema } from "@/lib/PIDDataType"
+import type { PIDData } from "@/lib/PIDDataType"
+import { PIDDataSchema } from "@/lib/PIDDataType"
 
 export class PidResolver {
     private readonly resolverUrl = "https://hdl.handle.net/"
     private cache: Map<string, PIDData | Promise<PIDData>> = new Map()
 
     async resolve(pid: string) {
-        if (!PidResolver.isPID(pid)) throw `Tried to resolve something that is not a pid ${pid}`
+        if (!PidResolver.isPID(pid)) {
+            throw `Tried to resolve something that is not a pid ${pid}`
+        }
 
         if (this.cache.has(pid)) {
             return this.cache.get(pid)!
@@ -16,7 +19,9 @@ export class PidResolver {
                         if (resolved) {
                             this.cache.set(pid, resolved)
                             resolve(resolved)
-                        } else reject()
+                        } else {
+                            reject()
+                        }
                     })
                     .catch(reject)
             })
@@ -26,7 +31,7 @@ export class PidResolver {
     }
 
     static isPID(text: string): boolean {
-        return new RegExp("^([0-9A-Za-z])+.([0-9A-Za-z])+/([!-~])+$").test(text)
+        return new RegExp("^([0-9A-Z])+.([0-9A-Z])+/([!-~])+$", "i").test(text)
     }
 
     private async resolveFromRemote(pid: string) {

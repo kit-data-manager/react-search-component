@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
-import { NMRResultView } from "./NMRResultView"
-import { DateTime } from "luxon"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 import { GlobalModalProvider } from "@/components/GlobalModalProvider"
+import { DateTime } from "luxon"
+import { NMRResultView } from "./NMRResultView"
 
 const meta = {
     component: NMRResultView

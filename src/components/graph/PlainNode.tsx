@@ -1,11 +1,12 @@
-import { Handle, NodeProps, Position } from "@xyflow/react"
-import { useCallback, useContext, useMemo, useRef } from "react"
+import type { RelationNode } from "@/lib/RelationNode"
+import type { NodeProps } from "@xyflow/react"
+import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Handle, Position } from "@xyflow/react"
 import { ExternalLink, Search } from "lucide-react"
+import { useCallback, useContext, useMemo, useRef } from "react"
 import { createStore, useStore } from "zustand"
-import { FairDOSearchContext } from "@/components/FairDOSearchContext"
-import { RelationNode } from "@/lib/RelationNode"
 
 interface PlainNodeStore {
     activeNodeLabel: string
@@ -31,7 +32,7 @@ const plainNodeStore = createStore<PlainNodeStore>()((set) => ({
 export function PlainNode(data: NodeProps) {
     const { searchFor } = useContext(FairDOSearchContext)
 
-    const nodeLabel = useRef(Math.random() + "")
+    const nodeLabel = useRef(`${Math.random()}`)
     const activeNodeLabel = useStore(plainNodeStore, (s) => s.activeNodeLabel)
     const setActiveNodeLabel = useStore(plainNodeStore, (s) => s.setActiveNodeLabel)
     const unsetActiveNodeLabel = useStore(plainNodeStore, (s) => s.unsetActiveNodeLabel)
@@ -53,17 +54,19 @@ export function PlainNode(data: NodeProps) {
     }, [expand, setActiveNodeLabel, unsetActiveNodeLabel])
 
     const executeFind = useCallback(() => {
-        if (relationNode.searchQuery) searchFor(relationNode.searchQuery)
+        if (relationNode.searchQuery) {
+            searchFor(relationNode.searchQuery)
+        }
     }, [relationNode.searchQuery, searchFor])
 
     return (
         <>
             <Handle type="target" position={Position.Left} />
             <div
-                className={`border border-border bg-background rounded-lg grid transition-all ${expand ? "grid-rows-[auto_1fr] shadow-lg" : "grid-rows-[auto_0fr]"}`}
+                className={`grid rounded-lg border border-border bg-background transition-all ${expand ? "grid-rows-[auto_1fr] shadow-lg" : "grid-rows-[auto_0fr]"}`}
             >
                 <div onClick={toggleExpand} className="p-4">
-                    <div className="flex gap-3 items-centers">
+                    <div className="items-centers flex gap-3">
                         <div className="flex items-center">
                             <Badge>{relationNode.tag ?? "FDO"}</Badge>
                         </div>
@@ -80,10 +83,10 @@ export function PlainNode(data: NodeProps) {
                     </div>
                 </div>
                 <div className="overflow-hidden">
-                    <div className="flex p-4 pt-0 gap-4">
+                    <div className="flex gap-4 p-4 pt-0">
                         {relationNode.searchQuery && (
                             <Button className="grow" onClick={executeFind}>
-                                <Search className="w-4 h-4" /> Find
+                                <Search className="size-4" /> Find
                             </Button>
                         )}
 
@@ -95,7 +98,7 @@ export function PlainNode(data: NodeProps) {
                                 className="grow"
                             >
                                 <Button className="w-full" variant="secondary">
-                                    <ExternalLink className="w-4 h-4" /> Open
+                                    <ExternalLink className="size-4" /> Open
                                 </Button>
                             </a>
                         )}

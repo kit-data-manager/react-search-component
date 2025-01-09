@@ -1,16 +1,16 @@
 import type { Preview } from "@storybook/react"
-import "../src/index.css"
-
 import { withThemeByClassName } from "@storybook/addon-themes"
+
+import "../src/index.css"
 
 const preview: Preview = {
     parameters: {
         controls: {
             matchers: {
                 color: /(background|color)$/i,
-                date: /Date$/i
-            }
-        }
+                date: /Date$/i,
+            },
+        },
     },
 
     decorators: [
@@ -18,11 +18,11 @@ const preview: Preview = {
             themes: {
                 // nameOfTheme: 'classNameForTheme',
                 light: "",
-                dark: "dark"
+                dark: "dark",
             },
-            defaultTheme: "light"
-        })
-    ]
+            defaultTheme: "light",
+        }),
+    ],
 }
 
 export default preview

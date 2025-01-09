@@ -1,19 +1,15 @@
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { FacetViewProps } from "@elastic/react-search-ui-views"
+import type { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
+import type { FacetViewProps } from "@elastic/react-search-ui-views"
 import { Button } from "@/components/ui/button"
-import { PlusIcon, Search } from "lucide-react"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
-import { useEffect, useMemo, useState } from "react"
-import { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
+import { Label } from "@/components/ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { PlusIcon, Search } from "lucide-react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvider }) {
     const [search, setSearch] = useState("")
-
-    useEffect(() => {
-        props.onSearch(search)
-    }, [props, search])
 
     const selfConfig = useMemo(() => {
         return props.config.getFacetFields().find((f) => f.label === props.label)
@@ -23,15 +19,21 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvi
         return selfConfig?.optionsTextDisplay ?? ((props: { text: string }) => props.text)
     }, [selfConfig?.optionsTextDisplay])
 
+    const onSearchDebounced = useRef(props.onSearch)
+
+    useEffect(() => {
+        onSearchDebounced.current(search)
+    }, [search])
+
     return (
-        <div className="p-4 rounded-lg">
-            <div className="flex justify-between items-center min-h-[40px]">
+        <div className="rounded-lg p-4">
+            <div className="flex min-h-[40px] items-center justify-between">
                 <div className="text-sm font-bold">{props.label}</div>
                 {props.showSearch && (
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button variant={search ? "default" : "ghost"} size="icon">
-                                <Search className="w-4 h-4" />
+                                <Search className="size-4" />
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent>
@@ -47,7 +49,7 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvi
                 return (
                     <div
                         key={id}
-                        className="flex items-center p-1 pb-2 gap-2 max-w-full break-words"
+                        className="flex max-w-full items-center gap-2 break-words p-1 pb-2"
                     >
                         <Checkbox
                             id={id}
@@ -58,7 +60,7 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvi
                                     : props.onRemove(option.value.toString())
                             }
                         />
-                        <Label htmlFor={id} className="grow break-words min-w-0">
+                        <Label htmlFor={id} className="min-w-0 grow break-words">
                             {option.value.toString() ? (
                                 <OptionsTextDisplay text={option.value.toString()} />
                             ) : (
@@ -71,8 +73,8 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvi
             })}
 
             {props.showMore ? (
-                <Button className="p-1" onClick={props.onMoreClick} size={"sm"} variant="link">
-                    <PlusIcon className="w-4 h-4" /> Show more
+                <Button className="p-1" onClick={props.onMoreClick} size="sm" variant="link">
+                    <PlusIcon className="size-4" /> Show more
                 </Button>
             ) : null}
         </div>

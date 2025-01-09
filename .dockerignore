@@ -3,3 +3,4 @@ _elasticdata
 node_modules
 storybook-static
 out
+.next

@@ -1,9 +1,9 @@
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
-import { RelationsGraph } from "@/components/graph/RelationsGraph"
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
-import { RelationNode } from "@/lib/RelationNode"
-import { useCallback, useContext } from "react"
+import type { RelationNode } from "@/lib/RelationNode"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext"
+import { RelationsGraph } from "@/components/graph/RelationsGraph"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
+import { useCallback, useContext } from "react"
 
 export function RelationsGraphModal({
     isOpen,
@@ -12,7 +12,7 @@ export function RelationsGraphModal({
     referenced
 }: {
     isOpen: boolean
-    onOpenChange(val: boolean): void
+    onOpenChange: (val: boolean) => void
     base: RelationNode
     referenced: RelationNode[]
 }) {
@@ -28,9 +28,12 @@ export function RelationsGraphModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className=" p-0 min-w-[500px] max-w-[min(calc(100vw-40px),1500px)] h-max min-h-[500px] max-h-[min(100vh,800px)]">
+            <DialogContent className=" h-max max-h-[min(100vh,800px)] min-h-[500px] min-w-[500px] max-w-[min(calc(100vw-40px),1500px)] p-0">
                 <VisuallyHidden.Root>
-                    <DialogTitle>FDOs related to {base.label}</DialogTitle>
+                    <DialogTitle>
+                        FDOs related to
+                        {base.label}
+                    </DialogTitle>
                 </VisuallyHidden.Root>
 
                 <FairDOSearchContext.Provider

@@ -1,8 +1,21 @@
-import { SearchResult } from "@elastic/search-ui"
-import { useCallback, useContext, useEffect, useMemo } from "react"
+"use client"
+
+import type { SearchResult } from "@elastic/search-ui"
+import { FairDOSearchContext } from "@/components/FairDOSearchContext"
+import { GlobalModalContext } from "@/components/GlobalModalContext"
+import { ObjectRender } from "@/components/result/ObjectRender"
+import { PidDisplay } from "@/components/result/PidDisplay"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ObjectRender } from "@/components/result/ObjectRender"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
+import { BasicRelationNode } from "@/lib/RelationNode"
+import { resultCache } from "@/lib/ResultCache"
 import {
     BookText,
     ChevronDown,
@@ -16,32 +29,31 @@ import {
     Scale
 } from "lucide-react"
 import { DateTime } from "luxon"
-import { PidDisplay } from "@/components/result/PidDisplay"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { GlobalModalContext } from "@/components/GlobalModalContext"
-import { FairDOSearchContext } from "@/components/FairDOSearchContext"
-import { BasicRelationNode } from "@/lib/RelationNode"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
+import { useCallback, useContext, useEffect, useMemo } from "react"
 import { useStore } from "zustand"
-import { resultCache } from "@/lib/ResultCache"
+import Image from "next/image"
 
 function autoUnwrap(item: string | { raw: string }) {
-    if (typeof item === "string") return item
-    else if (typeof item === "object" && "raw" in item && typeof item.raw === "string")
+    if (typeof item === "string") {
+        return item
+    } else if (typeof item === "object" && "raw" in item && typeof item.raw === "string") {
         return item.raw
-    else return JSON.stringify(item)
+    } else {
+        return JSON.stringify(item)
+    }
 }
 
 function autoUnwrapArray(item: string[] | { raw: string[] }) {
-    if (!item) return []
-    if (Array.isArray(item)) return item
-    else if (typeof item === "object" && "raw" in item && Array.isArray(item.raw)) return item.raw
-    else return [JSON.stringify(item)]
+    if (!item) {
+        return []
+    }
+    if (Array.isArray(item)) {
+        return item
+    } else if (typeof item === "object" && "raw" in item && Array.isArray(item.raw)) {
+        return item.raw
+    } else {
+        return [JSON.stringify(item)]
+    }
 }
 
 /**
@@ -73,8 +85,10 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
     const pid = useMemo(() => {
         const _pid = getField("pid")
         if (_pid && _pid.startsWith("https://")) {
-            return /https:\/\/.*?\/(.*)/gm.exec(_pid)?.[1] ?? _pid
-        } else return _pid
+            return /https:\/\/.*?\/(.*)/.exec(_pid)?.[1] ?? _pid
+        } else {
+            return _pid
+        }
     }, [getField])
 
     const title = useMemo(() => {
@@ -193,66 +207,68 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
 
     return (
         <div
-            className={`m-2 p-4 border border-border rounded-lg ${exactPidMatch ? "animate-outline-ping" : ""}`}
+            className={`m-2 rounded-lg border border-border p-4 ${exactPidMatch ? "animate-outline-ping" : ""}`}
         >
-            <div className="grid md:grid-cols-[200px_1fr] md:grid-rows-1 grid-rows-[100px_1fr] md:max-w-full overflow-x-auto gap-4">
-                <div className="flex justify-center md:items-center md:p-2 dark:bg-white rounded">
+            <div className="grid grid-rows-[100px_1fr] gap-4 overflow-x-auto md:max-w-full md:grid-cols-[200px_1fr] md:grid-rows-1">
+                <div className="flex justify-center rounded dark:bg-white md:items-center md:p-2">
                     {previewImage ? (
-                        <img
-                            className="md:w-[200px] md:h-[200px]"
+                        <Image
+                            className="md:size-[200px]"
                             src={previewImage}
-                            alt={"Preview for " + title}
+                            alt={`Preview for ${title}`}
+                            width={200}
+                            height={200}
                         />
                     ) : (
                         <div className="flex flex-col justify-center dark:text-background">
-                            <ImageOff className="w-6 h-6 text-muted-foreground/50" />
+                            <ImageOff className="size-6 text-muted-foreground/50" />
                         </div>
                     )}
                 </div>
-                <div className="flex flex-col md:max-w-full overflow-x-auto">
+                <div className="flex flex-col overflow-x-auto md:max-w-full">
                     {exactPidMatch && (
                         <div className="mb-2">
                             <Badge>Exact Match</Badge>
                         </div>
                     )}
-                    <div className="md:text-xl font-bold">
+                    <div className="font-bold md:text-xl">
                         {title}
-                        <span className="ml-2 font-normal text-sm text-muted-foreground">
-                            {identifier} - {creationDate}
+                        <span className="ml-2 text-sm font-normal text-muted-foreground">
+                            {identifier} -{creationDate}
                         </span>
                     </div>
                     <a
-                        href={"https://hdl.handle.net/" + id}
+                        href={`https://hdl.handle.net/${id}`}
                         target="_blank"
-                        className="hover:underline mb-2 block leading-3"
+                        className="mb-2 block leading-3 hover:underline"
                     >
                         <span className="text-sm text-muted-foreground">{id}</span>
                     </a>
-                    <div className="flex gap-2 flex-wrap">
+                    <div className="flex flex-wrap gap-2">
                         <Badge variant="secondary" className="truncate">
-                            <span className="truncate flex">
-                                <GraduationCap className="w-4 h-4 mr-2 shrink-0" /> {resourceType}
+                            <span className="flex truncate">
+                                <GraduationCap className="mr-2 size-4 shrink-0" /> {resourceType}
                             </span>
                         </Badge>
                         <Badge variant="secondary" className="truncate">
-                            <span className="truncate flex">
-                                <Globe className="w-4 h-4 mr-2 shrink-0" /> {hadPrimarySource}
+                            <span className="flex truncate">
+                                <Globe className="mr-2 size-4 shrink-0" /> {hadPrimarySource}
                             </span>
                         </Badge>
                         <Badge variant="secondary" className="truncate">
-                            <span className="truncate flex">
-                                <Scale className="w-4 h-4 mr-2 shrink-0" />️ {license}
+                            <span className="flex truncate">
+                                <Scale className="mr-2 size-4 shrink-0" />️{license}
                             </span>
                         </Badge>
                         <Badge variant="secondary" className="truncate">
-                            <span className="truncate flex">
-                                <File className="w-4 h-4 mr-2 shrink-0" />
+                            <span className="flex truncate">
+                                <File className="mr-2 size-4 shrink-0" />
                                 <PidDisplay pid={fileType} />
                             </span>
                         </Badge>
                     </div>
                     <div className="grow"></div>
-                    <div className="flex gap-2 md:gap-4 md:items-center mt-8 justify-end md:flex-row flex-col flex-wrap">
+                    <div className="mt-8 flex flex-col flex-wrap justify-end gap-2 md:flex-row md:items-center md:gap-4">
                         {debug && (
                             <Dialog>
                                 <DialogTrigger asChild>
@@ -260,9 +276,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                                         Show FDO
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent
-                                    className={"max-w-[1000px] max-h-full overflow-y-auto"}
-                                >
+                                <DialogContent className="max-h-full max-w-[1000px] overflow-y-auto">
                                     <ObjectRender data={result} />
                                 </DialogContent>
                             </Dialog>
@@ -270,15 +284,15 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                         {isMetadataFor.length > 0 && (
                             <div className="flex items-center">
                                 <Button
-                                    className="rounded-r-none grow"
+                                    className="grow rounded-r-none"
                                     size="sm"
                                     variant="secondary"
                                     onClick={showRelatedItems}
                                 >
-                                    <GitFork className="w-4 h-4 mr-1" /> Show Related Items
+                                    <GitFork className="mr-1 size-4" /> Show Related Items
                                 </Button>
                                 <Button
-                                    className="border-l border-l-border rounded-l-none text-xs font-bold"
+                                    className="rounded-l-none border-l border-l-border text-xs font-bold"
                                     size="sm"
                                     variant="secondary"
                                     onClick={showRelatedItems}
@@ -294,37 +308,36 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                                 variant="secondary"
                                 onClick={goToMetadata}
                             >
-                                <BookText className="w-4 h-4 mr-1" /> Find Metadata
+                                <BookText className="mr-1 size-4" /> Find Metadata
                             </Button>
                         )}
 
                         <div className="flex items-center">
-                            <a href={doLocation} target={"_blank"} className="grow">
+                            <a href={doLocation} target="_blank" className="grow">
                                 <Button size="sm" className="w-full rounded-r-none px-4">
                                     Open
                                 </Button>
                             </a>
                             <DropdownMenu>
-                                <DropdownMenuTrigger asChild={true}>
+                                <DropdownMenuTrigger asChild>
                                     <Button size="sm" className="rounded-l-none border-l">
-                                        <ChevronDown className="w-4 h-4 mr-1" />
+                                        <ChevronDown className="mr-1 size-4" />
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
-                                    <a href={doLocation} target={"_blank"}>
+                                    <a href={doLocation} target="_blank">
                                         <DropdownMenuItem>
-                                            <LinkIcon className="w-4 h-4 mr-1" /> Open Source
+                                            <LinkIcon className="mr-1 size-4" /> Open Source
                                         </DropdownMenuItem>
                                     </a>
                                     <a
-                                        href={
-                                            "https://kit-data-manager.github.io/fairdoscope/?pid=" +
+                                        href={`https://kit-data-manager.github.io/fairdoscope/?pid=${
                                             pid
-                                        }
-                                        target={"_blank"}
+                                        }`}
+                                        target="_blank"
                                     >
                                         <DropdownMenuItem>
-                                            <Microscope className="w-4 h-4 mr-1" /> Open in
+                                            <Microscope className="mr-1 size-4" /> Open in
                                             FAIR-DOscope
                                         </DropdownMenuItem>
                                     </a>

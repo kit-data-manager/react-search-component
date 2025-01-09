@@ -1,5 +1,5 @@
-import { memo, useCallback } from "react"
 import { PidResolver, pidResolver } from "@/lib/pidResolver"
+import { memo, useCallback } from "react"
 import useSWR from "swr"
 
 /**
@@ -19,7 +19,9 @@ export const PidDisplay = memo(function PidDisplay({ pid }: { pid: string }) {
 
     const { data, error } = useSWR(pid, resolveContent)
 
-    if (error) return <div className="text-red-500">{JSON.stringify(error) || "Unknown error"}</div>
+    if (error) {
+        return <div className="text-red-500">{JSON.stringify(error) || "Unknown error"}</div>
+    }
 
     return <span>{data ?? ""}</span>
 })

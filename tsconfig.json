@@ -1,16 +1,38 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" },
-    {
-      "path": "./tsconfig.web.json"
-    }
-  ],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  }
+    "compilerOptions": {
+        "incremental": true,
+        "target": "ES2017",
+        "jsx": "preserve",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "module": "esnext",
+        "moduleResolution": "node",
+        "paths": {
+            "@/*": ["src/*"]
+        },
+        "resolveJsonModule": true,
+        "allowJs": true,
+        "strict": false,
+        "noEmit": true,
+        "esModuleInterop": true,
+        "isolatedModules": true,
+    "skipLibCheck": true,
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ]
+    },
+    "include": [
+        "next-env.d.ts",
+        ".next/types/**/*.ts",
+        "**/*.ts",
+        "**/*.tsx"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

@@ -1,12 +1,12 @@
-import moment from "moment"
-import { FacetConfiguration, FilterValueRange } from "@elastic/search-ui"
-import {
+import type { FacetConfiguration, FilterValueRange } from "@elastic/search-ui"
+import type {
     FairDOConfig,
     FairDODateRangeFacetConfig,
     FairDOFacetConfig,
     FairDONumericRangeFacetConfig
 } from "./FairDOConfig"
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
+import moment from "moment"
 import { parseStringValueToNumber } from "./helpers"
 
 export class FairDOConfigProvider {
@@ -45,7 +45,7 @@ export class FairDOConfigProvider {
         const uniqueKeys: string[] = []
         for (const index of this.getConfig().indices) {
             for (const facet of index.facets) {
-                //check for potential duplicates
+                // check for potential duplicates
                 if (!uniqueKeys.includes(facet.key)) {
                     facets.push(facet)
                     uniqueKeys.push(facet.key)
@@ -68,48 +68,48 @@ export class FairDOConfigProvider {
         let allResultFields: Record<string, { raw: Record<never, never> }> = {}
 
         for (const index of config.indices) {
-            //store index name
+            // store index name
             index_names.push(index.name)
 
-            //obtain search fields
-            allSearchFields = (index["searchFields"] || []).reduce(
-                //accumulate from config.searchFields
+            // obtain search fields
+            allSearchFields = (index.searchFields || []).reduce(
+                // accumulate from config.searchFields
                 (acc, n) => {
-                    //initialize accumulator if acc is not available, yet
+                    // initialize accumulator if acc is not available, yet
                     acc = acc || {}
-                    //set n-element (n is resultFieldKey) in acc
+                    // set n-element (n is resultFieldKey) in acc
                     acc[n] = {}
-                    //return current acc to next iteration
+                    // return current acc to next iteration
                     return acc
                 },
-                //set initial value to already collected fields
+                // set initial value to already collected fields
                 allSearchFields
             )
 
-            //build result fields for current index
-            allResultFields = (index["resultFields"] || []).reduce(
-                //accumulate from index.resultFields
+            // build result fields for current index
+            allResultFields = (index.resultFields || []).reduce(
+                // accumulate from index.resultFields
                 (acc, n) => {
-                    //initialize accumulator if acc is not available, yet
+                    // initialize accumulator if acc is not available, yet
                     acc = acc || {}
-                    //set n-element (n is resultFieldKey) in acc to result object to obtain raw value
+                    // set n-element (n is resultFieldKey) in acc to result object to obtain raw value
                     acc[n] = {
                         raw: {}
-                        /*snippet: {
+                        /* snippet: {
                   size: 100,
                   fallback: true
-                }*/
+                } */
                     }
-                    //return current acc to next iteration
+                    // return current acc to next iteration
                     return acc
                 },
-                //set initial value to already collected fields
+                // set initial value to already collected fields
                 allResultFields
             )
         }
 
         return {
-            index_names: index_names,
+            index_names,
             search_fields: allSearchFields,
             result_fields: allResultFields
         }
@@ -134,7 +134,7 @@ export class FairDOConfigProvider {
                         ranges: facetRanges
                     }
                 } else {
-                    //no specific range facet, use default arguments
+                    // no specific range facet, use default arguments
                     acc[n.key] = {
                         type: "value",
                         size: 100
@@ -149,7 +149,7 @@ export class FairDOConfigProvider {
 
     buildNumericRangeFacet(facetConfig: FairDONumericRangeFacetConfig) {
         const ranges = facetConfig.ranges
-        //ranges are an array which each element in the format <X or X-Y or >Y
+        // ranges are an array which each element in the format <X or X-Y or >Y
         return ranges?.reduce((acc: { to?: number; from?: number; name: string }[], n) => {
             if (n.startsWith("<")) {
                 const toValue = n.replace("<", "")
@@ -177,7 +177,7 @@ export class FairDOConfigProvider {
 
     buildDateRangeFacet(facetConfig: FairDODateRangeFacetConfig) {
         let ranges: FilterValueRange[] = []
-        if (facetConfig["type"] === "date_year") {
+        if (facetConfig.type === "date_year") {
             ranges = [
                 {
                     from: moment().format("yyyy"),
@@ -198,7 +198,7 @@ export class FairDOConfigProvider {
                     name: "Older"
                 }
             ]
-        } else if (facetConfig["type"] === "date_time") {
+        } else if (facetConfig.type === "date_time") {
             ranges = [
                 {
                     from: moment()
@@ -273,7 +273,7 @@ export class FairDOConfigProvider {
     }
 
     getAutocompleteQueryConfig() {
-        /*const querySuggestFields = getConfig().querySuggestFields
+        /* const querySuggestFields = getConfig().querySuggestFields
         if (
             !querySuggestFields ||
             !Array.isArray(querySuggestFields) ||
@@ -290,7 +290,7 @@ export class FairDOConfigProvider {
                     }
                 }
             }
-        }*/
+        } */
         return {}
     }
 }

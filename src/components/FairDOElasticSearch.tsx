@@ -1,21 +1,14 @@
-import { Layout } from "@elastic/react-search-ui-views"
-import {
-    ErrorBoundary,
-    Facet,
-    Paging,
-    PagingInfo,
-    Results,
-    ResultsPerPage,
-    SearchProvider,
-    WithSearch,
-    SearchBox
-} from "@elastic/react-search-ui"
-import { useMemo } from "react"
-import { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
-import "../elastic-ui.css"
-import { DefaultSearchBox } from "@/components/search/DefaultSearchBox"
-import { DefaultFacet } from "@/components/search/DefaultFacet"
+"use client"
+
+import type { FairDOConfig } from "@/config/FairDOConfig"
+import type { SearchContextState } from "@elastic/search-ui"
+import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
+import { GlobalModalProvider } from "@/components/GlobalModalProvider"
+import { NMRResultView } from "@/components/result/NMRResultView"
 import { ClearFilters } from "@/components/search/ClearFilters"
+import { DefaultFacet } from "@/components/search/DefaultFacet"
+import { DefaultSearchBox } from "@/components/search/DefaultSearchBox"
+import { ErrorView } from "@/components/search/ErrorView"
 import {
     Select,
     SelectContent,
@@ -23,13 +16,22 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select"
-import { NMRResultView } from "@/components/result/NMRResultView"
-import { ErrorView } from "@/components/search/ErrorView"
-import { GlobalModalProvider } from "@/components/GlobalModalProvider"
-import { SearchContextState } from "@elastic/search-ui"
+import { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
+import {
+    ErrorBoundary,
+    Facet,
+    Paging,
+    PagingInfo,
+    Results,
+    ResultsPerPage,
+    SearchBox,
+    SearchProvider,
+    WithSearch
+} from "@elastic/react-search-ui"
+import { Layout } from "@elastic/react-search-ui-views"
 import { LoaderCircle } from "lucide-react"
-import { FairDOConfig } from "@/config/FairDOConfig"
-import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
+import { useMemo } from "react"
+import "../elastic-ui.css"
 
 /**
  * All-in-one component for rendering an elastic search UI based on the provided configuration. Includes
@@ -82,9 +84,9 @@ export function FairDOElasticSearch({
                                                     urlField: "url",
                                                     shouldTrackClickThrough: true
                                                 }}
-                                                autocompleteSuggestions={true}
+                                                autocompleteSuggestions
                                                 debounceLength={300}
-                                                searchAsYouType={true}
+                                                searchAsYouType
                                                 inputView={DefaultSearchBox}
                                             />
                                         }
@@ -115,12 +117,12 @@ export function FairDOElasticSearch({
                                             <>
                                                 {isLoading && !wasSearched && (
                                                     <div className="flex justify-center">
-                                                        <LoaderCircle className="w-6 h-6 animate-spin" />
+                                                        <LoaderCircle className="size-6 animate-spin" />
                                                     </div>
                                                 )}
 
                                                 <Results
-                                                    shouldTrackClickThrough={true}
+                                                    shouldTrackClickThrough
                                                     resultView={(props) => (
                                                         <>
                                                             <NMRResultView
@@ -133,12 +135,12 @@ export function FairDOElasticSearch({
                                             </>
                                         }
                                         bodyHeader={
-                                            <div className="mb-4 flex justify-between w-full items-center">
+                                            <div className="mb-4 flex w-full items-center justify-between">
                                                 {wasSearched && (
                                                     <PagingInfo
                                                         view={(props) => (
                                                             <div>
-                                                                Showing {props.start} - {props.end}{" "}
+                                                                Showing {props.start} -{props.end}{" "}
                                                                 out of {props.totalResults}
                                                                 {props.searchTerm &&
                                                                     ` - Searching for "${props.searchTerm}"`}
@@ -150,13 +152,13 @@ export function FairDOElasticSearch({
                                                     <ResultsPerPage
                                                         view={(props) => {
                                                             return (
-                                                                <div className="flex items-center gap-2 h-full">
+                                                                <div className="flex h-full items-center gap-2">
                                                                     <div>Results per Page</div>
                                                                     <Select
-                                                                        value={props.value + ""}
+                                                                        value={`${props.value}`}
                                                                         onValueChange={(v) =>
                                                                             props.onChange(
-                                                                                parseInt(v)
+                                                                                Number.parseInt(v)
                                                                             )
                                                                         }
                                                                     >
@@ -168,10 +170,9 @@ export function FairDOElasticSearch({
                                                                                 (option) => {
                                                                                     return (
                                                                                         <SelectItem
-                                                                                            value={
-                                                                                                option +
-                                                                                                ""
-                                                                                            }
+                                                                                            value={`${
+                                                                                                option
+                                                                                            }`}
                                                                                             key={
                                                                                                 option
                                                                                             }

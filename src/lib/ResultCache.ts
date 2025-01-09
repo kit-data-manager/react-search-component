@@ -7,8 +7,8 @@ interface ResultCacheEntry {
 
 interface ResultCacheStore {
     cache: Map<string, ResultCacheEntry>
-    get(key: string): ResultCacheEntry | undefined
-    set(key: string, value: ResultCacheEntry): void
+    get: (key: string) => ResultCacheEntry | undefined
+    set: (key: string, value: ResultCacheEntry) => void
 }
 
 export const resultCache = createStore<ResultCacheStore>()((set, get) => ({

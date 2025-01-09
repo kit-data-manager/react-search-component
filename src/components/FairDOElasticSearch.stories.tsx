@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { FairDOConfig } from "@/config/FairDOConfig"
 
-import { FairDOElasticSearch } from "./FairDOElasticSearch"
-import { FairDOConfig } from "@/config/FairDOConfig"
+import type { Meta, StoryObj } from "@storybook/react"
 import { PidDisplay } from "@/components/result/PidDisplay"
+import { FairDOElasticSearch } from "./FairDOElasticSearch"
 
 const meta = {
     component: FairDOElasticSearch
@@ -68,7 +68,7 @@ const demoConfig: FairDOConfig = {
     title: "NEP",
     debug: false,
     alwaysSearchOnInitialLoad: true,
-    //host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
+    // host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
     host: "https://ddaa9283-f114-4496-b6ed-af12ee34b107.ka.bw-cloud-instance.org:9200",
     apiKey: "VG9NNFNwUUJyWWdtamJ6UGExcjY6aXhKUkk1M0xTT1dTS2xzN3daQjA3UQ==",
     indices: [

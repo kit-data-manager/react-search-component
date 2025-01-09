@@ -1,18 +1,18 @@
-import {
-    ReactFlow,
-    useNodesState,
-    useEdgesState,
-    useReactFlow,
-    useNodesInitialized,
-    Background,
-    BackgroundVariant
-} from "@xyflow/react"
+import type { RelationNode } from "@/lib/RelationNode"
 
-import "@xyflow/react/dist/style.css"
-import { useEffect, useMemo } from "react"
-import { PlainNode } from "@/components/graph/PlainNode"
-import { RelationNode } from "@/lib/RelationNode"
 import { buildGraphForReferences } from "@/components/graph/helpers"
+import { PlainNode } from "@/components/graph/PlainNode"
+import {
+    Background,
+    BackgroundVariant,
+    ReactFlow,
+    useEdgesState,
+    useNodesInitialized,
+    useNodesState,
+    useReactFlow
+} from "@xyflow/react"
+import { useEffect, useMemo } from "react"
+import "@xyflow/react/dist/style.css"
 
 const nodeTypes = {
     plain: PlainNode
@@ -43,7 +43,9 @@ export function RelationsGraph(props: {
     const nodesInitialized = useNodesInitialized()
 
     useEffect(() => {
-        if (nodesInitialized) fitView().then()
+        if (nodesInitialized) {
+            fitView().then()
+        }
     }, [fitView, nodesInitialized])
 
     return (
