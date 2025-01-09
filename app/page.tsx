@@ -1,10 +1,9 @@
 import type { FairDOConfig } from "@/config/FairDOConfig"
 import { FairDOElasticSearch } from "@/components/FairDOElasticSearch"
-import "@/index.css"
 
 const demoConfig: FairDOConfig = {
     logo: "",
-    title: "NEP",
+    title: "NEP Search",
     debug: false,
     alwaysSearchOnInitialLoad: true,
     // host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
@@ -45,5 +44,14 @@ const demoConfig: FairDOConfig = {
 }
 
 export default function Page() {
-    return <FairDOElasticSearch config={demoConfig} />
+    return (
+        <div className="flex flex-col items-center">
+            <div className="bg-muted font-bold w-full p-10">
+                <h1 className="text-4xl">NEP Search</h1>
+            </div>
+            <div className="max-w-[1300px] w-[min(1300px,100vw)]">
+                <FairDOElasticSearch config={demoConfig} />
+            </div>
+        </div>
+    )
 }
