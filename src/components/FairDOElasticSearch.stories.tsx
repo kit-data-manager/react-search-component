@@ -64,12 +64,13 @@ type Story = StoryObj<typeof meta>
 // }
 
 const demoConfig: FairDOConfig = {
-    logo: "/images/nfdi-logo.png",
-    title: "NFDI4MatWerk Metadata Search",
+    logo: "",
+    title: "NEP",
     debug: false,
     alwaysSearchOnInitialLoad: true,
     //host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
-    host: "https://4103e5b9-9a45-47a7-b9a4-6b1d36f49460.ka.bw-cloud-instance.org:9200",
+    host: "https://ddaa9283-f114-4496-b6ed-af12ee34b107.ka.bw-cloud-instance.org:9200",
+    apiKey: "VG9NNFNwUUJyWWdtamJ6UGExcjY6aXhKUkk1M0xTT1dTS2xzN3daQjA3UQ==",
     indices: [
         {
             name: "fdo-test-1",
@@ -94,7 +95,7 @@ const demoConfig: FairDOConfig = {
                 }
             ],
             resultFields: [], // Leave empty to get all fields
-            searchFields: ["name", "pid"],
+            searchFields: ["name", "pid", "hasMetadata", "isMetadataFor"],
             fieldMappings: {}
         }
     ],

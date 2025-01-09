@@ -11,8 +11,10 @@
     "moduleResolution": "bundler",
     "isolatedModules": true,
     "moduleDetection": "force",
+    "outDir": "out",
     "jsx": "react-jsx",
-
+    "declaration": true,
+    "noEmit": true,
     /* Linting */
     "strict": true,
     // "noUnusedLocals": true,
@@ -23,8 +25,11 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ]
+      ],
+      "@web/*": ["./web/*"]
     }
   },
-  "include": ["src"]
+  "include": [
+    "nep"
+  ]
 }

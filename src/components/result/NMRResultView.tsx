@@ -9,6 +9,7 @@ import {
     File,
     GitFork,
     Globe,
+    GraduationCap,
     ImageOff,
     LinkIcon,
     Microscope,
@@ -118,6 +119,10 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
         return getField("hasMetadata")
     }, [getField])
 
+    const resourceType = useMemo(() => {
+        return getField("resourceType")
+    }, [getField])
+
     const showRelatedItems = useCallback(() => {
         openRelationGraph(
             {
@@ -152,7 +157,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                         />
                     ) : (
                         <div className="flex flex-col justify-center dark:text-background">
-                            <ImageOff className="w-6 h-6 text-muted-foreground" />
+                            <ImageOff className="w-6 h-6 text-muted-foreground/50" />
                         </div>
                     )}
                 </div>
@@ -176,6 +181,11 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                         <span className="text-sm text-muted-foreground">{id}</span>
                     </a>
                     <div className="flex gap-2 flex-wrap">
+                        <Badge variant="secondary" className="truncate">
+                            <span className="truncate flex">
+                                <GraduationCap className="w-4 h-4 mr-2 shrink-0" /> {resourceType}
+                            </span>
+                        </Badge>
                         <Badge variant="secondary" className="truncate">
                             <span className="truncate flex">
                                 <Globe className="w-4 h-4 mr-2 shrink-0" /> {hadPrimarySource}
@@ -241,7 +251,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                         )}
 
                         <div className="flex items-center">
-                            <a href={doLocation} target={"_blank"}>
+                            <a href={doLocation} target={"_blank"} className="grow">
                                 <Button size="sm" className="w-full rounded-r-none px-4">
                                     Open
                                 </Button>

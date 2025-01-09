@@ -84,6 +84,10 @@ export interface FairDOConfig {
      */
     host: string
     /**
+     * @deprecated remove
+     */
+    apiKey: string
+    /**
      * Configuration for the elastic indices that should be accessed
      */
     indices: FairDOIndexConfig[]
