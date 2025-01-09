@@ -19,7 +19,8 @@
         "noEmit": true,
         "esModuleInterop": true,
         "isolatedModules": true,
-    "skipLibCheck": true,
+        "baseUrl": "./",
+        "skipLibCheck": true,
         "plugins": [
             {
                 "name": "next"

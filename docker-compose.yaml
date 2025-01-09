@@ -2,4 +2,4 @@ services:
     storybook:
         build: .
         ports:
-            - "6006:6006"
+            - "3000:3000"

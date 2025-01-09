@@ -35,7 +35,10 @@ export const Default: Story = {
                     searchFor(str: string) {
                         alert(`Searching for ${str}`)
                     },
-                    searchTerm: ""
+                    searchTerm: "",
+                    async searchForBackground() {
+                        return undefined
+                    }
                 }}
             >
                 <GlobalModalProvider>

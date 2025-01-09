@@ -1,6 +1,5 @@
 {
     "name": "react-fairdo-elastic-search",
-    "type": "module",
     "version": "0.0.1",
     "private": true,
     "author": {
@@ -18,10 +17,6 @@
         "graph",
         "interactive",
         "modern"
-    ],
-    "main": "out/index.js",
-    "files": [
-        "out"
     ],
     "scripts": {
         "dev": "next dev",

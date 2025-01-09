@@ -4,3 +4,8 @@ node_modules
 storybook-static
 out
 .next
+Dockerfile
+.dockerignore
+npm-debug.log
+README.md
+.git
