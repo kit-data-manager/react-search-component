@@ -1,7 +1,6 @@
 import type { FairDOConfig } from "@/config/FairDOConfig"
 
 import type { Meta, StoryObj } from "@storybook/react"
-import { PidDisplay } from "@/components/result/PidDisplay"
 import { FairDOElasticSearch } from "./FairDOElasticSearch"
 
 const meta = {
@@ -82,7 +81,7 @@ const demoConfig: FairDOConfig = {
                 {
                     key: "digitalObjectType.keyword",
                     label: "File Type",
-                    optionsTextDisplay: (props) => <PidDisplay pid={props.text} />
+                    usePidResolver: true
                 },
                 {
                     key: "hadPrimarySource.keyword",
@@ -94,8 +93,7 @@ const demoConfig: FairDOConfig = {
                 },
                 {
                     key: "NMR_Method.keyword",
-                    label: "NMR Method",
-                    optionsTextDisplay: (props) => <PidDisplay pid={props.text} />
+                    label: "NMR Method"
                 }
             ],
             resultFields: [], // Leave empty to get all fields
