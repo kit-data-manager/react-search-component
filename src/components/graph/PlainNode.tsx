@@ -65,7 +65,7 @@ export function PlainNode(data: NodeProps) {
                 <div onClick={toggleExpand} className="p-4">
                     <div className="flex gap-3 items-centers">
                         <div className="flex items-center">
-                            <Badge>FDO</Badge>
+                            <Badge>{relationNode.tag ?? "FDO"}</Badge>
                         </div>
                         <div>
                             <div className="font-semibold">{relationNode.label}</div>

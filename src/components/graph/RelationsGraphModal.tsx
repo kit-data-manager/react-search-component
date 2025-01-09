@@ -28,13 +28,17 @@ export function RelationsGraphModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className=" p-0 min-w-[500px] max-w-[min(100vw,1000px)] h-max min-h-[500px] max-h-[min(100vh,800px)]">
+            <DialogContent className=" p-0 min-w-[500px] max-w-[min(calc(100vw-40px),1500px)] h-max min-h-[500px] max-h-[min(100vh,800px)]">
                 <VisuallyHidden.Root>
                     <DialogTitle>FDOs related to {base.label}</DialogTitle>
                 </VisuallyHidden.Root>
 
                 <FairDOSearchContext.Provider
-                    value={{ searchFor: localSearchFor, searchTerm: searchContext.searchTerm }}
+                    value={{
+                        searchFor: localSearchFor,
+                        searchTerm: searchContext.searchTerm,
+                        searchForBackground: searchContext.searchForBackground
+                    }}
                 >
                     <RelationsGraph base={base} referenced={referenced} />
                 </FairDOSearchContext.Provider>

@@ -1,7 +1,10 @@
 import { FairDOSearchContext } from "@/components/FairDOSearchContext"
-import { PropsWithChildren } from "react"
+import { PropsWithChildren, useCallback, useMemo } from "react"
 import { WithSearch } from "@elastic/react-search-ui"
 import { SearchContextState } from "@elastic/search-ui"
+import { FairDOConfig } from "@/config/FairDOConfig"
+import { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
+import { arrayToObjectEntries } from "@/lib/utils"
 
 /**
  * Extends the elasticsearch SearchContext with additional functionality. This provider automatically
@@ -9,7 +12,27 @@ import { SearchContextState } from "@elastic/search-ui"
  * @param props
  * @constructor
  */
-export function FairDOSearchProvider(props: PropsWithChildren) {
+export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDOConfig }) {
+    const connector = useMemo(() => {
+        return new FairDOConfigProvider(props.config).buildConnector()
+    }, [props.config])
+
+    const searchForBackground = useCallback(
+        (query: string) => {
+            // Hacky but works
+            return connector.onSearch(
+                { searchTerm: query, resultsPerPage: 20 },
+                {
+                    result_fields: arrayToObjectEntries(props.config.indices[0].resultFields),
+                    searchTerm: query,
+                    search_fields: arrayToObjectEntries(props.config.indices[0].searchFields),
+                    resultsPerPage: 20
+                }
+            )
+        },
+        [connector, props.config.indices]
+    )
+
     return (
         <WithSearch
             mapContextToProps={({
@@ -31,7 +54,9 @@ export function FairDOSearchProvider(props: PropsWithChildren) {
                                     left: 0,
                                     behavior: "smooth"
                                 })
-                            }
+                            },
+                            elasticConnector: connector,
+                            searchForBackground
                         }}
                     >
                         {props.children}

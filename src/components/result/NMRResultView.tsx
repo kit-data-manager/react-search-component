@@ -1,5 +1,5 @@
 import { SearchResult } from "@elastic/search-ui"
-import { useCallback, useContext, useMemo } from "react"
+import { useCallback, useContext, useEffect, useMemo } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ObjectRender } from "@/components/result/ObjectRender"
@@ -27,6 +27,8 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { useStore } from "zustand"
+import { resultCache } from "@/lib/ResultCache"
 
 function autoUnwrap(item: string | { raw: string }) {
     if (typeof item === "string") return item
@@ -50,7 +52,9 @@ function autoUnwrapArray(item: string[] | { raw: string[] }) {
  */
 export function NMRResultView({ result, debug }: { result: SearchResult; debug?: boolean }) {
     const { openRelationGraph } = useContext(GlobalModalContext)
-    const { searchFor, searchTerm } = useContext(FairDOSearchContext)
+    const { searchFor, searchTerm, elasticConnector } = useContext(FairDOSearchContext)
+    const addToResultCache = useStore(resultCache, (s) => s.set)
+    const getResultFromCache = useStore(resultCache, (s) => s.get)
 
     const getField = useCallback(
         (field: string) => {
@@ -123,17 +127,52 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
         return getField("resourceType")
     }, [getField])
 
-    const showRelatedItems = useCallback(() => {
+    const fetchRelatedItems = useCallback(async () => {
+        const search = await elasticConnector?.onSearch(
+            { searchTerm: pid, resultsPerPage: 20 },
+            {
+                result_fields: {},
+                searchTerm: pid,
+                search_fields: { pid: {}, name: {}, hasMetadata: {}, isMetadataFor: {} },
+                resultsPerPage: 20
+            }
+        )
+
+        if (search) {
+            for (const entry of search.results) {
+                addToResultCache(entry.pid.raw, {
+                    pid: entry.pid.raw,
+                    name: entry.name.raw
+                })
+            }
+        }
+    }, [addToResultCache, elasticConnector, pid])
+
+    const showRelatedItems = useCallback(async () => {
+        await fetchRelatedItems()
+
         openRelationGraph(
             {
                 id: pid,
                 label: title,
+                tag: "Study",
                 remoteURL: doLocation,
                 searchQuery: pid
             },
-            isMetadataFor.map((pid) => new BasicRelationNode(pid))
+            isMetadataFor.map((pid) => {
+                const cached = getResultFromCache(pid)
+                return new BasicRelationNode(pid, "Dataset", cached?.name)
+            })
         )
-    }, [doLocation, isMetadataFor, openRelationGraph, pid, title])
+    }, [
+        doLocation,
+        fetchRelatedItems,
+        getResultFromCache,
+        isMetadataFor,
+        openRelationGraph,
+        pid,
+        title
+    ])
 
     const goToMetadata = useCallback(() => {
         searchFor(hasMetadata)
@@ -142,6 +181,15 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
     const exactPidMatch = useMemo(() => {
         return searchTerm === pid || searchTerm === doLocation
     }, [doLocation, pid, searchTerm])
+
+    useEffect(() => {
+        if (title && pid) {
+            addToResultCache(pid, {
+                name: title,
+                pid
+            })
+        }
+    }, [addToResultCache, pid, title])
 
     return (
         <div

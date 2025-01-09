@@ -60,7 +60,7 @@ export function FairDOElasticSearch({
 
     return (
         <SearchProvider config={elasticConfig}>
-            <FairDOSearchProvider>
+            <FairDOSearchProvider config={rawConfig}>
                 <GlobalModalProvider>
                     <WithSearch
                         mapContextToProps={({ wasSearched, isLoading }: SearchContextState) => ({
@@ -83,7 +83,8 @@ export function FairDOElasticSearch({
                                                     shouldTrackClickThrough: true
                                                 }}
                                                 autocompleteSuggestions={true}
-                                                debounceLength={0}
+                                                debounceLength={300}
+                                                searchAsYouType={true}
                                                 inputView={DefaultSearchBox}
                                             />
                                         }

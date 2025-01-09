@@ -1,6 +1,7 @@
 export interface RelationNode {
     id: string
     label: string
+    tag?: string
     remoteURL?: string
     searchQuery?: string
 }
@@ -11,6 +12,7 @@ export class BasicRelationNode implements RelationNode {
 
     constructor(
         public id: string,
+        public tag: string = "",
         public label: string = ""
     ) {
         this.label = label ?? ""

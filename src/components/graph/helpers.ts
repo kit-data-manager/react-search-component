@@ -10,7 +10,7 @@ export function buildGraphForReferences(base: RelationNode, _referenced: Relatio
         nodes.push({
             id: referenced[i].id,
             type: "plain",
-            position: { x: 800, y: yStart + i * 100 },
+            position: { x: 1000, y: yStart + i * 100 },
             data: { ...referenced[i] }
         })
         edges.push({

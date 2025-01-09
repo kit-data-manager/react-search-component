@@ -2,9 +2,9 @@ import moment from "moment"
 import { FacetConfiguration, FilterValueRange } from "@elastic/search-ui"
 import {
     FairDOConfig,
+    FairDODateRangeFacetConfig,
     FairDOFacetConfig,
-    FairDONumericRangeFacetConfig,
-    FairDODateRangeFacetConfig
+    FairDONumericRangeFacetConfig
 } from "./FairDOConfig"
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
 import { parseStringValueToNumber } from "./helpers"
