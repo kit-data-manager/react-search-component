@@ -1,14 +1,12 @@
 import type { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
 import type { FacetViewProps } from "@elastic/react-search-ui-views"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { PlusIcon, Search } from "lucide-react"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { PidDisplay } from "@/components/result/PidDisplay"
-import { tryURLPrettyPrint } from "@/lib/utils"
+import { DefaultFacetOption } from "@/components/search/DefaultFacetOption"
 
 export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvider }) {
     const [search, setSearch] = useState("")
@@ -45,18 +43,15 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvi
                 )}
             </div>
 
-            {props.options.map((option) => {
-                const value = option.value.toString()
-                return (
-                    <div key={value} className="flex max-w-full items-center gap-2 break-words p-1 pb-2">
-                        <Checkbox id={value} checked={option.selected} onCheckedChange={(v) => (v ? props.onSelect(option.value.toString()) : props.onRemove(option.value.toString()))} />
-                        <Label htmlFor={value} className="min-w-0 grow break-words">
-                            {value ? selfConfig.usePidResolver ? <PidDisplay pid={value} /> : tryURLPrettyPrint(value) : <span className="text-muted-foreground">None</span>}
-                        </Label>
-                        <div className="text-xs text-muted-foreground">{option.count}</div>
-                    </div>
-                )
-            })}
+            {props.options.map((option) => (
+                <DefaultFacetOption
+                    key={option.value.toString()}
+                    option={option}
+                    facetConfig={selfConfig}
+                    onSelect={props.onSelect}
+                    onRemove={props.onRemove}
+                />
+            ))}
 
             {props.showMore ? (
                 <Button className="p-1" onClick={props.onMoreClick} size="sm" variant="link">
