@@ -8,30 +8,16 @@ import { PidDisplay } from "@/components/result/PidDisplay"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { BasicRelationNode } from "@/lib/RelationNode"
 import { resultCache } from "@/lib/ResultCache"
-import {
-    BookText,
-    ChevronDown,
-    File,
-    GitFork,
-    Globe,
-    GraduationCap,
-    ImageOff,
-    LinkIcon,
-    Microscope,
-    Scale
-} from "lucide-react"
+import { BookText, ChevronDown, File, GitFork, Globe, GraduationCap, ImageOff, LinkIcon, Microscope, Scale } from "lucide-react"
 import { DateTime } from "luxon"
 import { useCallback, useContext, useEffect, useMemo } from "react"
 import { useStore } from "zustand"
 import Image from "next/image"
+
+const HTTP_REGEX = /https?:\/\/[a-z]+\.[a-z]+.*/gm
 
 function autoUnwrap(item: string | { raw: string }) {
     if (typeof item === "string") {
@@ -112,7 +98,9 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
     }, [getField])
 
     const doLocation = useMemo(() => {
-        return getField("digitalObjectLocation")
+        const value = getField("digitalObjectLocation")
+        if (HTTP_REGEX.test(value)) return value
+        else return `https://doi.org/${value}`
     }, [getField])
 
     const previewImage = useMemo(() => {
@@ -178,15 +166,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                 return new BasicRelationNode(pid, "Dataset", cached?.name)
             })
         )
-    }, [
-        doLocation,
-        fetchRelatedItems,
-        getResultFromCache,
-        isMetadataFor,
-        openRelationGraph,
-        pid,
-        title
-    ])
+    }, [doLocation, fetchRelatedItems, getResultFromCache, isMetadataFor, openRelationGraph, pid, title])
 
     const goToMetadata = useCallback(() => {
         searchFor(hasMetadata)
@@ -206,19 +186,11 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
     }, [addToResultCache, pid, title])
 
     return (
-        <div
-            className={`m-2 rounded-lg border border-border p-4 ${exactPidMatch ? "animate-outline-ping" : ""}`}
-        >
+        <div className={`m-2 rounded-lg border border-border p-4 ${exactPidMatch ? "animate-outline-ping" : ""}`}>
             <div className="grid grid-rows-[100px_1fr] gap-4 overflow-x-auto md:max-w-full md:grid-cols-[200px_1fr] md:grid-rows-1">
                 <div className="flex justify-center rounded dark:bg-white md:items-center md:p-2">
                     {previewImage ? (
-                        <Image
-                            className="md:size-[200px]"
-                            src={previewImage}
-                            alt={`Preview for ${title}`}
-                            width={200}
-                            height={200}
-                        />
+                        <Image className="md:size-[200px]" src={previewImage} alt={`Preview for ${title}`} width={200} height={200} />
                     ) : (
                         <div className="flex flex-col justify-center dark:text-background">
                             <ImageOff className="size-6 text-muted-foreground/50" />
@@ -237,11 +209,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                             {identifier} -{creationDate}
                         </span>
                     </div>
-                    <a
-                        href={`https://hdl.handle.net/${id}`}
-                        target="_blank"
-                        className="mb-2 block leading-3 hover:underline"
-                    >
+                    <a href={`https://hdl.handle.net/${id}`} target="_blank" className="mb-2 block leading-3 hover:underline">
                         <span className="text-sm text-muted-foreground">{id}</span>
                     </a>
                     <div className="flex flex-wrap gap-2">
@@ -283,31 +251,16 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                         )}
                         {isMetadataFor.length > 0 && (
                             <div className="flex items-center">
-                                <Button
-                                    className="grow rounded-r-none"
-                                    size="sm"
-                                    variant="secondary"
-                                    onClick={showRelatedItems}
-                                >
+                                <Button className="grow rounded-r-none" size="sm" variant="secondary" onClick={showRelatedItems}>
                                     <GitFork className="mr-1 size-4" /> Show Related Items
                                 </Button>
-                                <Button
-                                    className="rounded-l-none border-l border-l-border text-xs font-bold"
-                                    size="sm"
-                                    variant="secondary"
-                                    onClick={showRelatedItems}
-                                >
+                                <Button className="rounded-l-none border-l border-l-border text-xs font-bold" size="sm" variant="secondary" onClick={showRelatedItems}>
                                     {isMetadataFor.length}
                                 </Button>
                             </div>
                         )}
                         {hasMetadata && (
-                            <Button
-                                className=""
-                                size="sm"
-                                variant="secondary"
-                                onClick={goToMetadata}
-                            >
+                            <Button className="" size="sm" variant="secondary" onClick={goToMetadata}>
                                 <BookText className="mr-1 size-4" /> Find Metadata
                             </Button>
                         )}
@@ -330,15 +283,9 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                                             <LinkIcon className="mr-1 size-4" /> Open Source
                                         </DropdownMenuItem>
                                     </a>
-                                    <a
-                                        href={`https://kit-data-manager.github.io/fairdoscope/?pid=${
-                                            pid
-                                        }`}
-                                        target="_blank"
-                                    >
+                                    <a href={`https://kit-data-manager.github.io/fairdoscope/?pid=${pid}`} target="_blank">
                                         <DropdownMenuItem>
-                                            <Microscope className="mr-1 size-4" /> Open in
-                                            FAIR-DOscope
+                                            <Microscope className="mr-1 size-4" /> Open in FAIR-DOscope
                                         </DropdownMenuItem>
                                     </a>
                                 </DropdownMenuContent>
