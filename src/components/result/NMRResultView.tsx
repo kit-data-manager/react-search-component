@@ -4,18 +4,18 @@ import type { SearchResult } from "@elastic/search-ui"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 import { GlobalModalContext } from "@/components/GlobalModalContext"
 import { ObjectRender } from "@/components/result/ObjectRender"
-import { PidDisplay } from "@/components/result/PidDisplay"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { BasicRelationNode } from "@/lib/RelationNode"
 import { resultCache } from "@/lib/ResultCache"
-import { BookText, ChevronDown, File, GitFork, Globe, GraduationCap, ImageOff, LinkIcon, Microscope, Scale } from "lucide-react"
+import { BookText, ChevronDown, GitFork, Globe, GraduationCap, ImageOff, LinkIcon, Microscope, Scale } from "lucide-react"
 import { DateTime } from "luxon"
 import { useCallback, useContext, useEffect, useMemo } from "react"
 import { useStore } from "zustand"
 import Image from "next/image"
+import { tryURLPrettyPrint } from "@/lib/utils"
 
 const HTTP_REGEX = /https?:\/\/[a-z]+\.[a-z]+.*/gm
 
@@ -86,16 +86,18 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
     }, [getField])
 
     const hadPrimarySource = useMemo(() => {
-        return getField("hadPrimarySource")
+        const value = getField("hadPrimarySource")
+        return tryURLPrettyPrint(value)
     }, [getField])
 
     const license = useMemo(() => {
-        return getField("licenseURL")
+        const value = getField("licenseURL")
+        return tryURLPrettyPrint(value)
     }, [getField])
 
-    const fileType = useMemo(() => {
-        return getField("digitalObjectType")
-    }, [getField])
+    // const fileType = useMemo(() => {
+    //     return getField("digitalObjectType")
+    // }, [getField])
 
     const doLocation = useMemo(() => {
         const value = getField("digitalObjectLocation")
@@ -228,12 +230,12 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                                 <Scale className="mr-2 size-4 shrink-0" />️{license}
                             </span>
                         </Badge>
-                        <Badge variant="secondary" className="truncate">
-                            <span className="flex truncate">
-                                <File className="mr-2 size-4 shrink-0" />
-                                <PidDisplay pid={fileType} />
-                            </span>
-                        </Badge>
+                        {/*<Badge variant="secondary" className="truncate">*/}
+                        {/*    <span className="flex truncate">*/}
+                        {/*        <File className="mr-2 size-4 shrink-0" />*/}
+                        {/*        <PidDisplay pid={fileType} />*/}
+                        {/*    </span>*/}
+                        {/*</Badge>*/}
                     </div>
                     <div className="grow"></div>
                     <div className="mt-8 flex flex-col flex-wrap justify-end gap-2 md:flex-row md:items-center md:gap-4">

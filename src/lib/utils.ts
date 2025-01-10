@@ -12,3 +12,11 @@ export function arrayToObjectEntries(array: string[]) {
     }
     return obj
 }
+
+export function tryURLPrettyPrint(url: string) {
+    if (URL.canParse(url)) {
+        const parsed = new URL(url)
+        const path = parsed.pathname
+        return parsed.hostname.replace("www.", "") + (path === "/" ? "" : path)
+    } else return url
+}
