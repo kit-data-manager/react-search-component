@@ -1,7 +1,7 @@
-import type { FairDOConfig } from "@/config/FairDOConfig"
+import type { FairDOConfig } from "@/config/FairDOConfig.ts"
 
 import type { Meta, StoryObj } from "@storybook/react"
-import { FairDOElasticSearch } from "./FairDOElasticSearch"
+import { FairDOElasticSearch } from "../components/FairDOElasticSearch.tsx"
 
 const meta = {
     component: FairDOElasticSearch
