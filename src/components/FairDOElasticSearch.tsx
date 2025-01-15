@@ -15,6 +15,7 @@ import { ErrorBoundary, Facet, Paging, PagingInfo, Results, ResultsPerPage, Sear
 import { Layout } from "@elastic/react-search-ui-views"
 import { LoaderCircle } from "lucide-react"
 import { useMemo } from "react"
+import "../index.css"
 import "../elastic-ui.css"
 
 /**

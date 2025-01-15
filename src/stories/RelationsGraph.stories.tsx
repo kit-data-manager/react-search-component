@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
-import { BasicRelationNode } from "@/lib/RelationNode.ts"
+import { BasicRelationNode } from "@/lib/RelationNode"
 import { ReactFlowProvider } from "@xyflow/react"
-import { RelationsGraph } from "../components/graph/RelationsGraph.tsx"
+import { RelationsGraph } from "@/components/graph/RelationsGraph"
 
 const meta = {
     component: RelationsGraph

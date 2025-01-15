@@ -51,7 +51,7 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvi
                     <div key={value} className="flex max-w-full items-center gap-2 break-words p-1 pb-2">
                         <Checkbox id={value} checked={option.selected} onCheckedChange={(v) => (v ? props.onSelect(option.value.toString()) : props.onRemove(option.value.toString()))} />
                         <Label htmlFor={value} className="min-w-0 grow break-words">
-                            {value ? selfConfig.usePidResolver ? <PidDisplay pid={value} /> : tryURLPrettyPrint(value) : <span className="text-muted-foreground">None</span>}
+                            {value ? selfConfig?.usePidResolver ? <PidDisplay pid={value} /> : tryURLPrettyPrint(value) : <span className="text-muted-foreground">None</span>}
                         </Label>
                         <div className="text-xs text-muted-foreground">{option.count}</div>
                     </div>

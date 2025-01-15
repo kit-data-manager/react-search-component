@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "Preserve",
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "declaration": true,
+    "sourceMap": true,
+
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "baseUrl": "./src"
+  },
+  "include": ["src"]
+}
