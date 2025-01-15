@@ -4,7 +4,7 @@ export class OntobeeResolver {
     private client: ParsingClient
 
     constructor() {
-        this.client = new ParsingClient({ endpointUrl: "https://sparql.hegroup.org/sparql", fetch: (a, b) => fetch(a, { ...b, mode: "no-cors" }) })
+        this.client = new ParsingClient({ endpointUrl: "https://sparql.hegroup.org/sparql" })
     }
 
     async parse(url: string) {

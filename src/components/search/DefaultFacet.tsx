@@ -12,7 +12,7 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvi
     const [search, setSearch] = useState("")
 
     const selfConfig = useMemo(() => {
-        return props.config.getFacetFields().find((f) => f.label === props.label)
+        return props.config.getFacetFields().find((f) => f.label === props.label)!
     }, [props.config, props.label])
 
     const onSearchDebounced = useRef(props.onSearch)

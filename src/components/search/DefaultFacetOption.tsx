@@ -3,8 +3,7 @@ import { Label } from "@/components/ui/label"
 import { PidDisplay } from "@/components/result/PidDisplay"
 import { FacetValue } from "@elastic/search-ui"
 import { FairDOFacetConfig } from "@/config/FairDOConfig"
-import { useEffect, useMemo } from "react"
-import { ontobeeResolver } from "@/lib/OntobeeResolver"
+import { useMemo } from "react"
 
 export function DefaultFacetOption({
     option,
@@ -21,11 +20,12 @@ export function DefaultFacetOption({
         return option.value.toString()
     }, [option.value])
 
-    useEffect(() => {
-        if (value.startsWith("http://purl.obolibrary.org")) {
-            ontobeeResolver.parse(value)
-        }
-    }, [value])
+    // TODO find a way to query obolibrary
+    // useEffect(() => {
+    //     if (value.startsWith("http://purl.obolibrary.org")) {
+    //         ontobeeResolver.parse(value)
+    //     }
+    // }, [value])
 
     return (
         <div key={value} className="flex max-w-full items-center gap-2 break-words p-1 pb-2">
