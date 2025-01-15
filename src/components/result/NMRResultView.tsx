@@ -14,7 +14,6 @@ import { BookText, ChevronDown, GitFork, Globe, GraduationCap, ImageOff, LinkIco
 import { DateTime } from "luxon"
 import { useCallback, useContext, useEffect, useMemo } from "react"
 import { useStore } from "zustand"
-import Image from "next/image"
 import { tryURLPrettyPrint } from "@/lib/utils"
 
 const HTTP_REGEX = /https?:\/\/[a-z]+\.[a-z]+.*/gm
@@ -192,7 +191,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
             <div className="grid grid-rows-[100px_1fr] gap-4 overflow-x-auto md:max-w-full md:grid-cols-[200px_1fr] md:grid-rows-1">
                 <div className="flex justify-center rounded dark:bg-white md:items-center md:p-2">
                     {previewImage ? (
-                        <Image className="md:size-[200px]" src={previewImage} alt={`Preview for ${title}`} width={200} height={200} />
+                        <img className="md:size-[200px]" src={previewImage} alt={`Preview for ${title}`} />
                     ) : (
                         <div className="flex flex-col justify-center dark:text-background">
                             <ImageOff className="size-6 text-muted-foreground/50" />
