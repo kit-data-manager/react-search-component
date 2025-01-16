@@ -4,7 +4,8 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { FairDOElasticSearch } from "@/components/FairDOElasticSearch"
 
 const meta = {
-    component: FairDOElasticSearch
+    component: FairDOElasticSearch,
+    tags: ["autodocs"]
 } satisfies Meta<typeof FairDOElasticSearch>
 
 export default meta
@@ -12,8 +13,6 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const demoConfig: FairDOConfig = {
-    logo: "",
-    title: "NEP",
     debug: false,
     alwaysSearchOnInitialLoad: true,
     // host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
@@ -34,22 +33,24 @@ const demoConfig: FairDOConfig = {
                 },
                 {
                     key: "hadPrimarySource.keyword",
-                    label: "Source"
+                    label: "Source",
+                    prettyPrintURLs: true
                 },
                 {
                     key: "licenseURL.keyword",
-                    label: "License"
+                    label: "License",
+                    prettyPrintURLs: true
                 },
                 {
                     key: "NMR_Method.keyword",
-                    label: "NMR Method"
+                    label: "NMR Method",
+                    prettyPrintURLs: true
                 }
             ],
             resultFields: [], // Leave empty to get all fields
             searchFields: ["name", "pid", "hasMetadata", "isMetadataFor", "NMR_Method"]
         }
-    ],
-    disjunctiveFacets: []
+    ]
 }
 
 export const DemoElastic: Story = {

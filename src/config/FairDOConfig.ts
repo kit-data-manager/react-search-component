@@ -1,8 +1,12 @@
 export interface FairDOCoreFacetConfig {
     key: string
     label: string
+    /**
+     * Not properly implemented at the moment
+     */
     isFilterable?: boolean
     usePidResolver?: boolean
+    prettyPrintURLs?: boolean
 }
 
 export interface FairDONumericRangeFacetConfig extends FairDOCoreFacetConfig {
@@ -44,17 +48,9 @@ export interface FairDOIndexConfig {
  */
 export interface FairDOConfig {
     /**
-     * Unused
-     */
-    logo: string
-    /**
-     * Unused
-     */
-    title: string
-    /**
      * Enables debug features. Should be disabled in production
      */
-    debug: boolean
+    debug?: boolean
     /**
      * Directly issue a search query to the elastic endpoint when the component is loaded
      */
@@ -75,7 +71,7 @@ export interface FairDOConfig {
      * Disjunctive facets as specified in the elastic search ui documentation
      * @link https://www.elastic.co/guide/en/search-ui/current/api-react-components-facet.html#api-react-components-facet-example-of-an-or-based-facet-filter
      */
-    disjunctiveFacets: string[]
+    disjunctiveFacets?: string[]
 
     /**
      * Specify connection options, like an Authorization header

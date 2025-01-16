@@ -5,7 +5,8 @@ import { ReactFlowProvider } from "@xyflow/react"
 import { RelationsGraph } from "@/components/graph/RelationsGraph"
 
 const meta = {
-    component: RelationsGraph
+    component: RelationsGraph,
+    tags: ["autodocs"]
 } satisfies Meta<typeof RelationsGraph>
 
 export default meta
@@ -17,7 +18,7 @@ export const Default: Story = {
         (Story) => (
             <ReactFlowProvider>
                 <div style={{ width: "100%", height: "min(70vh, 700px)" }}>
-                    <Story />{" "}
+                    <Story />
                 </div>
             </ReactFlowProvider>
         )

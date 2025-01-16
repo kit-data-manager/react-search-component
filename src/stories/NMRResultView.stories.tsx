@@ -6,7 +6,8 @@ import { DateTime } from "luxon"
 import { NMRResultView } from "@/components/result/NMRResultView"
 
 const meta = {
-    component: NMRResultView
+    component: NMRResultView,
+    tags: ["autodocs"]
 } satisfies Meta<typeof NMRResultView>
 
 export default meta
