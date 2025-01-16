@@ -20,14 +20,6 @@ export type FairDODefaultFacetConfig = FairDOCoreFacetConfig
 
 export type FairDOFacetConfig = FairDONumericRangeFacetConfig | FairDODefaultFacetConfig | FairDODateRangeFacetConfig
 
-type ExtensibleField<A extends object> = string | ({ field: string; valueMapper?: (fieldValue: unknown) => string } & A)
-
-export interface FairDOFieldMappingConfig {
-    title?: ExtensibleField<{ label: string }>
-    imageUrl?: ExtensibleField<Record<never, never>>
-    bodyText?: ExtensibleField<{ label: string }>
-}
-
 export interface FairDOIndexConfig {
     /**
      * Name of the index in Elasticsearch
@@ -45,11 +37,6 @@ export interface FairDOIndexConfig {
      * Facets for this index
      */
     facets: FairDOFacetConfig[]
-    /**
-     * @ignore
-     * TODO keep this?
-     */
-    fieldMappings: FairDOFieldMappingConfig
 }
 
 /**
@@ -77,7 +64,7 @@ export interface FairDOConfig {
      */
     host: string
     /**
-     * @deprecated remove
+     * @deprecated Only for testing! Using this in production will leak your API key
      */
     apiKey: string
     /**
@@ -89,4 +76,18 @@ export interface FairDOConfig {
      * @link https://www.elastic.co/guide/en/search-ui/current/api-react-components-facet.html#api-react-components-facet-example-of-an-or-based-facet-filter
      */
     disjunctiveFacets: string[]
+
+    /**
+     * Specify connection options, like an Authorization header
+     */
+    connectionOptions?: {
+        /**
+         * Specify headers to append to the requests to elastic
+         * @example
+         * headers: {
+         *     Authorization: `Bearer ${myToken}`
+         * }
+         */
+        headers?: Record<string, string>
+    }
 }

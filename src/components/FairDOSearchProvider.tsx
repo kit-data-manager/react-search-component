@@ -2,7 +2,7 @@ import type { FairDOConfig } from "@/config/FairDOConfig"
 import type { SearchContextState } from "@elastic/search-ui"
 import type { PropsWithChildren } from "react"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext"
-import { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
+import { FairDOConfigBuilder } from "@/config/FairDOConfigBuilder"
 import { arrayToObjectEntries } from "@/lib/utils"
 import { WithSearch } from "@elastic/react-search-ui"
 import { useCallback, useMemo } from "react"
@@ -15,7 +15,7 @@ import { useCallback, useMemo } from "react"
  */
 export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDOConfig }) {
     const connector = useMemo(() => {
-        return new FairDOConfigProvider(props.config).buildConnector()
+        return new FairDOConfigBuilder(props.config).buildConnector()
     }, [props.config])
 
     const searchForBackground = useCallback(
@@ -36,11 +36,7 @@ export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDO
 
     return (
         <WithSearch
-            mapContextToProps={({
-                searchTerm,
-                setSearchTerm,
-                clearFilters
-            }: SearchContextState) => ({ searchTerm, setSearchTerm, clearFilters })}
+            mapContextToProps={({ searchTerm, setSearchTerm, clearFilters }: SearchContextState) => ({ searchTerm, setSearchTerm, clearFilters })}
         >
             {({ searchTerm, setSearchTerm, clearFilters }: SearchContextState) => {
                 return (

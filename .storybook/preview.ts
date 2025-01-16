@@ -8,9 +8,9 @@ const preview: Preview = {
         controls: {
             matchers: {
                 color: /(background|color)$/i,
-                date: /Date$/i,
-            },
-        },
+                date: /Date$/i
+            }
+        }
     },
 
     decorators: [
@@ -18,11 +18,11 @@ const preview: Preview = {
             themes: {
                 // nameOfTheme: 'classNameForTheme',
                 light: "",
-                dark: "dark",
+                dark: "dark"
             },
-            defaultTheme: "light",
-        }),
-    ],
+            defaultTheme: "light"
+        })
+    ]
 }
 
 export default preview

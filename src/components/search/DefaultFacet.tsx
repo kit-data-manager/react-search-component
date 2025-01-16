@@ -1,14 +1,23 @@
-import type { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
+import type { FairDOConfigBuilder } from "@/config/FairDOConfigBuilder"
 import type { FacetViewProps } from "@elastic/react-search-ui-views"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { PlusIcon, Search } from "lucide-react"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { ComponentType, useEffect, useMemo, useRef, useState } from "react"
 import { DefaultFacetOption } from "@/components/search/DefaultFacetOption"
+import type { FacetValue } from "@elastic/search-ui"
+import type { FairDOFacetConfig } from "@/config/FairDOConfig"
 
-export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvider }) {
+export interface OptionViewProps {
+    option: FacetValue
+    facetConfig: FairDOFacetConfig
+    onSelect(v: string): void
+    onRemove(v: string): void
+}
+
+export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigBuilder; optionView?: ComponentType<OptionViewProps> }) {
     const [search, setSearch] = useState("")
 
     const selfConfig = useMemo(() => {
@@ -23,6 +32,10 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvi
     useEffect(() => {
         onSearchDebounced.current(search)
     }, [search])
+
+    const ActualOptionView = useMemo(() => {
+        return props.optionView ?? DefaultFacetOption
+    }, [props.optionView])
 
     return (
         <div className="rounded-lg p-4">
@@ -44,7 +57,7 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigProvi
             </div>
 
             {props.options.map((option) => (
-                <DefaultFacetOption
+                <ActualOptionView
                     key={option.value.toString()}
                     option={option}
                     facetConfig={selfConfig}

@@ -15,31 +15,9 @@ import { DateTime } from "luxon"
 import { useCallback, useContext, useEffect, useMemo } from "react"
 import { useStore } from "zustand"
 import { tryURLPrettyPrint } from "@/lib/utils"
+import { autoUnwrap, autoUnwrapArray } from "@/components/result/utils"
 
 const HTTP_REGEX = /https?:\/\/[a-z]+\.[a-z]+.*/gm
-
-function autoUnwrap(item: string | { raw: string }) {
-    if (typeof item === "string") {
-        return item
-    } else if (typeof item === "object" && "raw" in item && typeof item.raw === "string") {
-        return item.raw
-    } else {
-        return JSON.stringify(item)
-    }
-}
-
-function autoUnwrapArray(item: string[] | { raw: string[] }) {
-    if (!item) {
-        return []
-    }
-    if (Array.isArray(item)) {
-        return item
-    } else if (typeof item === "object" && "raw" in item && Array.isArray(item.raw)) {
-        return item.raw
-    } else {
-        return [JSON.stringify(item)]
-    }
-}
 
 /**
  * Renders the result card for one search entry. Specifically for NMR data.
@@ -255,7 +233,12 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                                 <Button className="grow rounded-r-none" size="sm" variant="secondary" onClick={showRelatedItems}>
                                     <GitFork className="mr-1 size-4" /> Show Related Items
                                 </Button>
-                                <Button className="rounded-l-none border-l border-l-border text-xs font-bold" size="sm" variant="secondary" onClick={showRelatedItems}>
+                                <Button
+                                    className="rounded-l-none border-l border-l-border text-xs font-bold"
+                                    size="sm"
+                                    variant="secondary"
+                                    onClick={showRelatedItems}
+                                >
                                     {isMetadataFor.length}
                                 </Button>
                             </div>

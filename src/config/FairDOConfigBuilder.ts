@@ -1,15 +1,10 @@
 import type { FacetConfiguration, FilterValueRange } from "@elastic/search-ui"
-import type {
-    FairDOConfig,
-    FairDODateRangeFacetConfig,
-    FairDOFacetConfig,
-    FairDONumericRangeFacetConfig
-} from "./FairDOConfig"
+import type { FairDOConfig, FairDODateRangeFacetConfig, FairDOFacetConfig, FairDONumericRangeFacetConfig } from "./FairDOConfig"
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
 import moment from "moment"
 import { parseStringValueToNumber } from "./helpers"
 
-export class FairDOConfigProvider {
+export class FairDOConfigBuilder {
     private readonly config: FairDOConfig
 
     constructor(config: FairDOConfig) {
@@ -24,7 +19,8 @@ export class FairDOConfigProvider {
         return new ElasticsearchAPIConnector({
             host: this.getConfig().host,
             index: this.getSearchOptions().index_names.join(","),
-            apiKey: this.getConfig().apiKey
+            apiKey: this.getConfig().apiKey,
+            connectionOptions: this.getConfig().connectionOptions
         })
     }
 
@@ -201,69 +197,22 @@ export class FairDOConfigProvider {
         } else if (facetConfig.type === "date_time") {
             ranges = [
                 {
-                    from: moment()
-                        .month("January")
-                        .date(1)
-                        .hour(0)
-                        .minute(0)
-                        .second(0)
-                        .format("YYYY-MM-DDTHH:mm:ss"),
-                    to: moment()
-                        .month("December")
-                        .date(31)
-                        .hour(23)
-                        .minute(59)
-                        .second(59)
-                        .format("YYYY-MM-DDTHH:mm:ss"),
+                    from: moment().month("January").date(1).hour(0).minute(0).second(0).format("YYYY-MM-DDTHH:mm:ss"),
+                    to: moment().month("December").date(31).hour(23).minute(59).second(59).format("YYYY-MM-DDTHH:mm:ss"),
                     name: "This Year"
                 },
                 {
-                    from: moment()
-                        .subtract(1, "years")
-                        .month("January")
-                        .date(1)
-                        .hour(0)
-                        .minute(0)
-                        .second(0)
-                        .format("YYYY-MM-DDTHH:mm:ss"),
-                    to: moment()
-                        .subtract(1, "years")
-                        .month("December")
-                        .date(31)
-                        .hour(23)
-                        .minute(59)
-                        .second(59)
-                        .format("YYYY-MM-DDTHH:mm:ss"),
+                    from: moment().subtract(1, "years").month("January").date(1).hour(0).minute(0).second(0).format("YYYY-MM-DDTHH:mm:ss"),
+                    to: moment().subtract(1, "years").month("December").date(31).hour(23).minute(59).second(59).format("YYYY-MM-DDTHH:mm:ss"),
                     name: "Last Year"
                 },
                 {
-                    from: moment()
-                        .subtract(2, "years")
-                        .month("January")
-                        .date(1)
-                        .hour(0)
-                        .minute(0)
-                        .second(0)
-                        .format("YYYY-MM-DDTHH:mm:ss"),
-                    to: moment()
-                        .subtract(2, "years")
-                        .month("December")
-                        .date(31)
-                        .hour(23)
-                        .minute(59)
-                        .second(59)
-                        .format("YYYY-MM-DDTHH:mm:ss"),
+                    from: moment().subtract(2, "years").month("January").date(1).hour(0).minute(0).second(0).format("YYYY-MM-DDTHH:mm:ss"),
+                    to: moment().subtract(2, "years").month("December").date(31).hour(23).minute(59).second(59).format("YYYY-MM-DDTHH:mm:ss"),
                     name: "2 years ago"
                 },
                 {
-                    to: moment()
-                        .subtract(3, "years")
-                        .month("December")
-                        .date(31)
-                        .hour(23)
-                        .minute(59)
-                        .second(59)
-                        .format("YYYY-MM-DDTHH:mm:ss"),
+                    to: moment().subtract(3, "years").month("December").date(31).hour(23).minute(59).second(59).format("YYYY-MM-DDTHH:mm:ss"),
                     name: "Older"
                 }
             ]

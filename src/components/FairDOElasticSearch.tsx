@@ -6,15 +6,15 @@ import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
 import { GlobalModalProvider } from "@/components/GlobalModalProvider"
 import { NMRResultView } from "@/components/result/NMRResultView"
 import { ClearFilters } from "@/components/search/ClearFilters"
-import { DefaultFacet } from "@/components/search/DefaultFacet"
+import { DefaultFacet, OptionViewProps } from "@/components/search/DefaultFacet"
 import { DefaultSearchBox } from "@/components/search/DefaultSearchBox"
 import { ErrorView } from "@/components/search/ErrorView"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FairDOConfigProvider } from "@/config/FairDOConfigProvider"
+import { FairDOConfigBuilder } from "@/config/FairDOConfigBuilder"
 import { ErrorBoundary, Facet, Paging, PagingInfo, Results, ResultsPerPage, SearchBox, SearchProvider, WithSearch } from "@elastic/react-search-ui"
-import { Layout } from "@elastic/react-search-ui-views"
+import { Layout, ResultViewProps } from "@elastic/react-search-ui-views"
 import { LoaderCircle } from "lucide-react"
-import { useMemo } from "react"
+import { ComponentType, useMemo } from "react"
 import "../index.css"
 import "../elastic-ui.css"
 
@@ -25,16 +25,20 @@ import "../elastic-ui.css"
  */
 export function FairDOElasticSearch({
     config: rawConfig,
-    debug
+    debug,
+    resultView,
+    facetOptionView
 }: {
     /**
      * Make sure the config is either memoized or constant (defined outside any components)
      */
     config: FairDOConfig
+    resultView?: ComponentType<ResultViewProps>
+    facetOptionView?: ComponentType<OptionViewProps>
     debug?: boolean
 }) {
     const config = useMemo(() => {
-        return new FairDOConfigProvider(rawConfig)
+        return new FairDOConfigBuilder(rawConfig)
     }, [rawConfig])
 
     const elasticConfig = useMemo(() => {
@@ -44,6 +48,10 @@ export function FairDOElasticSearch({
     const facetFields = useMemo(() => {
         return config.getFacetFields()
     }, [config])
+
+    const actualResultView = useMemo(() => {
+        return resultView ?? ((props: ResultViewProps) => <NMRResultView result={props.result} debug={debug} />)
+    }, [debug, resultView])
 
     return (
         <SearchProvider config={elasticConfig}>
@@ -82,7 +90,7 @@ export function FairDOElasticSearch({
                                                         key={field.key}
                                                         field={field.key}
                                                         label={field.label ? field.label : field.key.substring(0, 20)}
-                                                        view={(props) => <DefaultFacet {...props} config={config} />}
+                                                        view={(props) => <DefaultFacet {...props} config={config} optionView={facetOptionView} />}
                                                         isFilterable={field.isFilterable}
                                                     />
                                                 ))}
@@ -97,7 +105,7 @@ export function FairDOElasticSearch({
                                                     </div>
                                                 )}
 
-                                                <Results shouldTrackClickThrough resultView={(props) => <NMRResultView result={props.result} debug={debug} />} />
+                                                <Results shouldTrackClickThrough resultView={actualResultView} />
                                             </>
                                         }
                                         bodyHeader={
@@ -118,7 +126,10 @@ export function FairDOElasticSearch({
                                                             return (
                                                                 <div className="flex h-full items-center gap-2">
                                                                     <div>Results per Page</div>
-                                                                    <Select value={`${props.value}`} onValueChange={(v) => props.onChange(Number.parseInt(v))}>
+                                                                    <Select
+                                                                        value={`${props.value}`}
+                                                                        onValueChange={(v) => props.onChange(Number.parseInt(v))}
+                                                                    >
                                                                         <SelectTrigger className="w-[80px]">
                                                                             <SelectValue />
                                                                         </SelectTrigger>
