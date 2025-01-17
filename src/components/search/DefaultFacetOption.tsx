@@ -3,8 +3,9 @@ import { Label } from "@/components/ui/label"
 import { PidDisplay } from "@/components/result/PidDisplay"
 import { FacetValue } from "@elastic/search-ui"
 import { FairDOFacetConfig } from "@/config/FairDOConfig"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { tryURLPrettyPrint } from "@/lib/utils"
+import { ontobeeResolver } from "@/lib/OntobeeResolver"
 
 export function DefaultFacetOption({
     option,
@@ -26,6 +27,12 @@ export function DefaultFacetOption({
             return tryURLPrettyPrint(value)
         } else return value
     }, [facetConfig.prettyPrintURLs, value])
+
+    useEffect(() => {
+        if (value.startsWith("http://purl.obolibrary.org")) {
+            ontobeeResolver.parse(value)
+        }
+    }, [value])
 
     return (
         <div key={value} className="flex max-w-full items-center gap-2 break-words p-1 pb-2">

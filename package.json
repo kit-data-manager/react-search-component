@@ -21,7 +21,8 @@
         "modern"
     ],
     "scripts": {
-        "dev": "storybook dev",
+        "storybook:dev": "storybook dev",
+        "storybook:build": "storybook build",
         "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.app.json && tailwind build -i src/index.css -o dist/index.css && cp ./src/elastic-ui.css ./dist"
     },
     "dependencies": {
