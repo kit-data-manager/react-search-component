@@ -1,5 +1,28 @@
 services:
+    traefik:
+        image: "traefik:v3.3"
+        container_name: "traefik"
+        command:
+            #- "--log.level=DEBUG"
+            - "--api.insecure=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+            - "--entryPoints.websecure.address=:443"
+            - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+            #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+            - "--certificatesresolvers.myresolver.acme.email=xf3778@kit.edu"
+            - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+        ports:
+            - "443:443"
+            - "8080:8080"
+        volumes:
+            - "./letsencrypt:/letsencrypt"
+            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
     storybook:
         build: .
-        ports:
-            - "80:3000"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.storybook.rule=Host(`c20a4218-fe3f-4cd3-ae3b-9b8b5dc32352.ka.bw-cloud-instance.org`)"
+            - "traefik.http.routers.storybook.entrypoints=websecure"
+            - "traefik.http.routers.storybook.tls.certresolver=myresolver"
