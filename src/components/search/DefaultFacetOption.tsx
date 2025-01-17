@@ -3,9 +3,8 @@ import { Label } from "@/components/ui/label"
 import { PidDisplay } from "@/components/result/PidDisplay"
 import { FacetValue } from "@elastic/search-ui"
 import { FairDOFacetConfig } from "@/config/FairDOConfig"
-import { useEffect, useMemo } from "react"
+import { useMemo } from "react"
 import { tryURLPrettyPrint } from "@/lib/utils"
-import { ontobeeResolver } from "@/lib/OntobeeResolver"
 
 export function DefaultFacetOption({
     option,
@@ -28,16 +27,10 @@ export function DefaultFacetOption({
         } else return value
     }, [facetConfig.prettyPrintURLs, value])
 
-    useEffect(() => {
-        if (value.startsWith("http://purl.obolibrary.org")) {
-            ontobeeResolver.parse(value)
-        }
-    }, [value])
-
     return (
         <div key={value} className="flex max-w-full items-center gap-2 break-words p-1 pb-2">
             <Checkbox id={value} checked={option.selected} onCheckedChange={(v) => (v ? onSelect(value) : onRemove(value))} />
-            <Label htmlFor={value} className="min-w-0 grow break-words [&:not(:hover)]:truncate">
+            <Label htmlFor={value} className="min-w-0 grow break-words">
                 {value ? (
                     facetConfig.usePidResolver ? (
                         <PidDisplay pid={value} />

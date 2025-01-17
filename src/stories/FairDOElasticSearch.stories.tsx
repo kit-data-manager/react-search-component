@@ -44,7 +44,7 @@ const demoConfig: FairDOConfig = {
                 {
                     key: "NMR_Method.keyword",
                     label: "NMR Method",
-                    prettyPrintURLs: true
+                    usePidResolver: true
                 }
             ],
             resultFields: [], // Leave empty to get all fields
@@ -85,13 +85,14 @@ const demoConfig2: FairDOConfig = {
                 {
                     key: "NMR_Method.keyword",
                     label: "NMR Method",
-                    prettyPrintURLs: true
+                    usePidResolver: true
                 }
             ],
             resultFields: [], // Leave empty to get all fields
             searchFields: ["name", "pid", "hasMetadata", "isMetadataFor", "NMR_Method"]
         }
-    ]
+    ],
+    disjunctiveFacets: ["NMR_Method.keyword"]
 }
 
 export const DemoElastic: Story = {

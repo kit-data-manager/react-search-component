@@ -102,7 +102,8 @@ export class FairDOConfigBuilder {
         return {
             index_names,
             search_fields: allSearchFields,
-            result_fields: allResultFields
+            result_fields: allResultFields,
+            disjunctiveFacets: this.getConfig().disjunctiveFacets
         }
     }
 
