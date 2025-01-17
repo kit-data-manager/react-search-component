@@ -25,5 +25,5 @@ FROM python:3-alpine
 
 COPY --from=builder /app/storybook-static ./public
 
-EXPOSE 8080
-CMD ["python", "-m", "http.server", "8080", "--directory", "public"]
+EXPOSE 3000
+CMD ["python", "-m", "http.server", "3000", "--directory", "public"]
