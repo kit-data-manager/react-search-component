@@ -68,10 +68,10 @@
 
 @layer base {
     * {
-        @apply border-border;
+        @apply rfs-border-border;
     }
 
     body {
-        @apply bg-background text-foreground;
+        @apply rfs-bg-background rfs-text-foreground;
     }
 }

@@ -5,6 +5,7 @@ import animatePlugin from "tailwindcss-animate"
 export default {
     darkMode: ["class"],
     content: ["./src/**/*.{ts,tsx,js,jsx,css}"],
+    prefix: "rfs-",
     theme: {
         extend: {
             borderRadius: {
