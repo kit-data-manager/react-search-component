@@ -167,7 +167,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
     return (
         <div className={`m-2 rounded-lg border border-border p-4 ${exactPidMatch ? "animate-outline-ping" : ""}`}>
             <div className="grid grid-rows-[100px_1fr] gap-4 overflow-x-auto md:max-w-full md:grid-cols-[200px_1fr] md:grid-rows-1">
-                <div className="flex justify-center rounded dark:bg-white md:items-center md:p-2">
+                <div className="flex justify-center rounded md:items-center p-2 dark:invert">
                     {previewImage ? (
                         <img className="md:size-[200px]" src={previewImage} alt={`Preview for ${title}`} />
                     ) : (
@@ -185,7 +185,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                     <div className="font-bold md:text-xl">
                         {title}
                         <span className="ml-2 text-sm font-normal text-muted-foreground">
-                            {identifier} -{creationDate}
+                            {identifier} - {creationDate}
                         </span>
                     </div>
                     <a href={`https://hdl.handle.net/${id}`} target="_blank" className="mb-2 block leading-3 hover:underline">

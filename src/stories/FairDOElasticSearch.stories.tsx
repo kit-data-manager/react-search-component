@@ -53,7 +53,7 @@ const demoConfig: FairDOConfig = {
     ]
 }
 
-const demoConfig2: FairDOConfig = {
+const demoConfig3: FairDOConfig = {
     debug: false,
     alwaysSearchOnInitialLoad: true,
     // host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
@@ -61,7 +61,7 @@ const demoConfig2: FairDOConfig = {
     apiKey: "VG9NNFNwUUJyWWdtamJ6UGExcjY6aXhKUkk1M0xTT1dTS2xzN3daQjA3UQ==",
     indices: [
         {
-            name: "fdo-test-2",
+            name: "fdo-test-3",
             facets: [
                 {
                     key: "resourceType.keyword",
@@ -92,6 +92,18 @@ const demoConfig2: FairDOConfig = {
             searchFields: ["name", "pid", "hasMetadata", "isMetadataFor", "NMR_Method"]
         }
     ],
+    initialState: {
+        sortList: [
+            {
+                field: "name.keyword",
+                direction: "asc"
+            },
+            {
+                field: "locationPreview/Sample.keyword",
+                direction: "asc"
+            }
+        ]
+    },
     disjunctiveFacets: ["NMR_Method.keyword"]
 }
 
@@ -102,9 +114,9 @@ export const DemoElastic: Story = {
     }
 }
 
-export const DemoElastic2: Story = {
+export const DemoElastic3: Story = {
     args: {
-        config: demoConfig2,
+        config: demoConfig3,
         debug: false
     }
 }

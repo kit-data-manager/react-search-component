@@ -1,3 +1,5 @@
+import { RequestState } from "@elastic/search-ui"
+
 export interface FairDOCoreFacetConfig {
     key: string
     label: string
@@ -86,4 +88,6 @@ export interface FairDOConfig {
          */
         headers?: Record<string, string>
     }
+
+    initialState?: Partial<RequestState>
 }

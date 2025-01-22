@@ -1,4 +1,4 @@
-import type { FacetConfiguration, FilterValueRange } from "@elastic/search-ui"
+import type { FacetConfiguration, FilterValueRange, SearchDriverOptions, SearchFieldConfiguration, SearchQuery } from "@elastic/search-ui"
 import type { FairDOConfig, FairDODateRangeFacetConfig, FairDOFacetConfig, FairDONumericRangeFacetConfig } from "./FairDOConfig"
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
 import moment from "moment"
@@ -24,7 +24,7 @@ export class FairDOConfigBuilder {
         })
     }
 
-    buildElasticSearchConfig() {
+    buildElasticSearchConfig(): SearchDriverOptions {
         return {
             searchQuery: {
                 facets: this.getFacetConfig(),
@@ -32,7 +32,8 @@ export class FairDOConfigBuilder {
             },
             autocompleteQuery: this.getAutocompleteQueryConfig(),
             apiConnector: this.buildConnector(),
-            alwaysSearchOnInitialLoad: true
+            alwaysSearchOnInitialLoad: true,
+            initialState: this.getConfig().initialState
         }
     }
 
@@ -52,30 +53,26 @@ export class FairDOConfigBuilder {
         return facets
     }
 
-    getSearchOptions() {
+    getSearchOptions(): SearchQuery & { index_names: string[] } {
         const config = this.getConfig()
         const index_names: string[] = []
-        let allSearchFields: Record<string, Record<never, never>> = {}
+        let allSearchFields: Record<string, SearchFieldConfiguration> = {}
         let allResultFields: Record<string, { raw: Record<never, never> }> = {}
 
         for (const index of config.indices) {
-            // store index name
             index_names.push(index.name)
 
-            // obtain search fields
-            allSearchFields = (index.searchFields || []).reduce(
-                // accumulate from config.searchFields
-                (acc, n) => {
-                    // initialize accumulator if acc is not available, yet
-                    acc = acc || {}
-                    // set n-element (n is resultFieldKey) in acc
+            allSearchFields = (index.searchFields || []).reduce((acc, n) => {
+                if (n === "locationPreview/Sample") {
+                    acc[n] = {
+                        weight: 10
+                    }
+                } else {
                     acc[n] = {}
-                    // return current acc to next iteration
-                    return acc
-                },
-                // set initial value to already collected fields
-                allSearchFields
-            )
+                }
+
+                return acc
+            }, allSearchFields)
 
             // build result fields for current index
             allResultFields = (index.resultFields || []).reduce(

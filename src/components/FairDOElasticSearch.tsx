@@ -120,12 +120,40 @@ export function FairDOElasticSearch({
                                                         )}
                                                     />
                                                 )}
+                                                {/*{wasSearched && (
+                                                    <Sorting
+                                                        sortOptions={[
+                                                            {
+                                                                name: "Relevance",
+                                                                value: "",
+                                                                direction: ""
+                                                            },
+                                                            {
+                                                                name: "Title",
+                                                                value: "name.keyword",
+                                                                direction: "asc"
+                                                            },
+                                                            {
+                                                                name: "Image",
+                                                                value: "locationPreview/Sample.keyword",
+                                                                direction: "asc"
+                                                            }
+                                                        ]}
+                                                    />
+                                                )}*/}
+                                            </div>
+                                        }
+                                        bodyFooter={
+                                            <div className="flex items-center flex-col gap-2 md:grid grid-cols-[1fr_auto_1fr] w-full p-2">
+                                                <div />
+                                                <Paging />
                                                 {wasSearched && (
                                                     <ResultsPerPage
+                                                        options={[20, 50, 100, 250]}
                                                         view={(props) => {
                                                             return (
-                                                                <div className="flex h-full items-center gap-2">
-                                                                    <div>Results per Page</div>
+                                                                <div className="flex h-full items-center gap-2 justify-self-end">
+                                                                    <div className="text-xs text-muted-foreground">Results per Page</div>
                                                                     <Select
                                                                         value={`${props.value}`}
                                                                         onValueChange={(v) => props.onChange(Number.parseInt(v))}
@@ -150,7 +178,6 @@ export function FairDOElasticSearch({
                                                 )}
                                             </div>
                                         }
-                                        bodyFooter={<Paging />}
                                     />
                                 </ErrorBoundary>
                             )
