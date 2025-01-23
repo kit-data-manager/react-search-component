@@ -95,6 +95,10 @@ const demoConfig3: FairDOConfig = {
     initialState: {
         sortList: [
             {
+                field: "_score",
+                direction: "desc"
+            },
+            {
                 field: "name.keyword",
                 direction: "asc"
             },

@@ -115,7 +115,6 @@ export function FairDOElasticSearch({
                                                         view={(props) => (
                                                             <div>
                                                                 Showing {props.start} -{props.end} out of {props.totalResults}
-                                                                {props.searchTerm && ` - Searching for "${props.searchTerm}"`}
                                                             </div>
                                                         )}
                                                     />
