@@ -38,14 +38,14 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigBuild
     }, [props.optionView])
 
     return (
-        <div className="rounded-lg px-4 pt-0 pb-8">
-            <div className="flex items-center justify-between pb-2">
-                <div className="text-sm font-bold">{props.label}</div>
+        <div className="rfs-px-4 rfs-pt-0 rfs-pb-8">
+            <div className="rfs-flex rfs-items-center rfs-justify-between rfs-pb-2">
+                <div className="rfs-text-sm rfs-font-bold">{props.label}</div>
                 {props.showSearch && (
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button variant={search ? "default" : "ghost"} size="icon">
-                                <Search className="size-4" />
+                                <Search className="rfs-size-4" />
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent>
@@ -67,8 +67,8 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigBuild
             ))}
 
             {props.showMore ? (
-                <Button className="p-1" onClick={props.onMoreClick} size="sm" variant="link">
-                    <PlusIcon className="size-4" /> Show more
+                <Button className="rfs-p-1" onClick={props.onMoreClick} size="sm" variant="link">
+                    <PlusIcon className="rfs-size-4" /> Show more
                 </Button>
             ) : null}
         </div>

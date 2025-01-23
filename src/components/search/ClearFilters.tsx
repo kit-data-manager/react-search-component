@@ -7,12 +7,8 @@ export function ClearFilters() {
     const { driver } = useContext(SearchContext)
 
     return (
-        <Button
-            variant="link"
-            className="w-full text-muted-foreground"
-            onClick={() => driver.clearFilters()}
-        >
-            <SearchX className="size-4" /> Clear Filters
+        <Button variant="link" className="rfs-w-full !rfs-text-muted-foreground" onClick={() => driver.clearFilters()}>
+            <SearchX className="rfs-size-4" /> Clear Filters
         </Button>
     )
 }

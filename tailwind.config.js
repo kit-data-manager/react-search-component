@@ -9,50 +9,50 @@ export default {
     theme: {
         extend: {
             borderRadius: {
-                lg: "var(--radius)",
-                md: "calc(var(--radius) - 2px)",
-                sm: "calc(var(--radius) - 4px)"
+                lg: "var(--rfs-radius)",
+                md: "calc(var(--rfs-radius) - 2px)",
+                sm: "calc(var(--rfs-radius) - 4px)"
             },
             colors: {
-                background: "hsl(var(--background))",
-                foreground: "hsl(var(--foreground))",
+                background: "hsl(var(--rfs-background))",
+                foreground: "hsl(var(--rfs-foreground))",
                 card: {
-                    DEFAULT: "hsl(var(--card))",
-                    foreground: "hsl(var(--card-foreground))"
+                    DEFAULT: "hsl(var(--rfs-card))",
+                    foreground: "hsl(var(--rfs-card-foreground))"
                 },
                 popover: {
-                    DEFAULT: "hsl(var(--popover))",
-                    foreground: "hsl(var(--popover-foreground))"
+                    DEFAULT: "hsl(var(--rfs-popover))",
+                    foreground: "hsl(var(--rfs-popover-foreground))"
                 },
                 primary: {
-                    DEFAULT: "hsl(var(--primary))",
-                    foreground: "hsl(var(--primary-foreground))"
+                    DEFAULT: "hsl(var(--rfs-primary))",
+                    foreground: "hsl(var(--rfs-primary-foreground))"
                 },
                 secondary: {
-                    DEFAULT: "hsl(var(--secondary))",
-                    foreground: "hsl(var(--secondary-foreground))"
+                    DEFAULT: "hsl(var(--rfs-secondary))",
+                    foreground: "hsl(var(--rfs-secondary-foreground))"
                 },
                 muted: {
-                    DEFAULT: "hsl(var(--muted))",
-                    foreground: "hsl(var(--muted-foreground))"
+                    DEFAULT: "hsl(var(--rfs-muted))",
+                    foreground: "hsl(var(--rfs-muted-foreground))"
                 },
                 accent: {
-                    DEFAULT: "hsl(var(--accent))",
-                    foreground: "hsl(var(--accent-foreground))"
+                    DEFAULT: "hsl(var(--rfs-accent))",
+                    foreground: "hsl(var(--rfs-accent-foreground))"
                 },
                 destructive: {
-                    DEFAULT: "hsl(var(--destructive))",
-                    foreground: "hsl(var(--destructive-foreground))"
+                    DEFAULT: "hsl(var(--rfs-destructive))",
+                    foreground: "hsl(var(--rfs-destructive-foreground))"
                 },
-                border: "hsl(var(--border))",
-                input: "hsl(var(--input))",
-                ring: "hsl(var(--ring))",
+                border: "hsl(var(--rfs-border))",
+                input: "hsl(var(--rfs-input))",
+                ring: "hsl(var(--rfs-ring))",
                 chart: {
-                    1: "hsl(var(--chart-1))",
-                    2: "hsl(var(--chart-2))",
-                    3: "hsl(var(--chart-3))",
-                    4: "hsl(var(--chart-4))",
-                    5: "hsl(var(--chart-5))"
+                    1: "hsl(var(--rfs-chart-1))",
+                    2: "hsl(var(--rfs-chart-2))",
+                    3: "hsl(var(--rfs-chart-3))",
+                    4: "hsl(var(--rfs-chart-4))",
+                    5: "hsl(var(--rfs-chart-5))"
                 }
             },
             keyframes: {
@@ -66,7 +66,7 @@ export default {
                 }
             },
             animation: {
-                "outline-ping": "outline-ping 1s ease-in-out"
+                "rfs-outline-ping": "outline-ping 1s ease-in-out"
             }
         }
     },

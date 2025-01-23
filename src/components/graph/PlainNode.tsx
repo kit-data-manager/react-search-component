@@ -63,42 +63,31 @@ export function PlainNode(data: NodeProps) {
         <>
             <Handle type="target" position={Position.Left} />
             <div
-                className={`grid rounded-lg border border-border bg-background transition-all ${expand ? "grid-rows-[auto_1fr] shadow-lg" : "grid-rows-[auto_0fr]"}`}
+                className={`rfs-grid rfs-rounded-lg rfs-border rfs-border-border rfs-bg-background rfs-transition-all ${expand ? "rfs-grid-rows-[auto_1fr] rfs-shadow-lg" : "rfs-grid-rows-[auto_0fr]"}`}
             >
-                <div onClick={toggleExpand} className="p-4">
-                    <div className="items-centers flex gap-3">
-                        <div className="flex items-center">
+                <div onClick={toggleExpand} className="rfs-p-4">
+                    <div className="rfs-items-centers rfs-flex rfs-gap-3">
+                        <div className="rfs-flex rfs-items-center">
                             <Badge>{relationNode.tag ?? "FDO"}</Badge>
                         </div>
                         <div>
-                            <div className="font-semibold">{relationNode.label}</div>
-                            <div
-                                className={
-                                    relationNode.label ? "text-sm text-muted-foreground" : ""
-                                }
-                            >
-                                {relationNode.id}
-                            </div>
+                            <div className="rfs-font-semibold">{relationNode.label}</div>
+                            <div className={relationNode.label ? "rfs-text-sm rfs-text-muted-foreground" : ""}>{relationNode.id}</div>
                         </div>
                     </div>
                 </div>
-                <div className="overflow-hidden">
-                    <div className="flex gap-4 p-4 pt-0">
+                <div className="rfs-overflow-hidden">
+                    <div className="rfs-flex rfs-gap-4 rfs-p-4 rfs-pt-0">
                         {relationNode.searchQuery && (
-                            <Button className="grow" onClick={executeFind}>
-                                <Search className="size-4" /> Find
+                            <Button className="rfs-grow" onClick={executeFind}>
+                                <Search className="rfs-size-4" /> Find
                             </Button>
                         )}
 
                         {relationNode.remoteURL && (
-                            <a
-                                href={relationNode.remoteURL}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="grow"
-                            >
-                                <Button className="w-full" variant="secondary">
-                                    <ExternalLink className="size-4" /> Open
+                            <a href={relationNode.remoteURL} target="_blank" rel="noopener noreferrer" className="rfs-grow">
+                                <Button className="rfs-w-full" variant="secondary">
+                                    <ExternalLink className="rfs-size-4" /> Open
                                 </Button>
                             </a>
                         )}

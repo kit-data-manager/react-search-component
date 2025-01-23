@@ -165,46 +165,46 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
     }, [addToResultCache, pid, title])
 
     return (
-        <div className={`m-2 rounded-lg border border-border p-4 ${exactPidMatch ? "animate-outline-ping" : ""}`}>
-            <div className="grid grid-rows-[100px_1fr] gap-4 overflow-x-auto md:max-w-full md:grid-cols-[200px_1fr] md:grid-rows-1">
-                <div className="flex justify-center rounded md:items-center p-2 dark:invert">
+        <div className={`rfs-m-2 rfs-rounded-lg rfs-border rfs-border-border rfs-p-4 ${exactPidMatch ? "rfs-animate-outline-ping" : ""}`}>
+            <div className="rfs-grid rfs-grid-rows-[100px_1fr] rfs-gap-4 rfs-overflow-x-auto md:rfs-max-w-full md:rfs-grid-cols-[200px_1fr] md:rfs-grid-rows-1">
+                <div className="rfs-flex rfs-justify-center rfs-rounded md:rfs-items-center rfs-p-2 dark:rfs-invert">
                     {previewImage ? (
-                        <img className="md:size-[200px]" src={previewImage} alt={`Preview for ${title}`} />
+                        <img className="md:rfs-size-[200px]" src={previewImage} alt={`Preview for ${title}`} />
                     ) : (
-                        <div className="flex flex-col justify-center dark:text-background">
-                            <ImageOff className="size-6 text-muted-foreground/50" />
+                        <div className="rfs-flex rfs-flex-col rfs-justify-center dark:rfs-text-background">
+                            <ImageOff className="rfs-size-6 rfs-text-muted-foreground/50" />
                         </div>
                     )}
                 </div>
-                <div className="flex flex-col overflow-x-auto md:max-w-full">
+                <div className="rfs-flex rfs-flex-col rfs-overflow-x-auto md:rfs-max-w-full">
                     {exactPidMatch && (
-                        <div className="mb-2">
+                        <div className="rfs-mb-2">
                             <Badge>Exact Match</Badge>
                         </div>
                     )}
-                    <div className="font-bold md:text-xl">
+                    <div className="rfs-font-bold md:rfs-text-xl">
                         {title}
-                        <span className="ml-2 text-sm font-normal text-muted-foreground">
+                        <span className="rfs-ml-2 rfs-text-sm rfs-font-normal rfs-text-muted-foreground">
                             {identifier} - {creationDate}
                         </span>
                     </div>
-                    <a href={`https://hdl.handle.net/${id}`} target="_blank" className="mb-2 block leading-3 hover:underline">
-                        <span className="text-sm text-muted-foreground">{id}</span>
+                    <a href={`https://hdl.handle.net/${id}`} target="_blank" className="rfs-mb-2 rfs-block rfs-leading-3 hover:rfs-underline">
+                        <span className="rfs-text-sm rfs-text-muted-foreground">{id}</span>
                     </a>
-                    <div className="flex flex-wrap gap-2">
-                        <Badge variant="secondary" className="truncate">
-                            <span className="flex truncate">
-                                <GraduationCap className="mr-2 size-4 shrink-0" /> {resourceType}
+                    <div className="rfs-flex rfs-flex-wrap rfs-gap-2">
+                        <Badge variant="secondary" className="rfs-truncate">
+                            <span className="rfs-flex rfs-truncate">
+                                <GraduationCap className="rfs-mr-2 rfs-size-4 rfs-shrink-0" /> {resourceType}
                             </span>
                         </Badge>
-                        <Badge variant="secondary" className="truncate">
-                            <span className="flex truncate">
-                                <Globe className="mr-2 size-4 shrink-0" /> {hadPrimarySource}
+                        <Badge variant="secondary" className="rfs-truncate">
+                            <span className="rfs-flex rfs-truncate">
+                                <Globe className="rfs-mr-2 rfs-size-4 rfs-shrink-0" /> {hadPrimarySource}
                             </span>
                         </Badge>
-                        <Badge variant="secondary" className="truncate">
-                            <span className="flex truncate">
-                                <Scale className="mr-2 size-4 shrink-0" />️{license}
+                        <Badge variant="secondary" className="rfs-truncate">
+                            <span className="rfs-flex rfs-truncate">
+                                <Scale className="rfs-mr-2 rfs-size-4 rfs-shrink-0" />️{license}
                             </span>
                         </Badge>
                         {/*<Badge variant="secondary" className="truncate">*/}
@@ -214,8 +214,8 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                         {/*    </span>*/}
                         {/*</Badge>*/}
                     </div>
-                    <div className="grow"></div>
-                    <div className="mt-8 flex flex-col flex-wrap justify-end gap-2 md:flex-row md:items-center md:gap-4">
+                    <div className="rfs-grow"></div>
+                    <div className="rfs-mt-8 rfs-flex rfs-flex-col rfs-flex-wrap rfs-justify-end rfs-gap-2 md:rfs-flex-row md:rfs-items-center md:rfs-gap-4">
                         {debug && (
                             <Dialog>
                                 <DialogTrigger asChild>
@@ -223,18 +223,18 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                                         Show FDO
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent className="max-h-full max-w-[1000px] overflow-y-auto">
+                                <DialogContent className="rfs-max-h-full rfs-max-w-[1000px] rfs-overflow-y-auto">
                                     <ObjectRender data={result} />
                                 </DialogContent>
                             </Dialog>
                         )}
                         {isMetadataFor.length > 0 && (
-                            <div className="flex items-center">
-                                <Button className="grow rounded-r-none" size="sm" variant="secondary" onClick={showRelatedItems}>
-                                    <GitFork className="mr-1 size-4" /> Show Related Items
+                            <div className="rfs-flex rfs-items-center">
+                                <Button className="rfs-grow rfs-rounded-r-none" size="sm" variant="secondary" onClick={showRelatedItems}>
+                                    <GitFork className="rfs-mr-1 rfs-size-4" /> Show Related Items
                                 </Button>
                                 <Button
-                                    className="rounded-l-none border-l border-l-border text-xs font-bold"
+                                    className="rfs-rounded-l-none rfs-border-l rfs-border-l-border rfs-text-xs rfs-font-bold"
                                     size="sm"
                                     variant="secondary"
                                     onClick={showRelatedItems}
@@ -245,31 +245,31 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                         )}
                         {hasMetadata && (
                             <Button className="" size="sm" variant="secondary" onClick={goToMetadata}>
-                                <BookText className="mr-1 size-4" /> Find Metadata
+                                <BookText className="rfs-mr-1 rfs-size-4" /> Find Metadata
                             </Button>
                         )}
 
-                        <div className="flex items-center">
+                        <div className="rfs-flex rfs-items-center">
                             <a href={doLocation} target="_blank" className="grow">
-                                <Button size="sm" className="w-full rounded-r-none px-4">
+                                <Button size="sm" className="rfs-w-full rfs-rounded-r-none rfs-px-4">
                                     Open
                                 </Button>
                             </a>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button size="sm" className="rounded-l-none border-l">
-                                        <ChevronDown className="mr-1 size-4" />
+                                    <Button size="sm" className="rfs-rounded-l-none rfs-border-l">
+                                        <ChevronDown className="rfs-mr-1 rfs-size-4" />
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
                                     <a href={doLocation} target="_blank">
                                         <DropdownMenuItem>
-                                            <LinkIcon className="mr-1 size-4" /> Open Source
+                                            <LinkIcon className="rfs-mr-1 rfs-size-4" /> Open Source
                                         </DropdownMenuItem>
                                     </a>
                                     <a href={`https://kit-data-manager.github.io/fairdoscope/?pid=${pid}`} target="_blank">
                                         <DropdownMenuItem>
-                                            <Microscope className="mr-1 size-4" /> Open in FAIR-DOscope
+                                            <Microscope className="rfs-mr-1 rfs-size-4" /> Open in FAIR-DOscope
                                         </DropdownMenuItem>
                                     </a>
                                 </DropdownMenuContent>

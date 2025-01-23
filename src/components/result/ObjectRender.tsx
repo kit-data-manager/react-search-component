@@ -16,16 +16,14 @@ export function ObjectRender({ data }: { data: Record<string, unknown> }) {
     }
 
     return (
-        <div className="min-w-0 break-words">
+        <div className="rfs-min-w-0 rfs-break-words">
             {Object.keys(data)
                 .filter((k) => !k.startsWith("_"))
                 .map((key) => (
                     <div key={key}>
                         <PidDisplay pid={key} />
-                        <div className="pl-4">
-                            {typeof data[key] === "object" ? (
-                                <ObjectRender data={data[key] as Record<string, unknown>} />
-                            ) : null}
+                        <div className="rfs-pl-4">
+                            {typeof data[key] === "object" ? <ObjectRender data={data[key] as Record<string, unknown>} /> : null}
                         </div>
                     </div>
                 ))}

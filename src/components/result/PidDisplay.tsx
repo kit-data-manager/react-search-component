@@ -23,7 +23,7 @@ export const PidDisplay = memo(function PidDisplay({ pid }: { pid: string }) {
     const { data, error } = useSWRImmutable(pid, resolveContent)
 
     if (error) {
-        return <div className="text-red-500">{JSON.stringify(error) || "Unknown error"}</div>
+        return <div className="rfs-text-red-500">{JSON.stringify(error) || "Unknown error"}</div>
     }
 
     return <span>{data ?? ""}</span>
