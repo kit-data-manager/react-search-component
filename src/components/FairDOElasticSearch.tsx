@@ -18,6 +18,7 @@ import { ComponentType, useMemo } from "react"
 import "../index.css"
 import "../elastic-ui.css"
 import { TooltipProvider } from "./ui/tooltip"
+import { useAutoDarkMode } from "@/components/utils"
 
 /**
  * All-in-one component for rendering an elastic search UI based on the provided configuration. Includes
@@ -28,7 +29,8 @@ export function FairDOElasticSearch({
     config: rawConfig,
     debug,
     resultView,
-    facetOptionView
+    facetOptionView,
+    dark
 }: {
     /**
      * Make sure the config is either memoized or constant (defined outside any components)
@@ -36,8 +38,15 @@ export function FairDOElasticSearch({
     config: FairDOConfig
     resultView?: ComponentType<ResultViewProps>
     facetOptionView?: ComponentType<OptionViewProps>
+
+    /**
+     * Set to true to enable dark mode. Alternatively, set class="dark" on your html or body element
+     */
+    dark?: boolean
     debug?: boolean
 }) {
+    useAutoDarkMode(dark)
+
     const config = useMemo(() => {
         return new FairDOConfigBuilder(rawConfig)
     }, [rawConfig])

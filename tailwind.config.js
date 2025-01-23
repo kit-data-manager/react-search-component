@@ -3,7 +3,7 @@
 import animatePlugin from "tailwindcss-animate"
 
 export default {
-    darkMode: ["class"],
+    darkMode: ["class", `[class="dark"]`],
     content: ["./src/**/*.{ts,tsx,js,jsx,css}"],
     prefix: "rfs-",
     theme: {

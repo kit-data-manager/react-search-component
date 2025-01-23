@@ -4,6 +4,7 @@ import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 import { GlobalModalProvider } from "@/components/GlobalModalProvider"
 import { DateTime } from "luxon"
 import { NMRResultView } from "@/components/result/NMRResultView"
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 const meta = {
     component: NMRResultView,
@@ -42,9 +43,11 @@ export const Default: Story = {
                     }
                 }}
             >
-                <GlobalModalProvider>
-                    <Story />
-                </GlobalModalProvider>
+                <TooltipProvider>
+                    <GlobalModalProvider>
+                        <Story />
+                    </GlobalModalProvider>
+                </TooltipProvider>
             </FairDOSearchContext.Provider>
         )
     ]

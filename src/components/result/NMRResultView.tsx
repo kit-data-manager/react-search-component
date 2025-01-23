@@ -172,7 +172,7 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
     return (
         <div className={`rfs-m-2 rfs-rounded-lg rfs-border rfs-border-border rfs-p-4 ${exactPidMatch ? "rfs-animate-outline-ping" : ""}`}>
             <div className="rfs-grid rfs-grid-rows-[100px_1fr] rfs-gap-4 rfs-overflow-x-auto md:rfs-max-w-full md:rfs-grid-cols-[200px_1fr] md:rfs-grid-rows-1">
-                <div className="rfs-flex rfs-justify-center rfs-rounded md:rfs-items-center rfs-p-2 dark:rfs-invert">
+                <div className="rfs-flex rfs-justify-center rfs-rounded md:rfs-items-center rfs-p-2 d dark:rfs-invert">
                     {previewImage ? (
                         <img className="md:rfs-size-[200px]" src={previewImage} alt={`Preview for ${title}`} />
                     ) : (
