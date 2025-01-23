@@ -38,8 +38,8 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigBuild
     }, [props.optionView])
 
     return (
-        <div className="rounded-lg p-4">
-            <div className="flex min-h-[40px] items-center justify-between">
+        <div className="rounded-lg px-4 pt-0 pb-8">
+            <div className="flex items-center justify-between pb-2">
                 <div className="text-sm font-bold">{props.label}</div>
                 {props.showSearch && (
                     <Popover>

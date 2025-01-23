@@ -8,8 +8,7 @@
  * Header / Searchbox
  */
 .sui-layout-header {
-    padding: 32px 24px;
-    border-bottom: 1px solid hsl(var(--muted));
+    padding-top: 32px;
 }
 
 /**
@@ -265,7 +264,7 @@
 }
 
 .sui-facet-search {
-    margin: 6px 0px 0px 0px;
+    margin: 6px 0 0 0;
 }
 
 .sui-facet-search__text-input {
@@ -409,7 +408,7 @@
     min-width: 28px;
     height: 28px;
     margin-right: 8px;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     line-height: 26px;
     text-align: center;
     vertical-align: middle;
@@ -499,7 +498,7 @@
     min-width: 28px;
     height: 28px;
     color: rgba(0, 0, 0, 0.85);
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     line-height: 28px;
     text-align: center;
     vertical-align: middle;
@@ -793,7 +792,7 @@
     border: 1px solid #f0f0f0;
     background: white;
     border-radius: 4px;
-    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
     overflow-wrap: break-word;
     overflow: hidden;
 }
@@ -947,19 +946,19 @@
     font-size: 14px;
     padding: 16px;
     margin-left: 10px;
-    text-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
+    text-shadow: rgba(0, 0, 0, 0.05) 0 1px 2px;
     color: white;
     border: none;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset,
-    rgba(59, 69, 79, 0.05) 0px 1px 0px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0 0 0 1px inset,
+    rgba(59, 69, 79, 0.05) 0 1px 0;
     background: linear-gradient(#2da0fa, #3158ee) #2f7cf4;
     cursor: pointer;
     border-radius: 4px;
 }
 
 .sui-search-box__submit:hover {
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 0px 1px inset,
-    rgba(59, 69, 79, 0.3) 0px 2px 4px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 0 0 1px inset,
+    rgba(59, 69, 79, 0.3) 0 2px 4px;
     background: linear-gradient(#3cabff, #4063f0) #3d84f7;
 }
 
@@ -990,7 +989,7 @@
 }
 
 .sui-search-box__text-input:focus {
-    box-shadow: rgba(59, 69, 79, 0.3) 0px 2px 4px;
+    box-shadow: rgba(59, 69, 79, 0.3) 0 2px 4px;
     border-top: 1px solid #3a56e4;
     border-left: 1px solid #3a56e4;
     border-right: 1px solid #3a56e4;
@@ -998,7 +997,7 @@
 }
 
 .autocomplete .sui-search-box__text-input {
-    box-shadow: rgba(59, 69, 79, 0.3) 0px 2px 4px;
+    box-shadow: rgba(59, 69, 79, 0.3) 0 2px 4px;
 }
 
 .sui-search-box__autocomplete-container {
@@ -1012,7 +1011,7 @@
     line-height: 1.5;
     background: white;
     position: absolute;
-    box-shadow: rgba(59, 69, 79, 0.3) 0px 2px 4px;
+    box-shadow: rgba(59, 69, 79, 0.3) 0 2px 4px;
     border-top: 1px solid #ccc;
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
