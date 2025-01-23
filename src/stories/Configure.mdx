@@ -1,4 +1,4 @@
-import { Meta,  } from "@storybook/blocks"
+import { Meta, Source } from "@storybook/blocks"
 
 import "../index.css"
 
@@ -7,9 +7,123 @@ import "../index.css"
 <div>
     # React FairDO Search
 
-    All-in-one component for rendering an elastic search UI for exploring fair digital objects.
+    All-in-one component for rendering an elastic search UI for searching fair digital objects.
 
-    ## Demo
+    ### Demo
 
-    See `FairDOElasticSearch -> Demo Elastic 3` for an example
+    Select `FairDOElasticSearch` on the right for an example
+
+
+    ### Usage
+
+    To use the component you have to provide the search configuration as well as a result view. The search configuration will be used
+    to configure the underlying elastic adapter. The result view is used to render UI for the results received from elastic. Since
+    the result can be of any form, this requires some configuration. Take a look at the GenericResultView component (in the Storybook) to
+    see what the default result renderer can do. You can also define your own component. It is also possible to use the RelationsGraph in your
+    own components.
+
+    You will need to bring your own solution for authenticating requests to elastic. Common approaches could be...
+
+    1. Proxy server that adds an API header to your requests
+    2. Authentication in the browser that attaches an access code to the requests
+
+    See the example below for an initial configuration of the component.
+
+    ### Example Configuration
+
+    <Source code={`
+export default function Home() {
+    // First we configure the search itself. Here we defined the elastic endpoint as well as the facets.
+    const config: FairDOConfig = useMemo(() => {
+        return {
+            alwaysSearchOnInitialLoad: true,
+            host: <elastic host>,
+            indices: [
+                {
+                    name: "index1",
+                    facets: [
+                        {
+                            key: "hadPrimarySource.keyword",
+                            label: "Source",
+                            prettyPrintURLs: true
+                        },
+                        {
+                            key: "licenseURL.keyword",
+                            label: "License",
+                            prettyPrintURLs: true
+                        }
+                    ],
+                    resultFields: [], // Leave empty to get all fields
+                    searchFields: ["name", "pid", "hasMetadata", "isMetadataFor"]
+                }
+            ],
+            initialState: {
+                sortList: [
+                    {
+                        field: "_score",
+                        direction: "desc"
+                    },
+                    {
+                        field: "name.keyword",
+                        direction: "asc"
+                    }
+                ]
+            },
+            connectionOptions: {
+                headers: {
+                    // Pass your authentication headers here
+                }
+            }
+        }
+    }, []) // Make sure to add all non-static dependencies here! E.g. access code
+
+    // To display our results we have to define a result view. Since every FDOs can look very different, the different
+    // field names have to be defined here. You can also define your own component for rendering results.
+    const resultView = useCallback((props: ResultViewProps) => {
+        // GenericResultView is a configurable fallback component for displaying simple results
+        return (
+            <GenericResultView
+                result={props.result}
+                invertImageInDarkMode // Not recommended for colorful images
+                tags={[
+                    {
+                        icon: <GraduationCap className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        label: "Resource Type",
+                        field: "resourceType"
+                    },
+                    {
+                        icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        field: "hadPrimarySource",
+                        valueMapper: tryURLPrettyPrint
+                    },
+                    {
+                        icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        field: "licenseURL",
+                        valueMapper: tryURLPrettyPrint
+                    },
+                    {
+                        icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        field: "Compound"
+                    }
+                ]}
+                titleField="name"
+                creationDateField="dateCreatedRfc3339"
+                identifierField="identifier"
+                digitalObjectLocationField="digitalObjectLocation"
+                imageField="locationPreview/Sample"
+                parentItemPidField="hasMetadata"
+                relatedItemPidsField="isMetadataFor"
+                pidField="pid"
+                relatedItemsPrefetch={{ prefetchAmount: 20, searchFields: { pid: {}, isMetadataFor: {}, hasMetadata: {} } }}
+                showOpenInFairDoScope
+            />
+        )
+    }, [])
+
+    return (
+        <FairDOElasticSearch config={config} resultView={resultView} />
+    )
+}
+`} />
+
 </div>

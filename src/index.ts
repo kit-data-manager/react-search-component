@@ -1,3 +1,5 @@
 export { FairDOElasticSearch } from "./components/FairDOElasticSearch"
+export { GenericResultView } from "@/components/result/GenericResultView"
+export type { ResultViewProps } from "@elastic/react-search-ui-views"
 export * from "@/config/FairDOConfig"
 export * from "@/config/FairDOConfigBuilder"
