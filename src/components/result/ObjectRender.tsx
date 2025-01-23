@@ -21,7 +21,7 @@ export function ObjectRender({ data }: { data: Record<string, unknown> }) {
                 .filter((k) => !k.startsWith("_"))
                 .map((key) => (
                     <div key={key}>
-                        <PidDisplay pid={key} />
+                        <div>{key}</div>
                         <div className="rfs-pl-4">
                             {typeof data[key] === "object" ? <ObjectRender data={data[key] as Record<string, unknown>} /> : null}
                         </div>

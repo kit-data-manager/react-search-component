@@ -2,15 +2,7 @@ import type { RelationNode } from "@/lib/RelationNode"
 
 import { buildGraphForReferences } from "@/components/graph/helpers"
 import { PlainNode } from "@/components/graph/PlainNode"
-import {
-    Background,
-    BackgroundVariant,
-    ReactFlow,
-    useEdgesState,
-    useNodesInitialized,
-    useNodesState,
-    useReactFlow
-} from "@xyflow/react"
+import { Background, BackgroundVariant, ReactFlow, useEdgesState, useNodesInitialized, useNodesState, useReactFlow } from "@xyflow/react"
 import { useEffect, useMemo } from "react"
 import "@xyflow/react/dist/style.css"
 
@@ -57,7 +49,7 @@ export function RelationsGraph(props: {
             onEdgesChange={onEdgesChange}
             proOptions={{ hideAttribution: true }}
         >
-            <Background color="hsl(var(--border))" variant={BackgroundVariant.Lines} />
+            <Background color="hsl(var(--rfs-border))" variant={BackgroundVariant.Lines} />
         </ReactFlow>
     )
 }

@@ -5,7 +5,7 @@ import type { PropsWithChildren } from "react"
 import { RelationsGraphModal } from "@/components/graph/RelationsGraphModal"
 import { ReactFlowProvider } from "@xyflow/react"
 import { useCallback, useState } from "react"
-import { GlobalModalContext } from "./GlobalModalContext"
+import { RFS_GlobalModalContext } from "./RFS_GlobalModalContext"
 
 export function GlobalModalProvider(props: PropsWithChildren) {
     const [relationGraphState, setRelationGraphState] = useState<{
@@ -31,7 +31,7 @@ export function GlobalModalProvider(props: PropsWithChildren) {
     }, [])
 
     return (
-        <GlobalModalContext.Provider value={{ openRelationGraph }}>
+        <RFS_GlobalModalContext.Provider value={{ openRelationGraph }}>
             <ReactFlowProvider>
                 <RelationsGraphModal
                     isOpen={relationGraphState.isOpen}
@@ -42,6 +42,6 @@ export function GlobalModalProvider(props: PropsWithChildren) {
 
                 {props.children}
             </ReactFlowProvider>
-        </GlobalModalContext.Provider>
+        </RFS_GlobalModalContext.Provider>
     )
 }

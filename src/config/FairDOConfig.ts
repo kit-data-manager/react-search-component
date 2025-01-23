@@ -11,12 +11,23 @@ export interface FairDOCoreFacetConfig {
     prettyPrintURLs?: boolean
 }
 
+/**
+ * Numeric range facet. Pass possible ranges to the ranges property
+ */
 export interface FairDONumericRangeFacetConfig extends FairDOCoreFacetConfig {
     renderer: string
     type: "numeric"
+
+    /**
+     * Possible ranges to select in this facet
+     * @example ["0-10", "11-50", "51-200"]
+     */
     ranges: string[]
 }
 
+/**
+ * Date range facet that automatically renders available options
+ */
 export interface FairDODateRangeFacetConfig extends FairDOCoreFacetConfig {
     renderer: string
     type: "date_time" | "date_year"
@@ -64,7 +75,7 @@ export interface FairDOConfig {
     /**
      * @deprecated Only for testing! Using this in production will leak your API key
      */
-    apiKey: string
+    apiKey?: string
     /**
      * Configuration for the elastic indices that should be accessed
      */
@@ -89,5 +100,21 @@ export interface FairDOConfig {
         headers?: Record<string, string>
     }
 
+    /**
+     * Initialize the internal state. This can be useful to specify the default sorting of the results.
+     * @example
+     * initialState: {
+     *         sortList: [
+     *             {
+     *                 field: "_score",
+     *                 direction: "desc"
+     *             },
+     *             {
+     *                 field: "name.keyword",
+     *                 direction: "asc"
+     *             }
+     *         ]
+     *     },
+     */
     initialState?: Partial<RequestState>
 }

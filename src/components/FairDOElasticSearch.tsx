@@ -4,7 +4,6 @@ import type { FairDOConfig } from "@/config/FairDOConfig"
 import type { SearchContextState } from "@elastic/search-ui"
 import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
 import { GlobalModalProvider } from "@/components/GlobalModalProvider"
-import { NMRResultView } from "@/components/result/NMRResultView"
 import { ClearFilters } from "@/components/search/ClearFilters"
 import { DefaultFacet, OptionViewProps } from "@/components/search/DefaultFacet"
 import { DefaultSearchBox } from "@/components/search/DefaultSearchBox"
@@ -19,15 +18,23 @@ import "../index.css"
 import "../elastic-ui.css"
 import { TooltipProvider } from "./ui/tooltip"
 import { useAutoDarkMode } from "@/components/utils"
+import { PlaceholderResultView } from "@/components/result/PlaceholderResultView"
 
 /**
  * All-in-one component for rendering an elastic search UI based on the provided configuration. Includes
- * an interactive graph of related records
- * @constructor
+ * an interactive graph of related records. Pass in a config object ({@link FairDOConfig}) to configure the search.
+ *
+ * #### ⚠️ Warning
+ *
+ * Make sure your configuration is memoized or defined outside of any components
+ *
+ *
+ * #### 🖌️ Customization
+ * You can customize the default behaviour by overriding the default result view (resultView) or the views of the facet
+ * options (facetOptionView)
  */
 export function FairDOElasticSearch({
     config: rawConfig,
-    debug,
     resultView,
     facetOptionView,
     dark
@@ -36,14 +43,13 @@ export function FairDOElasticSearch({
      * Make sure the config is either memoized or constant (defined outside any components)
      */
     config: FairDOConfig
-    resultView?: ComponentType<ResultViewProps>
+    resultView: ComponentType<ResultViewProps>
     facetOptionView?: ComponentType<OptionViewProps>
 
     /**
      * Set to true to enable dark mode. Alternatively, set class="dark" on your html or body element
      */
     dark?: boolean
-    debug?: boolean
 }) {
     useAutoDarkMode(dark)
 
@@ -60,8 +66,8 @@ export function FairDOElasticSearch({
     }, [config])
 
     const actualResultView = useMemo(() => {
-        return resultView ?? ((props: ResultViewProps) => <NMRResultView result={props.result} debug={debug} />)
-    }, [debug, resultView])
+        return resultView ?? ((props: ResultViewProps) => <PlaceholderResultView {...props} />)
+    }, [resultView])
 
     return (
         <SearchProvider config={elasticConfig}>
@@ -112,7 +118,7 @@ export function FairDOElasticSearch({
                                                 <>
                                                     {isLoading && !wasSearched && (
                                                         <div className="rfs-flex rfs-justify-center">
-                                                            <LoaderCircle className="size-6 animate-spin" />
+                                                            <LoaderCircle className="rfs-size-6 rfs-animate-spin" />
                                                         </div>
                                                     )}
 
