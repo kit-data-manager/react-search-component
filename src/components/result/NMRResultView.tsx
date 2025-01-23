@@ -10,12 +10,13 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { BasicRelationNode } from "@/lib/RelationNode"
 import { resultCache } from "@/lib/ResultCache"
-import { BookText, ChevronDown, GitFork, Globe, GraduationCap, ImageOff, LinkIcon, Microscope, Scale } from "lucide-react"
+import { Atom, BookText, ChevronDown, GitFork, Globe, GraduationCap, ImageOff, LinkIcon, Microscope, Scale } from "lucide-react"
 import { DateTime } from "luxon"
 import { useCallback, useContext, useEffect, useMemo } from "react"
 import { useStore } from "zustand"
 import { tryURLPrettyPrint } from "@/lib/utils"
 import { autoUnwrap, autoUnwrapArray } from "@/components/result/utils"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 const HTTP_REGEX = /https?:\/\/[a-z]+\.[a-z]+.*/gm
 
@@ -108,6 +109,10 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
         return getField("resourceType")
     }, [getField])
 
+    const compound = useMemo(() => {
+        return getField("Compound")
+    }, [getField])
+
     const fetchRelatedItems = useCallback(async () => {
         const search = await elasticConnector?.onSearch(
             { searchTerm: pid, resultsPerPage: 20 },
@@ -192,27 +197,46 @@ export function NMRResultView({ result, debug }: { result: SearchResult; debug?:
                         <span className="rfs-text-sm rfs-text-muted-foreground">{id}</span>
                     </a>
                     <div className="rfs-flex rfs-flex-wrap rfs-gap-2">
-                        <Badge variant="secondary" className="rfs-truncate">
-                            <span className="rfs-flex rfs-truncate">
-                                <GraduationCap className="rfs-mr-2 rfs-size-4 rfs-shrink-0" /> {resourceType}
-                            </span>
-                        </Badge>
-                        <Badge variant="secondary" className="rfs-truncate">
-                            <span className="rfs-flex rfs-truncate">
-                                <Globe className="rfs-mr-2 rfs-size-4 rfs-shrink-0" /> {hadPrimarySource}
-                            </span>
-                        </Badge>
-                        <Badge variant="secondary" className="rfs-truncate">
-                            <span className="rfs-flex rfs-truncate">
-                                <Scale className="rfs-mr-2 rfs-size-4 rfs-shrink-0" />️{license}
-                            </span>
-                        </Badge>
-                        {/*<Badge variant="secondary" className="truncate">*/}
-                        {/*    <span className="flex truncate">*/}
-                        {/*        <File className="mr-2 size-4 shrink-0" />*/}
-                        {/*        <PidDisplay pid={fileType} />*/}
-                        {/*    </span>*/}
-                        {/*</Badge>*/}
+                        <Tooltip delayDuration={500}>
+                            <TooltipTrigger>
+                                <Badge variant="secondary" className="rfs-truncate">
+                                    <span className="rfs-flex rfs-truncate">
+                                        <GraduationCap className="rfs-mr-2 rfs-size-4 rfs-shrink-0" /> {resourceType}
+                                    </span>
+                                </Badge>
+                            </TooltipTrigger>
+                            <TooltipContent>Resource Type</TooltipContent>
+                        </Tooltip>
+                        <Tooltip delayDuration={500}>
+                            <TooltipTrigger>
+                                <Badge variant="secondary" className="rfs-truncate">
+                                    <span className="rfs-flex rfs-truncate">
+                                        <Globe className="rfs-mr-2 rfs-size-4 rfs-shrink-0" /> {hadPrimarySource}
+                                    </span>
+                                </Badge>
+                            </TooltipTrigger>
+                            <TooltipContent>Source Website</TooltipContent>
+                        </Tooltip>
+                        <Tooltip delayDuration={500}>
+                            <TooltipTrigger>
+                                <Badge variant="secondary" className="rfs-truncate">
+                                    <span className="rfs-flex rfs-truncate">
+                                        <Scale className="rfs-mr-2 rfs-size-4 rfs-shrink-0" />️{license}
+                                    </span>
+                                </Badge>
+                            </TooltipTrigger>
+                            <TooltipContent>License URL</TooltipContent>
+                        </Tooltip>
+                        <Tooltip delayDuration={500}>
+                            <TooltipTrigger>
+                                <Badge variant="secondary" className="rfs-truncate">
+                                    <span className="rfs-flex rfs-truncate">
+                                        <Atom className="rfs-mr-2 rfs-size-4 rfs-shrink-0" />️{compound}
+                                    </span>
+                                </Badge>
+                            </TooltipTrigger>
+                            <TooltipContent>Compound (weight in Mol)</TooltipContent>
+                        </Tooltip>
                     </div>
                     <div className="rfs-grow"></div>
                     <div className="rfs-mt-8 rfs-flex rfs-flex-col rfs-flex-wrap rfs-justify-end rfs-gap-2 md:rfs-flex-row md:rfs-items-center md:rfs-gap-4">

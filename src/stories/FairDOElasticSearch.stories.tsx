@@ -68,11 +68,6 @@ const demoConfig3: FairDOConfig = {
                     label: "Resource Type"
                 },
                 {
-                    key: "digitalObjectType.keyword",
-                    label: "File Type",
-                    usePidResolver: true
-                },
-                {
                     key: "hadPrimarySource.keyword",
                     label: "Source",
                     prettyPrintURLs: true
