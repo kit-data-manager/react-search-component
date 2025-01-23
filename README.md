@@ -19,11 +19,6 @@ Refer to storybook and code
 
 Styling is done using tailwind and css variables. Feel free to override these variables in your own CSS.
 
-### Dark mode
-
-Add the `dark` class to a container containing the component to enable dark mode. Customize the dark mode by overriding the css variables used in the component. (For example `--rfs-background`)
-
-
 ## Development
 
 Install dependencies with
