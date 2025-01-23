@@ -28,7 +28,7 @@ export function RelationsGraphModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className="rfs-h-max rfs-max-h-[min(100vh,800px)] rfs-min-h-[500px] rfs-min-w-[500px] rfs-max-w-[min(calc(100vw-40px),1500px)] rfs-p-0">
+            <DialogContent className="rfs-h-max rfs-max-h-[min(100vh,800px)] rfs-min-h-[500px] rfs-min-w-[500px] !rfs-max-w-[min(calc(100vw-40px),1500px)] rfs-p-0">
                 <VisuallyHidden.Root>
                     <DialogTitle>
                         FDOs related to
