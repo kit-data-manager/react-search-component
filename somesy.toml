@@ -1,0 +1,36 @@
+[project]
+name = "@kit-data-manager/react-fairdo-search"
+version = "0.0.1"
+description = "All-in-one component for rendering an elastic search UI for searching fair digital objects."
+license = "Apache-2.0"
+repository = "https://github.com/kit-data-manager/react-fairdo-search"
+homepage = "https://kit-data-manager.github.io/react-fairdo-search/"
+documentation = "https://kit-data-manager.github.io/react-fairdo-search/"
+keywords = [
+  "react",
+  "reactjs",
+  "component",
+  "elastic",
+  "search",
+  "elasticsearch",
+  "kit-data-manager",
+  "typescript",
+  "storybook",
+  "tailwindcss",
+  "fair",
+  "fairdata",
+  "fairdo",
+  "fairdigitalobject"
+]
+
+[[project.people]]
+given-names = "Christopher"
+family-names = "Raquet"
+email = "christopher.raquet@kit.edu"
+orcid = "https://orcid.org/0009-0003-2196-9187"
+affiliation = "Karlsruhe Institute of Technology (KIT)"
+author = true      # is a full author of the project (i.e. appears in citations)
+maintainer = true  # currently maintains the project (i.e. is a contact person)
+
+[config]
+verbose = true     # show detailed information about what somesy is doing

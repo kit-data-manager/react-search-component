@@ -1,0 +1,56 @@
+{
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "https://w3id.org/software-iodata",
+    "https://raw.githubusercontent.com/jantman/repostatus.org/master/badges/latest/ontology.jsonld",
+    "https://schema.org",
+    "https://w3id.org/software-types"
+  ],
+  "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Christopher",
+      "familyName": "Raquet",
+      "email": "christopher.raquet@kit.edu",
+      "@id": "https://orcid.org/0009-0003-2196-9187",
+      "affiliation": "Karlsruhe Institute of Technology (KIT)"
+    }
+  ],
+  "name": "@kit-data-manager/react-fairdo-search",
+  "description": "All-in-one component for rendering an elastic search UI for searching fair digital objects.",
+  "version": "0.0.1",
+  "keywords": [
+    "react",
+    "reactjs",
+    "component",
+    "elastic",
+    "search",
+    "elasticsearch",
+    "kit-data-manager",
+    "typescript",
+    "storybook",
+    "tailwindcss",
+    "fair",
+    "fairdata",
+    "fairdo",
+    "fairdigitalobject"
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Christopher",
+      "familyName": "Raquet",
+      "email": "christopher.raquet@kit.edu",
+      "@id": "https://orcid.org/0009-0003-2196-9187",
+      "affiliation": "Karlsruhe Institute of Technology (KIT)"
+    }
+  ],
+  "license": [
+    "https://spdx.org/licenses/Apache-2.0"
+  ],
+  "softwareHelp": "https://kit-data-manager.github.io/react-fairdo-search/",
+  "codeRepository": "https://github.com/kit-data-manager/react-fairdo-search",
+  "buildInstructions": "https://kit-data-manager.github.io/react-fairdo-search/",
+  "url": "https://kit-data-manager.github.io/react-fairdo-search/"
+}
