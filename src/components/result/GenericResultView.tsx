@@ -15,37 +15,98 @@ import { GenericResultViewTag, GenericResultViewTagProps } from "@/components/re
 
 const HTTP_REGEX = /https?:\/\/[a-z]+\.[a-z]+.*/gm
 
+export interface GenericResultViewProps {
+    /**
+     * Search result that will be rendered in this view. Will be provided by FairDOElasticSearch
+     */
+    result: SearchResult
+
+    /**
+     * The elastic field where the title of the card will be read from
+     */
+    titleField?: string
+
+    /**
+     * The elastic field where the description of the card will be read from
+     */
+    descriptionField?: string
+
+    /**
+     * The elastic field where the image of the card will be read from. Will directly be passed to the `src` attribute of an `img` tag
+     */
+    imageField?: string
+
+    /**
+     * Enable this option to invert the image on dark mode. This is useful for greyscale schematics.
+     */
+    invertImageInDarkMode?: boolean
+
+    /**
+     * The elastic field where the digital object location (the target page of the `Open` button) will be read from
+     */
+    digitalObjectLocationField?: string
+
+    /**
+     * The elastic field where the PID of the current FDO will be read from. Can be omitted if you don't have a PID
+     */
+    pidField?: string
+
+    /**
+     * The elastic field where the related items of the current FDO will be read from. Should be an array of PIDs or otherwise unique identifiers. Will be displayed in a related items graph.
+     */
+    relatedItemPidsField?: string
+
+    /**
+     * Options for prefetching of related items in the relations graph. It is recommended to defined this if the default settings don't work properly.
+     */
+    relatedItemsPrefetch?: { prefetchAmount?: number; searchFields?: Record<string, SearchFieldConfiguration> }
+
+    /**
+     * The elastic field where the unique identifier of the parent item (metadata item) of the current FDO will be read from. Will be accessible via a `Find Metadata` button
+     */
+    parentItemPidField?: string
+
+    /**
+     * The elastic field where the creation date of the FDO will be read from. Will be parsed as an ISO String.
+     */
+    creationDateField?: string
+
+    /**
+     * The elastic field where an additional identifier will be read from. You don't need to provide this if you don't have any additional identifiers apart from the PID.
+     */
+    additionalIdentifierField?: string
+
+    /**
+     * Define custom tags to display on the card. Each tag displays the information from one field.
+     */
+    tags?: Omit<GenericResultViewTagProps, "result">[]
+
+    /**
+     * Whether to show the open in FairDOScope button in the dropdown
+     */
+    showOpenInFairDoScope?: boolean
+}
+
+/**
+ * Configurable result view component that can be customized for specific use cases. Will display a card for each search result from elastic. If this component
+ * doesn't fit your needs, feel free to implement your own result view.
+ */
 export function GenericResultView({
     result,
-    titleField,
-    descriptionField,
+    titleField = "name",
+    descriptionField = "description",
     imageField,
-    invertImageInDarkMode,
-    digitalObjectLocationField,
-    pidField,
-    relatedItemPidsField,
-    parentItemPidField,
-    creationDateField,
-    identifierField,
-    relatedItemsPrefetch,
-    tags,
-    showOpenInFairDoScope
-}: {
-    result: SearchResult
-    titleField?: string
-    descriptionField?: string
-    imageField?: string
-    invertImageInDarkMode?: boolean
-    digitalObjectLocationField?: string
-    pidField?: string
-    relatedItemPidsField?: string
-    relatedItemsPrefetch?: { prefetchAmount?: number; searchFields?: Record<string, SearchFieldConfiguration> }
-    parentItemPidField?: string
-    creationDateField?: string
-    identifierField?: string
-    tags?: Omit<GenericResultViewTagProps, "result">[]
-    showOpenInFairDoScope?: boolean
-}) {
+    invertImageInDarkMode = false,
+    digitalObjectLocationField = "digitalObjectLocation",
+    pidField = "pid",
+    relatedItemPidsField = "isMetadataFor",
+    parentItemPidField = "hasMetadata",
+    creationDateField = "creationDate",
+    additionalIdentifierField = "identifier",
+    relatedItemsPrefetch = { prefetchAmount: 20, searchFields: { pid: {} } },
+    tags = [],
+    showOpenInFairDoScope = true
+}: GenericResultViewProps) {
     const { openRelationGraph } = useContext(RFS_GlobalModalContext)
     const { searchFor, searchTerm, elasticConnector } = useContext(FairDOSearchContext)
     const addToResultCache = useStore(resultCache, (s) => s.set)
@@ -66,13 +127,13 @@ export function GenericResultView({
     )
 
     const pid = useMemo(() => {
-        const _pid = getField("pid")
+        const _pid = getField(pidField ?? "pid")
         if (_pid && _pid.startsWith("https://")) {
             return /https:\/\/.*?\/(.*)/.exec(_pid)?.[1] ?? _pid
         } else {
             return _pid
         }
-    }, [getField])
+    }, [getField, pidField])
 
     const title = useMemo(() => {
         return getField(titleField ?? "name")
@@ -84,6 +145,7 @@ export function GenericResultView({
 
     const doLocation = useMemo(() => {
         const value = getField(digitalObjectLocationField ?? "digitalObjectLocation")
+        if (!value) return undefined
         if (HTTP_REGEX.test(value)) return value
         else return `https://doi.org/${value}`
     }, [digitalObjectLocationField, getField])
@@ -93,8 +155,8 @@ export function GenericResultView({
     }, [getField, imageField])
 
     const identifier = useMemo(() => {
-        return getField(identifierField ?? "identifier")
-    }, [getField, identifierField])
+        return getField(additionalIdentifierField ?? "identifier")
+    }, [getField, additionalIdentifierField])
 
     const isMetadataFor = useMemo(() => {
         return getArrayField(relatedItemPidsField ?? "isMetadataFor")
@@ -225,34 +287,36 @@ export function GenericResultView({
                             </Button>
                         )}
 
-                        <div className="rfs-flex rfs-items-center">
-                            <a href={doLocation} target="_blank" className="grow">
-                                <Button size="sm" className="rfs-w-full rfs-rounded-r-none rfs-px-4">
-                                    Open
-                                </Button>
-                            </a>
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button size="sm" className="rfs-rounded-l-none rfs-border-l">
-                                        <ChevronDown className="rfs-mr-1 rfs-size-4" />
+                        {doLocation && (
+                            <div className="rfs-flex rfs-items-center">
+                                <a href={doLocation} target="_blank" className="grow">
+                                    <Button size="sm" className="rfs-w-full rfs-rounded-r-none rfs-px-4">
+                                        Open
                                     </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    <a href={doLocation} target="_blank">
-                                        <DropdownMenuItem>
-                                            <LinkIcon className="rfs-mr-1 rfs-size-4" /> Open Source
-                                        </DropdownMenuItem>
-                                    </a>
-                                    {showOpenInFairDoScope && (
-                                        <a href={`https://kit-data-manager.github.io/fairdoscope/?pid=${pid}`} target="_blank">
+                                </a>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button size="sm" className="rfs-rounded-l-none rfs-border-l">
+                                            <ChevronDown className="rfs-mr-1 rfs-size-4" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        <a href={doLocation} target="_blank">
                                             <DropdownMenuItem>
-                                                <Microscope className="rfs-mr-1 rfs-size-4" /> Open in FAIR-DOscope
+                                                <LinkIcon className="rfs-mr-1 rfs-size-4" /> Open Source
                                             </DropdownMenuItem>
                                         </a>
-                                    )}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
+                                        {showOpenInFairDoScope && (
+                                            <a href={`https://kit-data-manager.github.io/fairdoscope/?pid=${pid}`} target="_blank">
+                                                <DropdownMenuItem>
+                                                    <Microscope className="rfs-mr-1 rfs-size-4" /> Open in FAIR-DOscope
+                                                </DropdownMenuItem>
+                                            </a>
+                                        )}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

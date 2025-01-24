@@ -1,0 +1,42 @@
+import { Meta, Source } from "@storybook/blocks"
+
+import "../index.css"
+
+<Meta title="Custom Result View" />
+
+# Custom Result View
+
+To define your own result view, simply define a component with the following signature:
+
+<Source code={`
+function MyResultView({ result }: ResultViewProps) {
+    // Helper function to retrieve a field from the results
+    const getField = useCallback(
+        (field: string) => {
+            return autoUnwrap(result[field])
+        },
+        [result]
+    )
+
+    // Helper function to retrieve an array field from the results
+    const getArrayField = useCallback(
+        (field: string) => {
+            return autoUnwrapArray(result[field])
+        },
+        [result]
+    )
+
+    // Make sure to memoize everything! This is very important for performance
+    const title = useMemo(() => {
+        return getField("name")
+    }, [getField])
+
+    return <div>{title}</div>
+}
+`} />
+
+Then pass it to the search component:
+
+<Source code={`
+<FairDOElasticSearch resultView={MyResultView} config={config} />
+`} />

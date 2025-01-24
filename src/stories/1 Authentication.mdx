@@ -1,0 +1,59 @@
+import { Meta, Source } from "@storybook/blocks"
+
+import "../index.css"
+
+<Meta title="Authentication" />
+
+<div className="show-lists">
+    # Authentication
+
+    Depending on your use case, you will have different needs for authenticating users. This package (as well as the underlying elasticsearch adapter) provide two ways to achieve this:
+
+    1. Authentication with an access code from an identity provider (like keycloak)
+    2. Authentication with an API Key (not recommended)
+
+    While the first option requires significantly more work, the second option can't be considered secure, as your API Key will have to be provided to all users of the app. Feel free to use the second option in development.
+
+    ### via Access Code
+
+    Set up authentication in your app depending on your identity provider. Then you can simply pass the access code to the search component:
+
+    <Source code={`
+function MyComponent() {
+    const myAccessToken = useAccessToken() // This will depend on your authentication library
+
+    const config: FairDOConfig = useMemo(() => ({
+        // ...
+        host: "https://example.org/elastic-auth-proxy"
+        connectionOptions: {
+            headers: {
+                Authentication: myAccessToken
+            }
+        }
+    }), [myAccessToken])
+
+    // ...
+}
+    `} />
+
+    You will have to run a proxy server that received the requests from the search component and checks the authentication header. The proxy server should then forward the request to a protected elasticsearch instance.
+
+    Depending on your authentication service, you have to make sure that the access token is refreshed when it becomes invalid.
+
+    ### via API Key
+
+    Set up an API Key in the management interface of your elasticsearch instance. Then pass the API Key to the config:
+
+    <Source code={`
+function MyComponent() {
+    const config: FairDOConfig = useMemo(() => ({
+        // ...
+        apiKey: "your key here"
+    }), [])
+
+    // ...
+}
+`} />
+
+    The API Key will be visible to all users of your app. This approach is not recommended in production.
+</div>

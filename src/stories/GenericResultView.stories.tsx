@@ -15,7 +15,31 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
+export const Simple: Story = {
+    decorators: [
+        (Story) => (
+            <TooltipProvider>
+                <GlobalModalProvider>
+                    <div>
+                        <Story />
+                    </div>
+                </GlobalModalProvider>
+            </TooltipProvider>
+        )
+    ],
+    args: {
+        result: {
+            title: "GenericResultView",
+            description: "This view can be customized"
+        },
+        titleField: "title",
+        descriptionField: "description",
+        imageField: undefined,
+        invertImageInDarkMode: true
+    }
+}
+
+export const Full: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>

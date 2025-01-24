@@ -73,7 +73,7 @@ export interface FairDOConfig {
      */
     host: string
     /**
-     * @deprecated Only for testing! Using this in production will leak your API key
+     * Authenticate against the elasticsearch backend using an API Key. Using this in a browser environment will leak this API key to all users!
      */
     apiKey?: string
     /**

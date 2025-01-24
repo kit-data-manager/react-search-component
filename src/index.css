@@ -74,4 +74,10 @@
     body {
         @apply rfs-bg-background rfs-text-foreground;
     }
+
+    ul, ol {
+        list-style: revert;
+        margin: revert;
+        padding: revert;
+    }
 }

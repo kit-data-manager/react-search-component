@@ -105,7 +105,7 @@ export const GenericResultRenderer: Story = {
                 ]}
                 titleField="name"
                 creationDateField="dateCreatedRfc3339"
-                identifierField="identifier"
+                additionalIdentifierField="identifier"
                 digitalObjectLocationField="digitalObjectLocation"
                 imageField="locationPreview/Sample"
                 parentItemPidField="hasMetadata"
