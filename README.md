@@ -1,5 +1,9 @@
 # fairdo-elastic-search
 
+[![Node.js CI](https://github.com/kit-data-manager/react-fairdo-search/actions/workflows/build.yml/badge.svg)](https://github.com/kit-data-manager/react-fairdo-search/actions/workflows/build.yml)
+
+> ⚠️ This component is in active development. Consider it **not** ready for production.
+
 All-in-one React component for rendering an elastic search UI based on the provided configuration. Includes
 an interactive graph of related records.
 
@@ -8,12 +12,12 @@ This is an ESM Module intended for use in modern React applications. Make sure y
 ## Installation
 
 ```bash
-  npm install ?
+  npm install @kit-data-manager/react-fairdo-search
 ```
 
 ## Docs
 
-Refer to storybook and code
+[Visit the Storybook](https://kit-data-manager.github.io/react-fairdo-search/?path=/docs/getting-started--docs)
 
 ## Customization
 
