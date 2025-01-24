@@ -15,7 +15,6 @@ export interface FairDOCoreFacetConfig {
  * Numeric range facet. Pass possible ranges to the ranges property
  */
 export interface FairDONumericRangeFacetConfig extends FairDOCoreFacetConfig {
-    renderer: string
     type: "numeric"
 
     /**
@@ -29,13 +28,16 @@ export interface FairDONumericRangeFacetConfig extends FairDOCoreFacetConfig {
  * Date range facet that automatically renders available options
  */
 export interface FairDODateRangeFacetConfig extends FairDOCoreFacetConfig {
-    renderer: string
     type: "date_time" | "date_year"
+}
+
+export interface FairDOSliderFacetConfig extends FairDOCoreFacetConfig {
+    type: "min-max-slider"
 }
 
 export type FairDODefaultFacetConfig = FairDOCoreFacetConfig
 
-export type FairDOFacetConfig = FairDONumericRangeFacetConfig | FairDODefaultFacetConfig | FairDODateRangeFacetConfig
+export type FairDOFacetConfig = FairDONumericRangeFacetConfig | FairDODefaultFacetConfig | FairDODateRangeFacetConfig | FairDOSliderFacetConfig
 
 export interface FairDOIndexConfig {
     /**

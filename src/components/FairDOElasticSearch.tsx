@@ -26,7 +26,7 @@ import { PlaceholderResultView } from "@/components/result/PlaceholderResultView
  *
  * #### ⚠️ Warning
  *
- * Make sure your configuration is memoized or defined outside of any components
+ * Make sure your configuration is memoized or defined outside any components
  *
  *
  * #### 🖌️ Customization

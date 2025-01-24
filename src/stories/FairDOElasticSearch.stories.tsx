@@ -80,7 +80,8 @@ const demoConfigWithCompound: FairDOConfig = {
             facets: [
                 {
                     key: "Compound.keyword",
-                    label: "Compound"
+                    label: "Compound",
+                    type: "min-max-slider"
                 }
             ],
             resultFields: [], // Leave empty to get all fields

@@ -111,12 +111,19 @@ export class FairDOConfigBuilder {
                         type: "range",
                         ranges: facetRanges
                     }
-                } else if ("type" in n && n.type?.startsWith("date_")) {
+                } else if ("type" in n && (n.type === "date_time" || n.type === "date_year")) {
                     const facetRanges = this.buildDateRangeFacet(n)
                     acc[n.key] = {
                         ...n,
                         type: "range",
                         ranges: facetRanges
+                    }
+                } else if ("type" in n && n.type === "min-max-slider") {
+                    // TODO work out how to get slider min and max values
+                    acc[n.key] = {
+                        ...n,
+                        type: "value",
+                        size: 100
                     }
                 } else {
                     // no specific range facet, use default arguments
