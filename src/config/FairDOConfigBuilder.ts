@@ -63,13 +63,7 @@ export class FairDOConfigBuilder {
             index_names.push(index.name)
 
             allSearchFields = (index.searchFields || []).reduce((acc, n) => {
-                if (n === "locationPreview/Sample") {
-                    acc[n] = {
-                        weight: 10
-                    }
-                } else {
-                    acc[n] = {}
-                }
+                acc[n] = {}
 
                 return acc
             }, allSearchFields)
@@ -113,18 +107,21 @@ export class FairDOConfigBuilder {
                 if ("type" in n && n.type === "numeric") {
                     const facetRanges = this.buildNumericRangeFacet(n)
                     acc[n.key] = {
+                        ...n,
                         type: "range",
                         ranges: facetRanges
                     }
                 } else if ("type" in n && n.type?.startsWith("date_")) {
                     const facetRanges = this.buildDateRangeFacet(n)
                     acc[n.key] = {
+                        ...n,
                         type: "range",
                         ranges: facetRanges
                     }
                 } else {
                     // no specific range facet, use default arguments
                     acc[n.key] = {
+                        ...n,
                         type: "value",
                         size: 100
                     }
