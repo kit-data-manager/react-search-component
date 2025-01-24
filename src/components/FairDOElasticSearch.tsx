@@ -136,27 +136,27 @@ export function FairDOElasticSearch({
                                                             )}
                                                         />
                                                     )}
-                                                    {/*{wasSearched && (
-                                                    <Sorting
-                                                        sortOptions={[
-                                                            {
-                                                                name: "Relevance",
-                                                                value: "",
-                                                                direction: ""
-                                                            },
-                                                            {
-                                                                name: "Title",
-                                                                value: "name.keyword",
-                                                                direction: "asc"
-                                                            },
-                                                            {
-                                                                name: "Image",
-                                                                value: "locationPreview/Sample.keyword",
-                                                                direction: "asc"
-                                                            }
-                                                        ]}
-                                                    />
-                                                )}*/}
+                                                    {/*{wasSearched && (*/}
+                                                    {/*    <Sorting*/}
+                                                    {/*        sortOptions={[*/}
+                                                    {/*            {*/}
+                                                    {/*                name: "Relevance",*/}
+                                                    {/*                value: "_score",*/}
+                                                    {/*                direction: ""*/}
+                                                    {/*            },*/}
+                                                    {/*            {*/}
+                                                    {/*                name: "Title",*/}
+                                                    {/*                value: "name",*/}
+                                                    {/*                direction: "asc"*/}
+                                                    {/*            },*/}
+                                                    {/*            {*/}
+                                                    {/*                name: "Image",*/}
+                                                    {/*                value: "locationPreview/Sample.keyword",*/}
+                                                    {/*                direction: "asc"*/}
+                                                    {/*            }*/}
+                                                    {/*        ]}*/}
+                                                    {/*    />*/}
+                                                    {/*)}*/}
                                                 </div>
                                             }
                                             bodyFooter={

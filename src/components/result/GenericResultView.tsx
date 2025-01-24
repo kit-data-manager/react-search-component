@@ -49,6 +49,11 @@ export interface GenericResultViewProps {
     digitalObjectLocationField?: string
 
     /**
+     * The elastic field where the landing page location will be read from
+     */
+    landingPageLocationField?: string
+
+    /**
      * The elastic field where the PID of the current FDO will be read from. Can be omitted if you don't have a PID
      */
     pidField?: string
@@ -99,6 +104,7 @@ export function GenericResultView({
     descriptionField = "description",
     imageField,
     invertImageInDarkMode = false,
+    landingPageLocationField = "landingPageLocation",
     digitalObjectLocationField = "digitalObjectLocation",
     pidField = "pid",
     relatedItemPidsField = "isMetadataFor",
@@ -186,6 +192,10 @@ export function GenericResultView({
         if (HTTP_REGEX.test(value)) return value
         else return `https://doi.org/${value}`
     }, [digitalObjectLocationField, getField])
+
+    const landingPageLocation = useMemo(() => {
+        return getField(landingPageLocationField ?? "landingPageLocation")
+    }, [getField, landingPageLocationField])
 
     const previewImage = useMemo(() => {
         const images = getArrayOrSingleField(imageField ?? "imageURL")
@@ -335,9 +345,9 @@ export function GenericResultView({
                             </Button>
                         )}
 
-                        {doLocation && (
+                        {landingPageLocation && (
                             <div className="rfs-flex rfs-items-center">
-                                <a href={doLocation} target="_blank" className="grow">
+                                <a href={landingPageLocation} target="_blank" className="grow">
                                     <Button size="sm" className="rfs-w-full rfs-rounded-r-none rfs-px-4">
                                         Open
                                     </Button>

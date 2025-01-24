@@ -23,7 +23,7 @@ const demoConfig: FairDOConfig = {
     apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
     indices: [
         {
-            name: "fdo-test-3",
+            name: "fdo-test-4",
             facets: [
                 {
                     key: "resourceType.keyword",
@@ -79,7 +79,7 @@ const demoConfigWithCompound: FairDOConfig = {
             name: "fdo-test-4",
             facets: [
                 {
-                    key: "Compound.keyword",
+                    key: "Compound.Molar_mass",
                     label: "Compound",
                     type: "min-max-slider"
                 }
@@ -130,16 +130,19 @@ export const GenericResultRenderer: Story = {
                     {
                         icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "hadPrimarySource",
-                        valueMapper: tryURLPrettyPrint
+                        valueMapper: tryURLPrettyPrint,
+                        label: "Source"
                     },
                     {
                         icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "licenseURL",
-                        valueMapper: tryURLPrettyPrint
+                        valueMapper: tryURLPrettyPrint,
+                        label: "License URL"
                     },
                     {
                         icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
-                        field: "Compound"
+                        field: "Compound.Molar_mass",
+                        label: "Molar Mass"
                     }
                 ]}
                 titleField="name"
@@ -173,16 +176,19 @@ export const CompoundSlider: Story = {
                     {
                         icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "hadPrimarySource",
-                        valueMapper: tryURLPrettyPrint
+                        valueMapper: tryURLPrettyPrint,
+                        label: "Source"
                     },
                     {
                         icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "licenseURL",
-                        valueMapper: tryURLPrettyPrint
+                        valueMapper: tryURLPrettyPrint,
+                        label: "License URL"
                     },
                     {
                         icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
-                        field: "Compound"
+                        field: "Compound.Molar_mass",
+                        label: "Molar Mass"
                     }
                 ]}
                 titleField="name"

@@ -15,6 +15,7 @@ export interface GenericResultViewTagProps {
 export function GenericResultViewTag({ field, result, icon, label, valueMapper }: GenericResultViewTagProps) {
     const value = useMemo(() => {
         const value = autoUnwrap(result[field])
+        if (!value) return undefined
         if (valueMapper) return valueMapper(value)
         else return value
     }, [field, result, valueMapper])
@@ -30,6 +31,7 @@ export function GenericResultViewTag({ field, result, icon, label, valueMapper }
     }, [icon, value])
 
     if (!label) return base
+    if (!value) return null
 
     return (
         <Tooltip delayDuration={500}>
