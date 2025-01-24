@@ -10,8 +10,10 @@ import { BookText, ChevronDown, GitFork, ImageOff, LinkIcon, Microscope } from "
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { SearchFieldConfiguration, SearchResult } from "@elastic/search-ui"
+import { SearchFieldConfiguration } from "@elastic/search-ui"
 import { GenericResultViewTag, GenericResultViewTagProps } from "@/components/result/GenericResultViewTag"
+import { GenericResultViewImageCarousel } from "@/components/result/GenericResultViewImageCarousel"
+import { z } from "zod"
 
 const HTTP_REGEX = /https?:\/\/[a-z]+\.[a-z]+.*/gm
 
@@ -19,7 +21,7 @@ export interface GenericResultViewProps {
     /**
      * Search result that will be rendered in this view. Will be provided by FairDOElasticSearch
      */
-    result: SearchResult
+    result: Record<string, unknown>
 
     /**
      * The elastic field where the title of the card will be read from
@@ -114,16 +116,51 @@ export function GenericResultView({
 
     const getField = useCallback(
         (field: string) => {
-            return autoUnwrap(result[field])
+            try {
+                return autoUnwrap(
+                    z
+                        .string()
+                        .or(z.object({ raw: z.string() }))
+                        .optional()
+                        .parse(result[field])
+                )
+            } catch (e) {
+                console.error(`Parsing field ${field} failed`, e)
+                return undefined
+            }
         },
         [result]
     )
 
     const getArrayField = useCallback(
         (field: string) => {
-            return autoUnwrapArray(result[field])
+            try {
+                return autoUnwrapArray(
+                    z
+                        .string()
+                        .array()
+                        .or(z.object({ raw: z.string().array() }))
+                        .optional()
+                        .parse(result[field])
+                )
+            } catch (e) {
+                console.error(`Parsing array field ${field} failed`, e)
+                return []
+            }
         },
         [result]
+    )
+
+    const getArrayOrSingleField = useCallback(
+        (field: string) => {
+            const _field: unknown = result[field]
+            if (Array.isArray(_field) || (typeof _field === "object" && _field && "raw" in _field && Array.isArray(_field.raw))) {
+                return getArrayField(field)
+            } else {
+                return getField(field)
+            }
+        },
+        [getArrayField, getField, result]
     )
 
     const pid = useMemo(() => {
@@ -151,8 +188,9 @@ export function GenericResultView({
     }, [digitalObjectLocationField, getField])
 
     const previewImage = useMemo(() => {
-        return getField(imageField ?? "imageURL")
-    }, [getField, imageField])
+        const images = getArrayOrSingleField(imageField ?? "imageURL")
+        return Array.isArray(images) ? (images.length === 1 ? images[0] : images) : images
+    }, [getArrayOrSingleField, imageField])
 
     const identifier = useMemo(() => {
         return getField(additionalIdentifierField ?? "identifier")
@@ -164,6 +202,7 @@ export function GenericResultView({
 
     const creationDate = useMemo(() => {
         const value = getField(creationDateField ?? "dateCreated")
+        if (!value) return undefined
         const dateTime = DateTime.fromISO(value)
         return dateTime.isValid ? dateTime.toLocaleString() : value
     }, [creationDateField, getField])
@@ -185,9 +224,11 @@ export function GenericResultView({
 
         if (search) {
             for (const entry of search.results) {
-                addToResultCache(autoUnwrap(entry[pidField ?? "pid"]), {
-                    pid: autoUnwrap(entry[pidField ?? "pid"]),
-                    name: autoUnwrap(entry[titleField ?? "name"])
+                const pid = autoUnwrap(entry[pidField ?? "pid"])
+                if (!pid) continue
+                addToResultCache(pid, {
+                    pid,
+                    name: autoUnwrap(entry[titleField ?? "name"]) ?? ""
                 })
             }
         }
@@ -198,8 +239,8 @@ export function GenericResultView({
 
         openRelationGraph(
             {
-                id: pid,
-                label: title,
+                id: pid ?? "source",
+                label: title ?? "Source",
                 tag: "Current",
                 remoteURL: doLocation,
                 searchQuery: pid
@@ -212,6 +253,7 @@ export function GenericResultView({
     }, [doLocation, fetchRelatedItems, getResultFromCache, isMetadataFor, openRelationGraph, pid, title])
 
     const goToMetadata = useCallback(() => {
+        if (!hasMetadata) return
         searchFor(hasMetadata)
     }, [hasMetadata, searchFor])
 
@@ -229,7 +271,9 @@ export function GenericResultView({
     }, [addToResultCache, pid, title])
 
     return (
-        <div className={`rfs-m-2 rfs-rounded-lg rfs-border rfs-border-border rfs-p-4 ${exactPidMatch ? "rfs-animate-outline-ping" : ""}`}>
+        <div
+            className={`rfs-m-2 rfs-rounded-lg rfs-border rfs-border-border rfs-p-4 rfs-group/resultView ${exactPidMatch ? "rfs-animate-outline-ping" : ""}`}
+        >
             <div
                 className={`rfs-grid ${imageField ? "rfs-grid-rows-[100px_1fr] md:rfs-grid-cols-[200px_1fr] md:rfs-grid-rows-1" : ""} rfs-gap-4 rfs-overflow-x-auto md:rfs-max-w-full`}
             >
@@ -238,7 +282,11 @@ export function GenericResultView({
                         className={`rfs-flex rfs-justify-center rfs-rounded md:rfs-items-center rfs-p-2 d ${invertImageInDarkMode ? "dark:rfs-invert" : ""} `}
                     >
                         {previewImage ? (
-                            <img className="md:rfs-size-[200px]" src={previewImage} alt={`Preview for ${title}`} />
+                            Array.isArray(previewImage) ? (
+                                <GenericResultViewImageCarousel images={previewImage} title={title} />
+                            ) : (
+                                <img className="md:rfs-size-[200px]" src={previewImage} alt={`Preview for ${title}`} />
+                            )
                         ) : (
                             <div className="rfs-flex rfs-flex-col rfs-justify-center dark:rfs-text-background">
                                 <ImageOff className="rfs-size-6 rfs-text-muted-foreground/50" />

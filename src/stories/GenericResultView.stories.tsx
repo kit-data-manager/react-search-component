@@ -39,6 +39,37 @@ export const Simple: Story = {
     }
 }
 
+export const MultipleImages: Story = {
+    decorators: [
+        (Story) => (
+            <TooltipProvider>
+                <GlobalModalProvider>
+                    <div>
+                        <Story />
+                    </div>
+                </GlobalModalProvider>
+            </TooltipProvider>
+        )
+    ],
+    args: {
+        result: {
+            title: "Multi Image support",
+            description: "Automatically renders an image slider when multiple images are returned",
+            images: {
+                raw: [
+                    "https://www.chemotion-repository.net/images/samples/c830eb171cd3b0a481eda0e2a49279ad78765ab0a3b29238b59bb754a67dfd3cd69b3fadba0db65545ed0f9bf4eec9936d16f23e88453c53c3c21b65d54a853f.svg",
+                    "https://www.chemotion-repository.net/images/samples/c830eb171cd3b0a481eda0e2a49279ad78765ab0a3b29238b59bb754a67dfd3cd69b3fadba0db65545ed0f9bf4eec9936d16f23e88453c53c3c21b65d54a853f.svg",
+                    "https://www.chemotion-repository.net/images/samples/c830eb171cd3b0a481eda0e2a49279ad78765ab0a3b29238b59bb754a67dfd3cd69b3fadba0db65545ed0f9bf4eec9936d16f23e88453c53c3c21b65d54a853f.svg"
+                ]
+            }
+        },
+        titleField: "title",
+        descriptionField: "description",
+        invertImageInDarkMode: true,
+        imageField: "images"
+    }
+}
+
 export const Full: Story = {
     decorators: [
         (Story) => (
