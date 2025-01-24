@@ -42,12 +42,12 @@ export default function Home() {
             host: <elastic host>,
             indices: [
                 {
-                    name: "index1",
+                    name: "index-name-here",
                     facets: [
                         {
                             key: "hadPrimarySource.keyword",
                             label: "Source",
-                            prettyPrintURLs: true
+                            prettyPrintURLs: true // Will remove https://www.
                         },
                         {
                             key: "licenseURL.keyword",
@@ -89,22 +89,22 @@ export default function Home() {
                 invertImageInDarkMode // Not recommended for colorful images
                 tags={[
                     {
-                        icon: <GraduationCap className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <GraduationCap />,
                         label: "Resource Type",
                         field: "resourceType"
                     },
                     {
-                        icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <GlobeIcon />,
                         field: "hadPrimarySource",
                         valueMapper: tryURLPrettyPrint
                     },
                     {
-                        icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <ScaleIcon />,
                         field: "licenseURL",
                         valueMapper: tryURLPrettyPrint
                     },
                     {
-                        icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <AtomIcon />,
                         field: "Compound"
                     }
                 ]}
