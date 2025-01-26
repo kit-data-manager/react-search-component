@@ -131,7 +131,7 @@ export function GenericResultView({
                         .parse(result[field])
                 )
             } catch (e) {
-                console.error(`Parsing field ${field} failed`, e)
+                console.warn(`Parsing field ${field} failed`, e)
                 return undefined
             }
         },
@@ -150,7 +150,7 @@ export function GenericResultView({
                         .parse(result[field])
                 )
             } catch (e) {
-                console.error(`Parsing array field ${field} failed`, e)
+                console.warn(`Parsing array field ${field} failed`, e)
                 return []
             }
         },
