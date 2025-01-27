@@ -61,7 +61,7 @@ export default {
                         outline: "5px solid transparent"
                     },
                     "75%": {
-                        outline: "5px solid hsl(var(--primary))"
+                        outline: "5px solid hsl(var(--rfs-primary))"
                     }
                 }
             },

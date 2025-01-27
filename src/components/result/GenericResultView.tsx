@@ -3,7 +3,7 @@ import { RFS_GlobalModalContext } from "@/components/RFS_GlobalModalContext"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 import { useStore } from "zustand/index"
 import { resultCache } from "@/lib/ResultCache"
-import { autoUnwrap, autoUnwrapArray } from "@/components/result/utils"
+import { autoUnwrap, autoUnwrapArray, toArray } from "@/components/result/utils"
 import { DateTime } from "luxon"
 import { BasicRelationNode } from "@/lib/RelationNode"
 import { BookText, ChevronDown, GitFork, ImageOff, LinkIcon, Microscope } from "lucide-react"
@@ -64,9 +64,9 @@ export interface GenericResultViewProps {
     relatedItemPidsField?: string
 
     /**
-     * Options for prefetching of related items in the relations graph. It is recommended to defined this if the default settings don't work properly.
+     * Options for prefetching of related items in the relations graph. It is recommended to define this if the default settings don't work properly.
      */
-    relatedItemsPrefetch?: { prefetchAmount?: number; searchFields?: Record<string, SearchFieldConfiguration> }
+    relatedItemsPrefetch?: { searchFields?: Record<string, SearchFieldConfiguration> }
 
     /**
      * The elastic field where the unique identifier of the parent item (metadata item) of the current FDO will be read from. Will be accessible via a `Find Metadata` button
@@ -111,7 +111,7 @@ export function GenericResultView({
     parentItemPidField = "hasMetadata",
     creationDateField = "creationDate",
     additionalIdentifierField = "identifier",
-    relatedItemsPrefetch = { prefetchAmount: 20, searchFields: { pid: {} } },
+    relatedItemsPrefetch = { searchFields: { pid: {} } },
     tags = [],
     showOpenInFairDoScope = true
 }: GenericResultViewProps) {
@@ -207,8 +207,9 @@ export function GenericResultView({
     }, [getField, additionalIdentifierField])
 
     const isMetadataFor = useMemo(() => {
-        return getArrayField(relatedItemPidsField ?? "isMetadataFor")
-    }, [getArrayField, relatedItemPidsField])
+        const val = getArrayOrSingleField(relatedItemPidsField ?? "isMetadataFor")
+        return val ? toArray(val) : undefined
+    }, [getArrayOrSingleField, relatedItemPidsField])
 
     const creationDate = useMemo(() => {
         const value = getField(creationDateField ?? "dateCreated")
@@ -218,54 +219,85 @@ export function GenericResultView({
     }, [creationDateField, getField])
 
     const hasMetadata = useMemo(() => {
-        return getField(parentItemPidField ?? "hasMetadata")
-    }, [getField, parentItemPidField])
+        const val = getArrayOrSingleField(parentItemPidField ?? "hasMetadata")
+        return val ? toArray(val) : undefined
+    }, [getArrayOrSingleField, parentItemPidField])
 
-    const fetchRelatedItems = useCallback(async () => {
-        const search = await elasticConnector?.onSearch(
-            { searchTerm: pid, resultsPerPage: relatedItemsPrefetch?.prefetchAmount },
-            {
-                result_fields: {},
-                searchTerm: pid,
-                search_fields: relatedItemsPrefetch?.searchFields ?? { [pidField ?? "pid"]: {} },
-                resultsPerPage: relatedItemsPrefetch?.prefetchAmount
+    const fetchRelatedItems = useCallback(
+        async (term: string, amount: number) => {
+            const search = await elasticConnector?.onSearch(
+                { searchTerm: term, resultsPerPage: amount },
+                {
+                    result_fields: {},
+                    searchTerm: term,
+                    search_fields: relatedItemsPrefetch?.searchFields ?? { [pidField ?? "pid"]: {} },
+                    resultsPerPage: amount
+                }
+            )
+
+            if (search) {
+                for (const entry of search.results) {
+                    const pid = autoUnwrap(entry[pidField ?? "pid"])
+                    if (!pid) continue
+                    addToResultCache(pid, {
+                        pid,
+                        name: autoUnwrap(entry[titleField ?? "name"]) ?? ""
+                    })
+                }
             }
-        )
+        },
+        [addToResultCache, elasticConnector, pidField, relatedItemsPrefetch?.searchFields, titleField]
+    )
 
-        if (search) {
-            for (const entry of search.results) {
-                const pid = autoUnwrap(entry[pidField ?? "pid"])
-                if (!pid) continue
-                addToResultCache(pid, {
-                    pid,
-                    name: autoUnwrap(entry[titleField ?? "name"]) ?? ""
+    const showRelatedItemsGraph = useCallback(async () => {
+        if (!isMetadataFor || !pid) return
+        await fetchRelatedItems(pid, isMetadataFor.length)
+
+        if (isMetadataFor.length === 1) {
+            searchFor(isMetadataFor[0])
+        } else {
+            openRelationGraph(
+                [
+                    {
+                        id: pid ?? "source",
+                        label: title ?? "Source",
+                        tag: "Current",
+                        remoteURL: doLocation,
+                        searchQuery: pid
+                    }
+                ],
+                isMetadataFor.map((pid) => {
+                    const cached = getResultFromCache(pid)
+                    return new BasicRelationNode(pid, "Related", cached?.name)
                 })
-            }
+            )
         }
-    }, [addToResultCache, elasticConnector, pid, pidField, relatedItemsPrefetch?.prefetchAmount, relatedItemsPrefetch?.searchFields, titleField])
+    }, [doLocation, fetchRelatedItems, getResultFromCache, isMetadataFor, openRelationGraph, pid, searchFor, title])
 
-    const showRelatedItems = useCallback(async () => {
-        await fetchRelatedItems()
-
-        openRelationGraph(
-            {
-                id: pid ?? "source",
-                label: title ?? "Source",
-                tag: "Current",
-                remoteURL: doLocation,
-                searchQuery: pid
-            },
-            isMetadataFor.map((pid) => {
-                const cached = getResultFromCache(pid)
-                return new BasicRelationNode(pid, "Related", cached?.name)
-            })
-        )
-    }, [doLocation, fetchRelatedItems, getResultFromCache, isMetadataFor, openRelationGraph, pid, title])
-
-    const goToMetadata = useCallback(() => {
+    const showHasMetadataGraph = useCallback(async () => {
         if (!hasMetadata) return
-        searchFor(hasMetadata)
-    }, [hasMetadata, searchFor])
+        await fetchRelatedItems(hasMetadata.join(" "), hasMetadata.length)
+
+        if (hasMetadata.length === 1) {
+            searchFor(hasMetadata[0])
+        } else {
+            openRelationGraph(
+                hasMetadata.map((pid) => {
+                    const cached = getResultFromCache(pid)
+                    return new BasicRelationNode(pid, "Metadata", cached?.name)
+                }),
+                [
+                    {
+                        id: pid ?? "current",
+                        label: title ?? "Current",
+                        tag: "Current",
+                        remoteURL: doLocation,
+                        searchQuery: pid
+                    }
+                ]
+            )
+        }
+    }, [doLocation, fetchRelatedItems, getResultFromCache, hasMetadata, openRelationGraph, pid, searchFor, title])
 
     const exactPidMatch = useMemo(() => {
         return searchTerm === pid || searchTerm === doLocation
@@ -282,10 +314,10 @@ export function GenericResultView({
 
     return (
         <div
-            className={`rfs-m-2 rfs-rounded-lg rfs-border rfs-border-border rfs-p-4 rfs-group/resultView ${exactPidMatch ? "rfs-animate-outline-ping" : ""}`}
+            className={`rfs-m-2 rfs-rounded-lg rfs-border rfs-border-border rfs-p-4 rfs-group/resultView ${exactPidMatch ? "rfs-animate-rfs-outline-ping" : ""}`}
         >
             <div
-                className={`rfs-grid ${imageField ? "rfs-grid-rows-[100px_1fr] md:rfs-grid-cols-[200px_1fr] md:rfs-grid-rows-1" : ""} rfs-gap-4 rfs-overflow-x-auto md:rfs-max-w-full`}
+                className={`rfs-grid ${imageField ? "rfs-grid-rows-[150px_1fr] md:rfs-grid-cols-[200px_1fr] md:rfs-grid-rows-1" : ""} rfs-gap-4 rfs-overflow-x-auto md:rfs-max-w-full`}
             >
                 {imageField && (
                     <div
@@ -295,7 +327,11 @@ export function GenericResultView({
                             Array.isArray(previewImage) ? (
                                 <GenericResultViewImageCarousel images={previewImage} title={title} />
                             ) : (
-                                <img className="md:rfs-size-[200px]" src={previewImage} alt={`Preview for ${title}`} />
+                                <img
+                                    className="md:rfs-max-h-[200px] md:rfs-max-w-[200px] rfs-object-contain"
+                                    src={previewImage}
+                                    alt={`Preview for ${title}`}
+                                />
                             )
                         ) : (
                             <div className="rfs-flex rfs-flex-col rfs-justify-center dark:rfs-text-background">
@@ -324,30 +360,30 @@ export function GenericResultView({
                     </div>
                     <div className="rfs-grow">{description}</div>
                     <div className="rfs-mt-8 rfs-flex rfs-flex-col rfs-flex-wrap rfs-justify-end rfs-gap-2 md:rfs-flex-row md:rfs-items-center md:rfs-gap-4">
-                        {isMetadataFor.length > 0 && (
+                        {isMetadataFor && isMetadataFor.length > 0 && (
                             <div className="rfs-flex rfs-items-center">
-                                <Button className="rfs-grow rfs-rounded-r-none" size="sm" variant="secondary" onClick={showRelatedItems}>
+                                <Button className="rfs-grow rfs-rounded-r-none" size="sm" variant="secondary" onClick={showRelatedItemsGraph}>
                                     <GitFork className="rfs-mr-1 rfs-size-4" /> Show Related Items
                                 </Button>
                                 <Button
                                     className="rfs-rounded-l-none rfs-border-l rfs-border-l-border rfs-text-xs rfs-font-bold"
                                     size="sm"
                                     variant="secondary"
-                                    onClick={showRelatedItems}
+                                    onClick={showRelatedItemsGraph}
                                 >
                                     {isMetadataFor.length}
                                 </Button>
                             </div>
                         )}
                         {hasMetadata && (
-                            <Button className="" size="sm" variant="secondary" onClick={goToMetadata}>
+                            <Button className="" size="sm" variant="secondary" onClick={showHasMetadataGraph}>
                                 <BookText className="rfs-mr-1 rfs-size-4" /> Find Metadata
                             </Button>
                         )}
 
                         {landingPageLocation && (
                             <div className="rfs-flex rfs-items-center">
-                                <a href={landingPageLocation} target="_blank" className="grow">
+                                <a href={landingPageLocation} target="_blank" className="rfs-grow">
                                     <Button size="sm" className="rfs-w-full rfs-rounded-r-none rfs-px-4">
                                         Open
                                     </Button>

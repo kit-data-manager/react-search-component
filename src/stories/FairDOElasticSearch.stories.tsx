@@ -23,7 +23,7 @@ const demoConfig: FairDOConfig = {
     apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
     indices: [
         {
-            name: "fdo-test-4",
+            name: "fdo-test-5",
             facets: [
                 {
                     key: "resourceType.keyword",
@@ -76,7 +76,7 @@ const demoConfigWithCompound: FairDOConfig = {
     apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
     indices: [
         {
-            name: "fdo-test-4",
+            name: "fdo-test-5",
             facets: [
                 {
                     key: "Compound.Molar_mass",

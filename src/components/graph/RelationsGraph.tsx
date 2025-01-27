@@ -19,15 +19,15 @@ export function RelationsGraph(props: {
     /**
      * Source of the relation
      */
-    base: RelationNode
+    source: RelationNode[]
     /**
      * Targets of the relation. Will be connected to the base (source) only
      */
-    referenced: RelationNode[]
+    target: RelationNode[]
 }) {
     const { initialEdges, initialNodes } = useMemo(() => {
-        return buildGraphForReferences(props.base, props.referenced)
-    }, [props.base, props.referenced])
+        return buildGraphForReferences(props.source, props.target)
+    }, [props.source, props.target])
 
     const [nodes, , onNodesChange] = useNodesState(initialNodes)
     const [edges, , onEdgesChange] = useEdgesState(initialEdges)

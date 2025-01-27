@@ -22,3 +22,8 @@ export function autoUnwrapArray(item?: string[] | { raw?: string[] }) {
         return [JSON.stringify(item)]
     }
 }
+
+export function toArray<E>(element: E | E[]) {
+    if (Array.isArray(element)) return element
+    else return [element]
+}
