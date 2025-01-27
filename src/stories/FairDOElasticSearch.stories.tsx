@@ -35,13 +35,26 @@ const demoConfig: FairDOConfig = {
                     prettyPrintURLs: true
                 },
                 {
+                    key: "NMR_Method.keyword",
+                    label: "NMR Method",
+                    usePidResolver: true
+                },
+                {
+                    key: "Pulse_Sequence_Name.keyword",
+                    label: "Pulse Sequence Name"
+                },
+                {
+                    key: "Acquisition_Nucleus.keyword",
+                    label: "Acquisition Nucleus"
+                },
+                {
                     key: "licenseURL.keyword",
                     label: "License",
                     prettyPrintURLs: true
                 },
                 {
-                    key: "NMR_Method.keyword",
-                    label: "NMR Method",
+                    key: "digitalObjectType.keyword",
+                    label: "File Type",
                     usePidResolver: true
                 }
             ],
@@ -153,7 +166,7 @@ export const GenericResultRenderer: Story = {
                 parentItemPidField="hasMetadata"
                 relatedItemPidsField="isMetadataFor"
                 pidField="pid"
-                relatedItemsPrefetch={{ prefetchAmount: 20, searchFields: { pid: {}, isMetadataFor: {}, hasMetadata: {} } }}
+                relatedItemsPrefetch={{ searchFields: { pid: {}, isMetadataFor: {}, hasMetadata: {} } }}
                 showOpenInFairDoScope
             />
         )
@@ -199,7 +212,7 @@ export const CompoundSlider: Story = {
                 parentItemPidField="hasMetadata"
                 relatedItemPidsField="isMetadataFor"
                 pidField="pid"
-                relatedItemsPrefetch={{ prefetchAmount: 20, searchFields: { pid: {}, isMetadataFor: {}, hasMetadata: {} } }}
+                relatedItemsPrefetch={{ searchFields: { pid: {}, isMetadataFor: {}, hasMetadata: {} } }}
                 showOpenInFairDoScope
             />
         )

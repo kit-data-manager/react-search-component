@@ -123,13 +123,16 @@ export function GenericResultView({
     const getField = useCallback(
         (field: string) => {
             try {
-                return autoUnwrap(
+                const value = autoUnwrap(
                     z
                         .string()
-                        .or(z.object({ raw: z.string() }))
+                        .or(z.number())
+                        .or(z.object({ raw: z.string().or(z.number()) }))
                         .optional()
                         .parse(result[field])
                 )
+
+                return value ? value + "" : undefined
             } catch (e) {
                 console.warn(`Parsing field ${field} failed`, e)
                 return undefined
@@ -141,14 +144,17 @@ export function GenericResultView({
     const getArrayField = useCallback(
         (field: string) => {
             try {
-                return autoUnwrapArray(
+                const value = autoUnwrapArray<string | number>(
                     z
                         .string()
                         .array()
+                        .or(z.number().array())
                         .or(z.object({ raw: z.string().array() }))
+                        .or(z.object({ raw: z.number().array() }))
                         .optional()
                         .parse(result[field])
                 )
+                return value ? value.map((v) => v + "") : []
             } catch (e) {
                 console.warn(`Parsing array field ${field} failed`, e)
                 return []
@@ -179,12 +185,14 @@ export function GenericResultView({
     }, [getField, pidField])
 
     const title = useMemo(() => {
-        return getField(titleField ?? "name")
-    }, [getField, titleField])
+        const maybeArray = getArrayOrSingleField(titleField ?? "name")
+        return Array.isArray(maybeArray) ? maybeArray.join(", ") : maybeArray
+    }, [getArrayOrSingleField, titleField])
 
     const description = useMemo(() => {
-        return getField(descriptionField ?? "description")
-    }, [descriptionField, getField])
+        const maybeArray = getArrayOrSingleField(descriptionField ?? "description")
+        return Array.isArray(maybeArray) ? maybeArray.join("\n\r") : maybeArray
+    }, [descriptionField, getArrayOrSingleField])
 
     const doLocation = useMemo(() => {
         const value = getField(digitalObjectLocationField ?? "digitalObjectLocation")
@@ -203,8 +211,9 @@ export function GenericResultView({
     }, [getArrayOrSingleField, imageField])
 
     const identifier = useMemo(() => {
-        return getField(additionalIdentifierField ?? "identifier")
-    }, [getField, additionalIdentifierField])
+        const maybeArray = getArrayOrSingleField(additionalIdentifierField ?? "identifier")
+        return Array.isArray(maybeArray) ? maybeArray.join(" - ") : maybeArray
+    }, [getArrayOrSingleField, additionalIdentifierField])
 
     const isMetadataFor = useMemo(() => {
         const val = getArrayOrSingleField(relatedItemPidsField ?? "isMetadataFor")

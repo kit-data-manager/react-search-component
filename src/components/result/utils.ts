@@ -1,4 +1,4 @@
-export function autoUnwrap(item?: string | { raw?: string }) {
+export function autoUnwrap<E>(item?: E | { raw?: E }) {
     if (!item) {
         return undefined
     } else if (typeof item === "string") {
@@ -10,7 +10,7 @@ export function autoUnwrap(item?: string | { raw?: string }) {
     }
 }
 
-export function autoUnwrapArray(item?: string[] | { raw?: string[] }) {
+export function autoUnwrapArray<E>(item?: E[] | { raw?: E[] }) {
     if (!item) {
         return []
     }
