@@ -364,7 +364,7 @@ export function GenericResultView({
                     <a href={`https://hdl.handle.net/${pid}`} target="_blank" className="rfs-mb-2 rfs-block rfs-leading-3 hover:rfs-underline">
                         <span className="rfs-text-sm rfs-text-muted-foreground">{pid}</span>
                     </a>
-                    <div className="rfs-flex rfs-flex-wrap rfs-gap-2">
+                    <div className="rfs-flex rfs-flex-wrap rfs-gap-2 rfs-truncate">
                         {tags && tags.map((tag) => <GenericResultViewTag key={tag.field} result={result} {...tag} />)}
                     </div>
                     <div className="rfs-grow">{description}</div>

@@ -35,7 +35,7 @@ export function GenericResultViewTag({ field, result, icon, label, valueMapper }
 
     return (
         <Tooltip delayDuration={500}>
-            <TooltipTrigger>{base}</TooltipTrigger>
+            <TooltipTrigger asChild>{base}</TooltipTrigger>
             <TooltipContent>{label}</TooltipContent>
         </Tooltip>
     )

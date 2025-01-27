@@ -187,7 +187,27 @@ export class FairDOConfigBuilder {
                     name: "2 years ago"
                 },
                 {
+                    from: moment().subtract(4, "years").format("yyyy"),
                     to: moment().subtract(3, "years").format("yyyy"),
+                    name: "3 years ago"
+                },
+                {
+                    from: moment().subtract(5, "years").format("yyyy"),
+                    to: moment().subtract(4, "years").format("yyyy"),
+                    name: "4 years ago"
+                },
+                {
+                    from: moment().subtract(6, "years").format("yyyy"),
+                    to: moment().subtract(5, "years").format("yyyy"),
+                    name: "5 years ago"
+                },
+                {
+                    from: moment().subtract(10, "years").format("yyyy"),
+                    to: moment().subtract(6, "years").format("yyyy"),
+                    name: "10 years ago"
+                },
+                {
+                    to: moment().subtract(11, "years").format("yyyy"),
                     name: "Older"
                 }
             ]

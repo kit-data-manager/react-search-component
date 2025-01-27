@@ -48,6 +48,16 @@ const demoConfig: FairDOConfig = {
                     label: "Acquisition Nucleus"
                 },
                 {
+                    key: "dateCreatedRfc3339",
+                    label: "Created",
+                    type: "date_year"
+                },
+                {
+                    key: "dateModified",
+                    label: "Last modified",
+                    type: "date_year"
+                },
+                {
                     key: "licenseURL.keyword",
                     label: "License",
                     prettyPrintURLs: true
