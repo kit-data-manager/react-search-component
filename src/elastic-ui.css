@@ -15,7 +15,7 @@
  * Body
  */
 .sui-layout-body {
-    background: hsl(var(--background));
+    background: hsl(var(--rfs-background));
 }
 
 @media (max-width: 800px) {
@@ -82,8 +82,8 @@
         width: 100%;
         margin: 0;
         padding: 0 15px 30px 15px;
-        color: hsl(var(--foreground));
-        background-color: hsl(var(--background));
+        color: hsl(var(--rfs-foreground));
+        background-color: hsl(var(--rfs-background));
         overflow: auto;
     }
 }
@@ -104,9 +104,9 @@
         line-height: 1.5;
         font-size: 14px;
         font-weight: 500;
-        color: hsl(var(--secondary-foreground));
-        background-color: hsl(var(--secondary));
-        border: 1px solid hsl(var(--border));
+        color: hsl(var(--rfs-secondary-foreground));
+        background-color: hsl(var(--rfs-secondary));
+        border: 1px solid hsl(var(--rfs-border));
         border-radius: 4px;
     }
 
