@@ -235,7 +235,7 @@ export function GenericResultView({
     const fetchRelatedItems = useCallback(
         async (term: string, amount: number) => {
             const search = await elasticConnector?.onSearch(
-                { searchTerm: term, resultsPerPage: amount },
+                { searchTerm: term, resultsPerPage: amount + 5 },
                 {
                     result_fields: {},
                     searchTerm: term,
