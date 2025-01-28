@@ -1,9 +1,9 @@
 import type { RelationNode } from "@/lib/RelationNode"
 
-import { buildGraphForReferences } from "@/components/graph/helpers"
+import { buildGraphForReferences, getLayoutedElements } from "@/components/graph/helpers"
 import { PlainNode } from "@/components/graph/PlainNode"
 import { Background, BackgroundVariant, ReactFlow, useEdgesState, useNodesInitialized, useNodesState, useReactFlow } from "@xyflow/react"
-import { useEffect, useMemo } from "react"
+import { useCallback, useEffect, useMemo, useRef } from "react"
 import "@xyflow/react/dist/style.css"
 
 const nodeTypes = {
@@ -12,33 +12,38 @@ const nodeTypes = {
 
 /**
  * Renders an interactive graph for the specified RelationNodes.
- * @param props
- * @constructor
  */
-export function RelationsGraph(props: {
-    /**
-     * Source of the relation
-     */
-    source: RelationNode[]
-    /**
-     * Targets of the relation. Will be connected to the base (source) only
-     */
-    target: RelationNode[]
-}) {
+export function RelationsGraph(props: { base: RelationNode; referencedBy: RelationNode[]; references: RelationNode[] }) {
     const { initialEdges, initialNodes } = useMemo(() => {
-        return buildGraphForReferences(props.source, props.target)
-    }, [props.source, props.target])
+        return buildGraphForReferences(props.base, props.referencedBy, props.references)
+    }, [props.base, props.referencedBy, props.references])
 
-    const [nodes, , onNodesChange] = useNodesState(initialNodes)
-    const [edges, , onEdgesChange] = useEdgesState(initialEdges)
+    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
     const { fitView } = useReactFlow()
     const nodesInitialized = useNodesInitialized()
 
+    const onLayout = useCallback(() => {
+        const layouted = getLayoutedElements(nodes, edges)
+
+        setNodes([...layouted.nodes])
+        setEdges([...layouted.edges])
+
+        window.requestAnimationFrame(() => {
+            fitView()
+        })
+    }, [nodes, edges, setNodes, setEdges, fitView])
+
+    const onLayoutDebounced = useRef(onLayout)
+    useEffect(() => {
+        onLayoutDebounced.current = onLayout
+    }, [onLayout])
+
     useEffect(() => {
         if (nodesInitialized) {
-            fitView().then()
+            onLayoutDebounced.current()
         }
-    }, [fitView, nodesInitialized])
+    }, [nodesInitialized])
 
     return (
         <ReactFlow

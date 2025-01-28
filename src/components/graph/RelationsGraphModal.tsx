@@ -8,13 +8,15 @@ import { useCallback, useContext } from "react"
 export function RelationsGraphModal({
     isOpen,
     onOpenChange,
-    source,
-    target
+    referencedBy,
+    references,
+    base
 }: {
     isOpen: boolean
     onOpenChange: (val: boolean) => void
-    source: RelationNode[]
-    target: RelationNode[]
+    referencedBy: RelationNode[]
+    references: RelationNode[]
+    base: RelationNode
 }) {
     const searchContext = useContext(FairDOSearchContext)
 
@@ -31,7 +33,7 @@ export function RelationsGraphModal({
             <DialogContent className="rfs-h-max rfs-max-h-[min(100vh,800px)] rfs-min-h-[500px] rfs-min-w-[500px] !rfs-max-w-[min(calc(100vw-40px),1500px)] rfs-p-0">
                 <VisuallyHidden.Root>
                     <DialogTitle>
-                        Relationship graph between {source.map((s) => s.label).join(", ")} and {target.map((s) => s.label).join(", ")}
+                        Relationship graph between {referencedBy.map((s) => s.label).join(", ")} and {references.map((s) => s.label).join(", ")}
                     </DialogTitle>
                 </VisuallyHidden.Root>
 
@@ -42,7 +44,7 @@ export function RelationsGraphModal({
                         searchForBackground: searchContext.searchForBackground
                     }}
                 >
-                    <RelationsGraph source={source} target={target} />
+                    <RelationsGraph referencedBy={referencedBy} references={references} base={base} />
                 </FairDOSearchContext.Provider>
             </DialogContent>
         </Dialog>

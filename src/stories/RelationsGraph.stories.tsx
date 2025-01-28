@@ -24,8 +24,13 @@ export const Default: Story = {
         )
     ],
     args: {
-        base: new BasicRelationNode("T10/436895408650943", "Source"),
-        referenced: [
+        referencedBy: [
+            new BasicRelationNode("T10/parentA", "Parent"),
+            new BasicRelationNode("T10/parentB", "Parent"),
+            new BasicRelationNode("T10/parentC", "Source")
+        ],
+        base: new BasicRelationNode("T10/436895408650943, abcde", "Source"),
+        references: [
             new BasicRelationNode("T10/436895408650941", "Dataset", "Something else"),
             new BasicRelationNode("T10/436895408650942", "Dataset"),
             new BasicRelationNode("T10/436895408650944", "Dataset"),

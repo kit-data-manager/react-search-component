@@ -11,16 +11,19 @@ export function GlobalModalProvider(props: PropsWithChildren) {
     const [relationGraphState, setRelationGraphState] = useState<{
         source: RelationNode[]
         target: RelationNode[]
+        base: RelationNode
         isOpen: boolean
     }>({
         source: [],
         target: [],
+        base: { id: "", label: "" },
         isOpen: false
     })
 
-    const openRelationGraph = useCallback((source: RelationNode[], target: RelationNode[]) => {
+    const openRelationGraph = useCallback((source: RelationNode[], base: RelationNode, target: RelationNode[]) => {
         setRelationGraphState({
             source,
+            base,
             target,
             isOpen: true
         })
@@ -36,8 +39,9 @@ export function GlobalModalProvider(props: PropsWithChildren) {
                 <RelationsGraphModal
                     isOpen={relationGraphState.isOpen}
                     onOpenChange={onRelationGraphOpenChange}
-                    source={relationGraphState.source}
-                    target={relationGraphState.target}
+                    referencedBy={relationGraphState.source}
+                    references={relationGraphState.target}
+                    base={relationGraphState.base}
                 />
 
                 {props.children}

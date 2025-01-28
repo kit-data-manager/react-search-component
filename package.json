@@ -32,6 +32,7 @@
     "build": "rm -rf ./dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.app.json && tailwind build -i src/index.css -o dist/index.css && cp ./src/elastic-ui.css ./dist"
   },
   "dependencies": {
+    "@dagrejs/dagre": "^1.1.4",
     "@elastic/react-search-ui": "^1.22.0",
     "@elastic/react-search-ui-views": "^1.22.0",
     "@elastic/search-ui": "^1.22.0",
