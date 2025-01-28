@@ -4,6 +4,7 @@ export interface RelationNode {
     tag?: string
     remoteURL?: string
     searchQuery?: string
+    highlight?: boolean
 }
 
 export class BasicRelationNode implements RelationNode {
@@ -13,7 +14,8 @@ export class BasicRelationNode implements RelationNode {
     constructor(
         public id: string,
         public tag: string = "",
-        public label: string = ""
+        public label: string = "",
+        public highlight: boolean = false
     ) {
         this.label = label ?? ""
         this.remoteURL = `https://hdl.handle.net/${id}`

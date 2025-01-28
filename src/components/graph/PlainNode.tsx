@@ -60,10 +60,10 @@ export function PlainNode(data: NodeProps) {
     }, [relationNode.searchQuery, searchFor])
 
     return (
-        <>
+        <div>
             <Handle type="target" position={Position.Left} />
             <div
-                className={`rfs-grid rfs-rounded-lg rfs-border rfs-border-border rfs-bg-background rfs-transition-all ${expand ? "rfs-grid-rows-[auto_1fr] rfs-shadow-lg" : "rfs-grid-rows-[auto_0fr]"}`}
+                className={`rfs-grid rfs-rounded-lg rfs-border rfs-border-border rfs-bg-background rfs-transition-all ${expand ? "rfs-grid-rows-[auto_1fr] rfs-shadow-lg" : "rfs-grid-rows-[auto_0fr]"} rfs-max-w-[500px] ${relationNode.highlight ? "rfs-border-2 rfs-border-primary" : ""}`}
             >
                 <div onClick={toggleExpand} className="rfs-p-4">
                     <div className="rfs-items-centers rfs-flex rfs-gap-3">
@@ -95,6 +95,6 @@ export function PlainNode(data: NodeProps) {
                 </div>
             </div>
             <Handle type="source" position={Position.Right} id="a" />
-        </>
+        </div>
     )
 }

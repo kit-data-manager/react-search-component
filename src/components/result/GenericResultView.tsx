@@ -6,7 +6,7 @@ import { resultCache } from "@/lib/ResultCache"
 import { autoUnwrap, autoUnwrapArray, toArray } from "@/components/result/utils"
 import { DateTime } from "luxon"
 import { BasicRelationNode } from "@/lib/RelationNode"
-import { BookText, ChevronDown, GitFork, ImageOff, LinkIcon, Microscope } from "lucide-react"
+import { ChevronDown, GitFork, ImageOff, LinkIcon, Microscope } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -116,7 +116,7 @@ export function GenericResultView({
     showOpenInFairDoScope = true
 }: GenericResultViewProps) {
     const { openRelationGraph } = useContext(RFS_GlobalModalContext)
-    const { searchFor, searchTerm, elasticConnector } = useContext(FairDOSearchContext)
+    const { searchTerm, elasticConnector } = useContext(FairDOSearchContext)
     const addToResultCache = useStore(resultCache, (s) => s.set)
     const getResultFromCache = useStore(resultCache, (s) => s.get)
 
@@ -259,54 +259,37 @@ export function GenericResultView({
     )
 
     const showRelatedItemsGraph = useCallback(async () => {
-        if (!isMetadataFor || !pid) return
-        await fetchRelatedItems(pid, isMetadataFor.length)
+        if (!pid) return
+        if (isMetadataFor) await fetchRelatedItems(isMetadataFor.join(" "), isMetadataFor.length)
+        if (hasMetadata) await fetchRelatedItems(hasMetadata.join(" "), hasMetadata.length)
 
-        if (isMetadataFor.length === 1) {
-            searchFor(isMetadataFor[0])
-        } else {
-            openRelationGraph(
-                [
-                    {
-                        id: pid ?? "source",
-                        label: title ?? "Source",
-                        tag: "Current",
-                        remoteURL: doLocation,
-                        searchQuery: pid
-                    }
-                ],
-                isMetadataFor.map((pid) => {
-                    const cached = getResultFromCache(pid)
-                    return new BasicRelationNode(pid, "Related", cached?.name)
-                })
-            )
-        }
-    }, [doLocation, fetchRelatedItems, getResultFromCache, isMetadataFor, openRelationGraph, pid, searchFor, title])
+        openRelationGraph(
+            hasMetadata?.map((pid) => {
+                const cached = getResultFromCache(pid)
+                return new BasicRelationNode(pid, "Related", cached?.name)
+            }) ?? [],
+            {
+                id: pid ?? "source",
+                label: title ?? "Source",
+                tag: "Current",
+                remoteURL: doLocation,
+                searchQuery: pid,
+                highlight: true
+            },
+            isMetadataFor?.map((pid) => {
+                const cached = getResultFromCache(pid)
+                return new BasicRelationNode(pid, "Related", cached?.name)
+            }) ?? []
+        )
+    }, [doLocation, fetchRelatedItems, getResultFromCache, hasMetadata, isMetadataFor, openRelationGraph, pid, title])
 
-    const showHasMetadataGraph = useCallback(async () => {
-        if (!hasMetadata) return
-        await fetchRelatedItems(hasMetadata.join(" "), hasMetadata.length)
+    const showRelatedItemsButton = useMemo(() => {
+        return (hasMetadata && hasMetadata.length > 0) || (isMetadataFor && isMetadataFor.length > 0)
+    }, [hasMetadata, isMetadataFor])
 
-        if (hasMetadata.length === 1) {
-            searchFor(hasMetadata[0])
-        } else {
-            openRelationGraph(
-                hasMetadata.map((pid) => {
-                    const cached = getResultFromCache(pid)
-                    return new BasicRelationNode(pid, "Metadata", cached?.name)
-                }),
-                [
-                    {
-                        id: pid ?? "current",
-                        label: title ?? "Current",
-                        tag: "Current",
-                        remoteURL: doLocation,
-                        searchQuery: pid
-                    }
-                ]
-            )
-        }
-    }, [doLocation, fetchRelatedItems, getResultFromCache, hasMetadata, openRelationGraph, pid, searchFor, title])
+    const relatedItemsAmount = useMemo(() => {
+        return (hasMetadata ? hasMetadata.length : 0) + (isMetadataFor ? isMetadataFor.length : 0)
+    }, [hasMetadata, isMetadataFor])
 
     const exactPidMatch = useMemo(() => {
         return searchTerm === pid || searchTerm === doLocation
@@ -369,7 +352,7 @@ export function GenericResultView({
                     </div>
                     <div className="rfs-grow">{description}</div>
                     <div className="rfs-mt-8 rfs-flex rfs-flex-col rfs-flex-wrap rfs-justify-end rfs-gap-2 md:rfs-flex-row md:rfs-items-center md:rfs-gap-4">
-                        {isMetadataFor && isMetadataFor.length > 0 && (
+                        {showRelatedItemsButton && (
                             <div className="rfs-flex rfs-items-center">
                                 <Button className="rfs-grow rfs-rounded-r-none" size="sm" variant="secondary" onClick={showRelatedItemsGraph}>
                                     <GitFork className="rfs-mr-1 rfs-size-4" /> Show Related Items
@@ -380,14 +363,9 @@ export function GenericResultView({
                                     variant="secondary"
                                     onClick={showRelatedItemsGraph}
                                 >
-                                    {isMetadataFor.length}
+                                    {relatedItemsAmount}
                                 </Button>
                             </div>
-                        )}
-                        {hasMetadata && (
-                            <Button className="" size="sm" variant="secondary" onClick={showHasMetadataGraph}>
-                                <BookText className="rfs-mr-1 rfs-size-4" /> Find Metadata
-                            </Button>
                         )}
 
                         {landingPageLocation && (

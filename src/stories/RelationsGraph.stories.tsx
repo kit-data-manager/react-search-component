@@ -29,7 +29,7 @@ export const Default: Story = {
             new BasicRelationNode("T10/parentB", "Parent"),
             new BasicRelationNode("T10/parentC", "Source")
         ],
-        base: new BasicRelationNode("T10/436895408650943, abcde", "Source"),
+        base: new BasicRelationNode("T10/436895408650943, abcde", "Current", "", true),
         references: [
             new BasicRelationNode("T10/436895408650941", "Dataset", "Something else"),
             new BasicRelationNode("T10/436895408650942", "Dataset"),
