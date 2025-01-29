@@ -88,7 +88,13 @@ const demoConfig: FairDOConfig = {
             }
         ]
     },
-    disjunctiveFacets: ["NMR_Method.keyword"]
+    disjunctiveFacets: [
+        "NMR_Method.keyword",
+        "resourceType.keyword",
+        "Pulse_Sequence_Name.keyword",
+        "Acquisition_Nucleus.keyword",
+        "licenseURL.keyword"
+    ]
 }
 
 const demoConfigWithCompound: FairDOConfig = {
@@ -211,7 +217,8 @@ export const CompoundSlider: Story = {
                     {
                         icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "Compound.Molar_mass",
-                        label: "Molar Mass"
+                        label: "Molar Mass (g/mol)",
+                        valueMapper: (v) => v + " g/mol"
                     }
                 ]}
                 titleField="name"
