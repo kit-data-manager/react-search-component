@@ -182,7 +182,7 @@ export const GenericResultRenderer: Story = {
                 parentItemPidField="hasMetadata"
                 relatedItemPidsField="isMetadataFor"
                 pidField="pid"
-                relatedItemsPrefetch={{ searchFields: { pid: {}, isMetadataFor: {}, hasMetadata: {} } }}
+                relatedItemsPrefetch={{ searchFields: { pid: {} } }}
                 showOpenInFairDoScope
             />
         )
