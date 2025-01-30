@@ -171,7 +171,8 @@ export const GenericResultRenderer: Story = {
                     {
                         icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "Compound.Molar_mass",
-                        label: "Molar Mass"
+                        label: "Molar Mass",
+                        valueMapper: (v) => v + " g/mol"
                     }
                 ]}
                 titleField="name"
@@ -217,7 +218,7 @@ export const CompoundSlider: Story = {
                     {
                         icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "Compound.Molar_mass",
-                        label: "Molar Mass (g/mol)",
+                        label: "Molar Mass",
                         valueMapper: (v) => v + " g/mol"
                     }
                 ]}
@@ -229,7 +230,7 @@ export const CompoundSlider: Story = {
                 parentItemPidField="hasMetadata"
                 relatedItemPidsField="isMetadataFor"
                 pidField="pid"
-                relatedItemsPrefetch={{ searchFields: { pid: {}, isMetadataFor: {}, hasMetadata: {} } }}
+                relatedItemsPrefetch={{ searchFields: { pid: {} } }}
                 showOpenInFairDoScope
             />
         )
