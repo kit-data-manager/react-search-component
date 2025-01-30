@@ -1,26 +1,26 @@
 "use client"
 
-import type { RelationNode } from "@/lib/RelationNode"
-import type { PropsWithChildren } from "react"
+import type { ComponentType, PropsWithChildren } from "react"
 import { RelationsGraphModal } from "@/components/graph/RelationsGraphModal"
 import { ReactFlowProvider } from "@xyflow/react"
 import { useCallback, useState } from "react"
 import { RFS_GlobalModalContext } from "./RFS_GlobalModalContext"
+import { ResultViewProps } from "@elastic/react-search-ui-views"
 
-export function GlobalModalProvider(props: PropsWithChildren) {
+export function GlobalModalProvider(props: PropsWithChildren<{ resultView: ComponentType<ResultViewProps> }>) {
     const [relationGraphState, setRelationGraphState] = useState<{
-        source: RelationNode[]
-        target: RelationNode[]
-        base: RelationNode
+        source: string[]
+        target: string[]
+        base: string
         isOpen: boolean
     }>({
         source: [],
         target: [],
-        base: { id: "", label: "" },
+        base: "",
         isOpen: false
     })
 
-    const openRelationGraph = useCallback((source: RelationNode[], base: RelationNode, target: RelationNode[]) => {
+    const openRelationGraph = useCallback((source: string[], base: string, target: string[]) => {
         setRelationGraphState({
             source,
             base,
@@ -42,6 +42,7 @@ export function GlobalModalProvider(props: PropsWithChildren) {
                     referencedBy={relationGraphState.source}
                     references={relationGraphState.target}
                     base={relationGraphState.base}
+                    resultView={props.resultView}
                 />
 
                 {props.children}

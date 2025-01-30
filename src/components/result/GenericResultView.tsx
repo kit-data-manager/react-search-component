@@ -5,8 +5,7 @@ import { useStore } from "zustand/index"
 import { resultCache } from "@/lib/ResultCache"
 import { autoUnwrap, autoUnwrapArray, toArray } from "@/components/result/utils"
 import { DateTime } from "luxon"
-import { BasicRelationNode } from "@/lib/RelationNode"
-import { ChevronDown, GitFork, ImageOff, LinkIcon, Microscope } from "lucide-react"
+import { ChevronDown, GitFork, ImageOff, LinkIcon, Microscope, SearchIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -116,9 +115,8 @@ export function GenericResultView({
     showOpenInFairDoScope = true
 }: GenericResultViewProps) {
     const { openRelationGraph } = useContext(RFS_GlobalModalContext)
-    const { searchTerm, elasticConnector } = useContext(FairDOSearchContext)
+    const { searchTerm, elasticConnector, searchFor } = useContext(FairDOSearchContext)
     const addToResultCache = useStore(resultCache, (s) => s.set)
-    const getResultFromCache = useStore(resultCache, (s) => s.get)
 
     const getField = useCallback(
         (field: string) => {
@@ -175,14 +173,18 @@ export function GenericResultView({
         [getArrayField, getField, result]
     )
 
+    const extractPid = useCallback((pidFieldValue: string) => {
+        if (pidFieldValue.startsWith("https://")) {
+            return /https:\/\/.*?\/(.*)/.exec(pidFieldValue)?.[1] ?? pidFieldValue
+        } else {
+            return pidFieldValue
+        }
+    }, [])
+
     const pid = useMemo(() => {
         const _pid = getField(pidField ?? "pid")
-        if (_pid && _pid.startsWith("https://")) {
-            return /https:\/\/.*?\/(.*)/.exec(_pid)?.[1] ?? _pid
-        } else {
-            return _pid
-        }
-    }, [getField, pidField])
+        return _pid ? extractPid(_pid) : _pid
+    }, [extractPid, getField, pidField])
 
     const title = useMemo(() => {
         const maybeArray = getArrayOrSingleField(titleField ?? "name")
@@ -248,14 +250,11 @@ export function GenericResultView({
                 for (const entry of search.results) {
                     const pid = autoUnwrap(entry[pidField ?? "pid"])
                     if (!pid) continue
-                    addToResultCache(pid, {
-                        pid,
-                        name: autoUnwrap(entry[titleField ?? "name"]) ?? ""
-                    })
+                    addToResultCache(pid, entry)
                 }
             }
         },
-        [addToResultCache, elasticConnector, pidField, relatedItemsPrefetch?.searchFields, titleField]
+        [addToResultCache, elasticConnector, pidField, relatedItemsPrefetch?.searchFields]
     )
 
     const showRelatedItemsGraph = useCallback(async () => {
@@ -263,25 +262,8 @@ export function GenericResultView({
         if (isMetadataFor) await fetchRelatedItems(isMetadataFor.join(" "), isMetadataFor.length)
         if (hasMetadata) await fetchRelatedItems(hasMetadata.join(" "), hasMetadata.length)
 
-        openRelationGraph(
-            hasMetadata?.map((pid) => {
-                const cached = getResultFromCache(pid)
-                return new BasicRelationNode(pid, "Related", cached?.name)
-            }) ?? [],
-            {
-                id: pid ?? "source",
-                label: title ?? "Source",
-                tag: "Current",
-                remoteURL: doLocation,
-                searchQuery: pid,
-                highlight: true
-            },
-            isMetadataFor?.map((pid) => {
-                const cached = getResultFromCache(pid)
-                return new BasicRelationNode(pid, "Related", cached?.name)
-            }) ?? []
-        )
-    }, [doLocation, fetchRelatedItems, getResultFromCache, hasMetadata, isMetadataFor, openRelationGraph, pid, title])
+        openRelationGraph(hasMetadata ?? [], pid, isMetadataFor ?? [])
+    }, [fetchRelatedItems, hasMetadata, isMetadataFor, openRelationGraph, pid])
 
     const showRelatedItemsButton = useMemo(() => {
         return (hasMetadata && hasMetadata.length > 0) || (isMetadataFor && isMetadataFor.length > 0)
@@ -295,18 +277,22 @@ export function GenericResultView({
         return searchTerm === pid || searchTerm === doLocation
     }, [doLocation, pid, searchTerm])
 
+    const searchForThis = useCallback(() => {
+        if (!pid) return
+        setTimeout(() => {
+            searchFor(pid)
+        }, 100)
+    }, [pid, searchFor])
+
     useEffect(() => {
-        if (title && pid) {
-            addToResultCache(pid, {
-                name: title,
-                pid
-            })
+        if (pid) {
+            addToResultCache(pid, result)
         }
-    }, [addToResultCache, pid, title])
+    }, [addToResultCache, pid, result])
 
     return (
         <div
-            className={`rfs-m-2 rfs-rounded-lg rfs-border rfs-border-border rfs-p-4 rfs-group/resultView ${exactPidMatch ? "rfs-animate-rfs-outline-ping" : ""}`}
+            className={`rfs-m-2 rfs-rounded-lg rfs-border rfs-border-border rfs-bg-background rfs-p-4 rfs-group/resultView ${exactPidMatch ? "rfs-animate-rfs-outline-ping" : ""}`}
         >
             <div
                 className={`rfs-grid ${imageField ? "rfs-grid-rows-[150px_1fr] md:rfs-grid-cols-[200px_1fr] md:rfs-grid-rows-1" : ""} rfs-gap-4 rfs-overflow-x-auto md:rfs-max-w-full`}
@@ -384,9 +370,12 @@ export function GenericResultView({
                                     <DropdownMenuContent>
                                         <a href={doLocation} target="_blank">
                                             <DropdownMenuItem>
-                                                <LinkIcon className="rfs-mr-1 rfs-size-4" /> Open Source
+                                                <LinkIcon className="rfs-mr-1 rfs-size-4" /> Digital Object
                                             </DropdownMenuItem>
                                         </a>
+                                        <DropdownMenuItem onClick={searchForThis}>
+                                            <SearchIcon className="rfs-mr-1 rfs-size-4" /> Search for this
+                                        </DropdownMenuItem>
                                         {showOpenInFairDoScope && (
                                             <a href={`https://kit-data-manager.github.io/fairdoscope/?pid=${pid}`} target="_blank">
                                                 <DropdownMenuItem>

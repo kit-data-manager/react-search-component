@@ -19,7 +19,7 @@ export const Simple: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <GlobalModalProvider>
+                <GlobalModalProvider resultView={GenericResultView}>
                     <div>
                         <Story />
                     </div>
@@ -43,7 +43,7 @@ export const MultipleImages: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <GlobalModalProvider>
+                <GlobalModalProvider resultView={GenericResultView}>
                     <div>
                         <Story />
                     </div>
@@ -74,7 +74,7 @@ export const Full: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <GlobalModalProvider>
+                <GlobalModalProvider resultView={GenericResultView}>
                     <div>
                         <Story />
                     </div>

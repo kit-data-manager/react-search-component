@@ -1,52 +1,54 @@
-import type { RelationNode } from "@/lib/RelationNode"
 import { Edge, Node } from "@xyflow/react"
 import Dagre from "@dagrejs/dagre"
 
-export function buildGraphForReferences(base: RelationNode, parents: RelationNode[], _children: RelationNode[]) {
-    const children = _children.filter((pid) => !parents.find((e) => e.id === pid.id))
+export type ResultPID = {
+    pid: string
+    result?: Record<string, unknown>
+}
+
+export function buildGraphForReferences(base: ResultPID, parents: ResultPID[], _children: ResultPID[]) {
+    const children = _children.filter((pid) => !parents.find((e) => e.pid === pid.pid))
     const yStartParents = -((parents.length - 1) * 100) / 2
     const yStartChildren = -((children.length - 1) * 100) / 2
     const nodes: { id: string; type: string; position: { x: number; y: number }; data: Record<string, unknown> }[] = [
         {
-            id: base.id,
+            id: base.pid,
             type: "plain",
             position: { x: 0, y: 0 },
-            data: { ...base }
+            data: { ...base.result }
         }
     ]
     const edges: { id: string; source: string; target: string }[] = []
 
     for (let i = 0; i < parents.length; i++) {
         nodes.push({
-            id: parents[i].id,
+            id: parents[i].pid,
             type: "plain",
             position: { x: -1000, y: yStartParents + i * 100 },
-            data: { ...parents[i] }
+            data: { ...parents[i].result }
         })
 
         edges.push({
-            id: `e-${parents[i].id}-base`,
-            source: parents[i].id,
-            target: base.id
+            id: `e-${parents[i].pid}-base`,
+            source: parents[i].pid,
+            target: base.pid
         })
     }
 
     for (let i = 0; i < children.length; i++) {
         nodes.push({
-            id: children[i].id,
+            id: children[i].pid,
             type: "plain",
             position: { x: 1000, y: yStartChildren + i * 100 },
-            data: { ...children[i] }
+            data: { ...children[i].result }
         })
 
         edges.push({
-            id: `e-base-${children[i].id}`,
-            source: base.id,
-            target: children[i].id
+            id: `e-base-${children[i].pid}`,
+            source: base.pid,
+            target: children[i].pid
         })
     }
-
-    console.log(nodes, edges)
 
     return { initialNodes: nodes, initialEdges: edges }
 }

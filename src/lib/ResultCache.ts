@@ -1,9 +1,6 @@
 import { createStore } from "zustand"
 
-interface ResultCacheEntry {
-    name: string
-    pid: string
-}
+type ResultCacheEntry = Record<string, unknown>
 
 interface ResultCacheStore {
     cache: Map<string, ResultCacheEntry>

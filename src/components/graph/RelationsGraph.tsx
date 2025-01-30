@@ -1,27 +1,52 @@
-import type { RelationNode } from "@/lib/RelationNode"
-
-import { buildGraphForReferences, getLayoutedElements } from "@/components/graph/helpers"
-import { PlainNode } from "@/components/graph/PlainNode"
-import { Background, BackgroundVariant, ReactFlow, useEdgesState, useNodesInitialized, useNodesState, useReactFlow } from "@xyflow/react"
-import { useCallback, useEffect, useMemo, useRef } from "react"
+import { buildGraphForReferences, getLayoutedElements, ResultPID } from "@/components/graph/helpers"
+import {
+    Background,
+    BackgroundVariant,
+    NodeProps,
+    ReactFlow,
+    useEdgesState,
+    useNodesInitialized,
+    useNodesState,
+    useReactFlow,
+    useUpdateNodeInternals
+} from "@xyflow/react"
+import { ComponentType, useCallback, useEffect, useMemo, useRef } from "react"
 import "@xyflow/react/dist/style.css"
-
-const nodeTypes = {
-    plain: PlainNode
-}
+import { useStore } from "zustand"
+import { resultCache } from "@/lib/ResultCache"
+import { ResultViewWrapper } from "@/components/graph/ResultViewWrapper"
+import { ResultViewProps } from "@elastic/react-search-ui-views"
 
 /**
  * Renders an interactive graph for the specified RelationNodes.
  */
-export function RelationsGraph(props: { base: RelationNode; referencedBy: RelationNode[]; references: RelationNode[] }) {
+export function RelationsGraph(props: { base: string; referencedBy: string[]; references: string[]; resultView: ComponentType<ResultViewProps> }) {
+    const getFromCache = useStore(resultCache, (s) => s.get)
+
     const { initialEdges, initialNodes } = useMemo(() => {
-        return buildGraphForReferences(props.base, props.referencedBy, props.references)
-    }, [props.base, props.referencedBy, props.references])
+        const base: ResultPID = { pid: props.base, result: getFromCache(props.base) }
+        const referencedBy = props.referencedBy.map((pid) => ({ pid, result: getFromCache(pid) }))
+        const references = props.references.map((pid) => ({ pid, result: getFromCache(pid) }))
+
+        return buildGraphForReferences(base, referencedBy, references)
+    }, [getFromCache, props.base, props.referencedBy, props.references])
+
+    const nodeTypes = useMemo(() => {
+        return {
+            plain: (nodeProps: NodeProps) => <ResultViewWrapper {...nodeProps} resultView={props.resultView} />
+        }
+    }, [props.resultView])
 
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
     const { fitView } = useReactFlow()
     const nodesInitialized = useNodesInitialized()
+    const updateNodeInternals = useUpdateNodeInternals()
+
+    useEffect(() => {
+        setNodes(initialNodes)
+        setEdges(initialEdges)
+    }, [initialEdges, initialNodes, setEdges, setNodes])
 
     const onLayout = useCallback(() => {
         const layouted = getLayoutedElements(nodes, edges)
@@ -30,9 +55,12 @@ export function RelationsGraph(props: { base: RelationNode; referencedBy: Relati
         setEdges([...layouted.edges])
 
         window.requestAnimationFrame(() => {
-            fitView()
+            setTimeout(() => {
+                fitView({ nodes: [{ id: props.base }], duration: 200, padding: 1 })
+                updateNodeInternals(nodes.map((n) => n.id))
+            }, 100)
         })
-    }, [nodes, edges, setNodes, setEdges, fitView])
+    }, [nodes, edges, setNodes, setEdges, fitView, props.base, updateNodeInternals])
 
     const onLayoutDebounced = useRef(onLayout)
     useEffect(() => {

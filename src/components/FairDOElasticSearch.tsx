@@ -73,7 +73,7 @@ export function FairDOElasticSearch({
         <SearchProvider config={elasticConfig}>
             <FairDOSearchProvider config={rawConfig}>
                 <TooltipProvider>
-                    <GlobalModalProvider>
+                    <GlobalModalProvider resultView={actualResultView}>
                         <WithSearch
                             mapContextToProps={({ wasSearched, isLoading }: SearchContextState) => ({
                                 wasSearched,
