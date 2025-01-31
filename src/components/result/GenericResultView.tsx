@@ -292,7 +292,7 @@ export function GenericResultView({
 
     return (
         <div
-            className={`rfs-m-2 rfs-rounded-lg rfs-border rfs-border-border rfs-bg-background rfs-p-4 rfs-group/resultView ${exactPidMatch ? "rfs-animate-rfs-outline-ping" : ""}`}
+            className={`rfs-m-2 rfs-rounded-lg rfs-border rfs-border-border rfs-bg-background rfs-p-4 rfs-group/resultView ${exactPidMatch ? "rfs-outline-primary rfs-outline" : ""}`}
         >
             <div
                 className={`rfs-grid ${imageField ? "rfs-grid-rows-[150px_1fr] md:rfs-grid-cols-[200px_1fr] md:rfs-grid-rows-1" : ""} rfs-gap-4 rfs-overflow-x-auto md:rfs-max-w-full`}
