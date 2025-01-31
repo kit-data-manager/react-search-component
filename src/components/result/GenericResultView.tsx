@@ -249,22 +249,27 @@ export function GenericResultView({
 
     const fetchRelatedItems = useCallback(
         async (term: string, amount: number) => {
-            const search = await elasticConnector?.onSearch(
-                { searchTerm: term, resultsPerPage: amount + 5 },
-                {
-                    result_fields: {},
-                    searchTerm: term,
-                    search_fields: relatedItemsPrefetch?.searchFields ?? { [pidField ?? "pid"]: {} },
-                    resultsPerPage: amount
-                }
-            )
+            try {
+                const search = await elasticConnector?.onSearch(
+                    { searchTerm: term, resultsPerPage: amount + 5 },
+                    {
+                        result_fields: {},
+                        searchTerm: term,
+                        search_fields: relatedItemsPrefetch?.searchFields ?? { [pidField ?? "pid"]: {} },
+                        resultsPerPage: amount
+                    }
+                )
 
-            if (search) {
-                for (const entry of search.results) {
-                    const pid = autoUnwrap(entry[pidField ?? "pid"])
-                    if (!pid) continue
-                    addToResultCache(pid, entry)
+                if (search) {
+                    for (const entry of search.results) {
+                        const pid = autoUnwrap(entry[pidField ?? "pid"])
+                        if (!pid) continue
+                        addToResultCache(pid, entry)
+                    }
                 }
+            } catch (e) {
+                console.warn("Failed to fetch related items", e)
+                alert("Failed to fetch related items, graph may be incomplete")
             }
         },
         [addToResultCache, elasticConnector, pidField, relatedItemsPrefetch?.searchFields]

@@ -3,6 +3,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { Badge } from "@/components/ui/badge"
 import { SearchResult } from "@elastic/search-ui"
 import { autoUnwrap } from "@/components/result/utils"
+import { useCopyToClipboard } from "usehooks-ts"
 
 export interface GenericResultViewTagProps {
     field: string
@@ -20,17 +21,19 @@ export function GenericResultViewTag({ field, result, icon, label, valueMapper }
         else return value
     }, [field, result, valueMapper])
 
+    const [_, copy] = useCopyToClipboard()
+
     const base = useCallback(
         (value: string) => {
             return (
-                <Badge variant="secondary" className="rfs-truncate">
+                <Badge variant="secondary" className="rfs-truncate" onClick={() => copy(value)}>
                     <span className="rfs-flex rfs-truncate">
                         {icon} {value}
                     </span>
                 </Badge>
             )
         },
-        [icon]
+        [copy, icon]
     )
 
     if (!label) return base(value)
