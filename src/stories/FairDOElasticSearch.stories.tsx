@@ -64,7 +64,7 @@ const demoConfig: FairDOConfig = {
                 },
                 {
                     key: "digitalObjectType.keyword",
-                    label: "File Type",
+                    label: "Digital Object Type",
                     usePidResolver: true
                 }
             ],
