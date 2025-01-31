@@ -29,7 +29,8 @@
     "storybook:dev": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "storybook:test": "test-storybook",
-    "build": "rm -rf ./dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.app.json && tailwind build -i src/index.css -o dist/index.css && cp ./src/elastic-ui.css ./dist"
+    "build": "rm -rf ./dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.app.json && tailwind build -i src/index.css -o dist/index.css && cp ./src/elastic-ui.css ./dist",
+    "test": ""
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.1.4",
