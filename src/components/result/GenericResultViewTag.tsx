@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from "react"
+import { ReactNode, useCallback, useMemo } from "react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
 import { SearchResult } from "@elastic/search-ui"
@@ -9,7 +9,7 @@ export interface GenericResultViewTagProps {
     result: SearchResult
     icon?: ReactNode
     label?: string
-    valueMapper?: (value: string) => string
+    valueMapper?: (value: string | string[]) => string | ReactNode
 }
 
 export function GenericResultViewTag({ field, result, icon, label, valueMapper }: GenericResultViewTagProps) {
@@ -20,22 +20,34 @@ export function GenericResultViewTag({ field, result, icon, label, valueMapper }
         else return value
     }, [field, result, valueMapper])
 
-    const base = useMemo(() => {
-        return (
-            <Badge variant="secondary" className="rfs-truncate">
-                <span className="rfs-flex rfs-truncate">
-                    {icon} {value}
-                </span>
-            </Badge>
-        )
-    }, [icon, value])
+    const base = useCallback(
+        (value: string) => {
+            return (
+                <Badge variant="secondary" className="rfs-truncate">
+                    <span className="rfs-flex rfs-truncate">
+                        {icon} {value}
+                    </span>
+                </Badge>
+            )
+        },
+        [icon]
+    )
 
-    if (!label) return base
+    if (!label) return base(value)
     if (!value) return null
+
+    if (Array.isArray(value)) {
+        return value.map((entry, i) => (
+            <Tooltip delayDuration={500} key={i}>
+                <TooltipTrigger>{base(entry)}</TooltipTrigger>
+                <TooltipContent>{label}</TooltipContent>
+            </Tooltip>
+        ))
+    }
 
     return (
         <Tooltip delayDuration={500}>
-            <TooltipTrigger>{base}</TooltipTrigger>
+            <TooltipTrigger>{base(value)}</TooltipTrigger>
             <TooltipContent>{label}</TooltipContent>
         </Tooltip>
     )

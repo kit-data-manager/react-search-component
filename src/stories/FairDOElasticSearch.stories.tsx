@@ -3,8 +3,10 @@ import type { FairDOConfig } from "@/config/FairDOConfig.ts"
 import type { Meta, StoryObj } from "@storybook/react"
 import { FairDOElasticSearch } from "@/components/FairDOElasticSearch"
 import { GenericResultView } from "@/components/result/GenericResultView"
-import { AtomIcon, GlobeIcon, GraduationCap, ScaleIcon } from "lucide-react"
+import { AtomIcon, AudioLines, CircleDot, GlobeIcon, GraduationCap, Microscope, ScaleIcon, UserIcon } from "lucide-react"
 import { tryURLPrettyPrint } from "@/lib/utils"
+import { PidDisplay } from "@/components/result/PidDisplay"
+import { OrcidDisplay } from "@/components/result/OrcidDisplay"
 
 const meta = {
     component: FairDOElasticSearch,
@@ -23,7 +25,7 @@ const demoConfig: FairDOConfig = {
     apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
     indices: [
         {
-            name: "fdo-test-5",
+            name: "fdo-test-6",
             facets: [
                 {
                     key: "resourceType.keyword",
@@ -152,6 +154,12 @@ export const GenericResultRenderer: Story = {
                 invertImageInDarkMode
                 tags={[
                     {
+                        icon: <UserIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        label: "Contact",
+                        field: "contact",
+                        valueMapper: (v) => (Array.isArray(v) ? v.map((vv) => <OrcidDisplay orcid={vv} />) : <OrcidDisplay orcid={v} />)
+                    },
+                    {
                         icon: <GraduationCap className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         label: "Resource Type",
                         field: "resourceType"
@@ -159,13 +167,13 @@ export const GenericResultRenderer: Story = {
                     {
                         icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "hadPrimarySource",
-                        valueMapper: tryURLPrettyPrint,
+                        valueMapper: (v) => tryURLPrettyPrint(v + ""),
                         label: "Source"
                     },
                     {
                         icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "licenseURL",
-                        valueMapper: tryURLPrettyPrint,
+                        valueMapper: (v) => tryURLPrettyPrint(v + ""),
                         label: "License URL"
                     },
                     {
@@ -173,10 +181,27 @@ export const GenericResultRenderer: Story = {
                         field: "Compound.Molar_mass",
                         label: "Molar Mass",
                         valueMapper: (v) => v + " g/mol"
+                    },
+                    {
+                        icon: <Microscope className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        label: "NMR Method",
+                        field: "NMR_Method",
+                        valueMapper: (v) => <PidDisplay pid={v + ""} />
+                    },
+                    {
+                        icon: <AudioLines className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        label: "Pulse Sequence Name",
+                        field: "Pulse_Sequence_Name"
+                    },
+                    {
+                        icon: <CircleDot className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        label: "Acquisition Nucleus",
+                        field: "Acquisition_Nucleus"
                     }
                 ]}
                 titleField="name"
                 creationDateField="dateCreatedRfc3339"
+                editedDateField={"dateModified"}
                 additionalIdentifierField="identifier"
                 digitalObjectLocationField="digitalObjectLocation"
                 imageField="locationPreview/Sample"
@@ -206,13 +231,13 @@ export const CompoundSlider: Story = {
                     {
                         icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "hadPrimarySource",
-                        valueMapper: tryURLPrettyPrint,
+                        valueMapper: (v) => tryURLPrettyPrint(v + ""),
                         label: "Source"
                     },
                     {
                         icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "licenseURL",
-                        valueMapper: tryURLPrettyPrint,
+                        valueMapper: (v) => tryURLPrettyPrint(v + ""),
                         label: "License URL"
                     },
                     {

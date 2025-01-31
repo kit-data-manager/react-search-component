@@ -29,8 +29,8 @@ export function DefaultFacetOption({
 
     return (
         <div key={value} className="rfs-flex rfs-max-w-full rfs-items-center rfs-gap-2 rfs-break-words rfs-p-1 rfs-pb-2">
-            <Checkbox id={value} checked={option.selected} onCheckedChange={(v) => (v ? onSelect(value) : onRemove(value))} />
-            <Label htmlFor={value} className="rfs-min-w-0 rfs-grow rfs-break-words">
+            <Checkbox id={value + facetConfig.key} checked={option.selected} onCheckedChange={(v) => (v ? onSelect(value) : onRemove(value))} />
+            <Label htmlFor={value + facetConfig.key} className="rfs-min-w-0 rfs-grow rfs-break-words">
                 {value ? (
                     facetConfig.usePidResolver ? (
                         <PidDisplay pid={value} />

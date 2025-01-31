@@ -5,7 +5,7 @@ import { useStore } from "zustand/index"
 import { resultCache } from "@/lib/ResultCache"
 import { autoUnwrap, autoUnwrapArray, toArray } from "@/components/result/utils"
 import { DateTime } from "luxon"
-import { ChevronDown, GitFork, ImageOff, LinkIcon, Microscope, SearchIcon } from "lucide-react"
+import { ChevronDown, Download, GitFork, ImageOff, Microscope, Pencil, PlusIcon, SearchIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -73,9 +73,14 @@ export interface GenericResultViewProps {
     parentItemPidField?: string
 
     /**
-     * The elastic field where the creation date of the FDO will be read from. Will be parsed as an ISO String.
+     * The elastic field where the creation date of the FDO will be read from. Will be parsed as an ISO Date.
      */
     creationDateField?: string
+
+    /**
+     * The elastic field where the edited date of the FDO will be read from. Will be parsed as an ISO Date.
+     */
+    editedDateField?: string
 
     /**
      * The elastic field where an additional identifier will be read from. You don't need to provide this if you don't have any additional identifiers apart from the PID.
@@ -109,6 +114,7 @@ export function GenericResultView({
     relatedItemPidsField = "isMetadataFor",
     parentItemPidField = "hasMetadata",
     creationDateField = "creationDate",
+    editedDateField = "editedDate",
     additionalIdentifierField = "identifier",
     relatedItemsPrefetch = { searchFields: { pid: {} } },
     tags = [],
@@ -229,6 +235,13 @@ export function GenericResultView({
         return dateTime.isValid ? dateTime.toLocaleString() : value
     }, [creationDateField, getField])
 
+    const editedDate = useMemo(() => {
+        const value = getField(editedDateField ?? "editedDate")
+        if (!value) return undefined
+        const dateTime = DateTime.fromISO(value)
+        return dateTime.isValid ? dateTime.toLocaleString() : value
+    }, [editedDateField, getField])
+
     const hasMetadata = useMemo(() => {
         const val = getArrayOrSingleField(parentItemPidField ?? "hasMetadata")
         return val ? toArray(val) : undefined
@@ -326,9 +339,19 @@ export function GenericResultView({
                     )}
                     <div className="rfs-font-bold md:rfs-text-xl">
                         {title}
-                        <span className="rfs-ml-2 rfs-text-sm rfs-font-normal rfs-text-muted-foreground">
-                            {identifier} {identifier && creationDate ? "-" : ""} {creationDate}
-                        </span>
+                        <div className="rfs-flex rfs-ml-2 rfs-text-sm rfs-font-normal rfs-text-muted-foreground rfs-gap-3">
+                            {identifier}
+                            {creationDate && (
+                                <div className="rfs-flex rfs-items-center">
+                                    <PlusIcon className="rfs-size-3 rfs-mr-0.5" /> {creationDate}
+                                </div>
+                            )}
+                            {editedDate && (
+                                <div className="rfs-flex rfs-items-center">
+                                    <Pencil className="rfs-size-3 rfs-mr-0.5" /> {editedDate}
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <a href={`https://hdl.handle.net/${pid}`} target="_blank" className="rfs-mb-2 rfs-block rfs-leading-3 hover:rfs-underline">
                         <span className="rfs-text-sm rfs-text-muted-foreground">{pid}</span>
@@ -370,7 +393,7 @@ export function GenericResultView({
                                     <DropdownMenuContent>
                                         <a href={doLocation} target="_blank">
                                             <DropdownMenuItem>
-                                                <LinkIcon className="rfs-mr-1 rfs-size-4" /> Digital Object
+                                                <Download className="rfs-mr-1 rfs-size-4" /> Download Digital Object
                                             </DropdownMenuItem>
                                         </a>
                                         <DropdownMenuItem onClick={searchForThis}>
