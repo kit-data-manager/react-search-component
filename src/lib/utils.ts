@@ -5,10 +5,14 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
-export function arrayToObjectEntries(array: string[]) {
-    const obj: Record<string, Record<never, never>> = {}
-    for (const key in array) {
-        obj[key] = {}
+export function arrayToObjectEntries(array: (string | { field: string })[]) {
+    const obj: Record<string, Record<string, unknown>> = {}
+    for (const key of array) {
+        if (typeof key === "string") {
+            obj[key] = {}
+        } else {
+            obj[key.field] = key
+        }
     }
     return obj
 }
