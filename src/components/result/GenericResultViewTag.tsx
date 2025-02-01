@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useMemo } from "react"
+import { MouseEvent, ReactNode, useCallback, useMemo } from "react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
 import { SearchResult } from "@elastic/search-ui"
@@ -21,19 +21,28 @@ export function GenericResultViewTag({ field, result, icon, label, valueMapper }
         else return value
     }, [field, result, valueMapper])
 
-    const [_, copy] = useCopyToClipboard()
+    const [, copy] = useCopyToClipboard()
+
+    const copyTagValue = useCallback(
+        (e: MouseEvent<HTMLDivElement>) => {
+            if ("innerText" in e.target && typeof e.target.innerText === "string") {
+                copy(e.target.innerText).then()
+            } else console.warn("Failed to copy innerText of", e.target)
+        },
+        [copy]
+    )
 
     const base = useCallback(
         (value: string) => {
             return (
-                <Badge variant="secondary" className="rfs-truncate" onClick={() => copy(value)}>
+                <Badge variant="secondary" className="rfs-truncate" onClick={copyTagValue}>
                     <span className="rfs-flex rfs-truncate">
                         {icon} {value}
                     </span>
                 </Badge>
             )
         },
-        [copy, icon]
+        [copyTagValue, icon]
     )
 
     if (!label) return base(value)
