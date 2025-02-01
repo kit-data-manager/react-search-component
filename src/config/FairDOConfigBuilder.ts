@@ -63,7 +63,11 @@ export class FairDOConfigBuilder {
             index_names.push(index.name)
 
             allSearchFields = (index.searchFields || []).reduce((acc, n) => {
-                acc[n] = {}
+                if (typeof n === "string") {
+                    acc[n] = {}
+                } else {
+                    acc[n.field] = n
+                }
 
                 return acc
             }, allSearchFields)

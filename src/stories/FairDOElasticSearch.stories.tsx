@@ -71,7 +71,18 @@ const demoConfig: FairDOConfig = {
                 }
             ],
             resultFields: [], // Leave empty to get all fields
-            searchFields: ["name", "pid", "hasMetadata", "isMetadataFor", "NMR_Method"]
+            searchFields: [
+                { field: "name", weight: 2 },
+                { field: "pid", weight: 2 },
+                "hasMetadata",
+                "isMetadataFor",
+                "NMR_Method",
+                "digitalObjectType",
+                "Acquisition_Nucleus",
+                "Pulse_Sequence_Name",
+                "hadPrimarySource",
+                "resourceType"
+            ]
         }
     ],
     initialState: {

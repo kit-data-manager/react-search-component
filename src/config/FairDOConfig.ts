@@ -1,4 +1,4 @@
-import { RequestState } from "@elastic/search-ui"
+import { RequestState, SearchFieldConfiguration } from "@elastic/search-ui"
 
 export interface FairDOCoreFacetConfig {
     key: string
@@ -47,7 +47,7 @@ export interface FairDOIndexConfig {
     /**
      * Fields that support searching
      */
-    searchFields: string[]
+    searchFields: (string | ({ field: string } & SearchFieldConfiguration))[]
     /**
      * Fields that should be included in the results for a search query
      */

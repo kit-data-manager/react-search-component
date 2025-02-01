@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react"
 import useSWRImmutable from "swr/immutable"
+import { Skeleton } from "@/components/ui/skeleton"
 
 async function orcidFetch(orcid: string) {
     const req = await fetch(`https://pub.orcid.org/v3.0/${orcid}`, {
@@ -29,9 +30,10 @@ export function OrcidDisplay({ orcid }: { orcid: string }) {
     }, [data])
 
     useEffect(() => {
-        if (error) console.log(error)
-    }, [error])
+        if (error) console.warn(`OrcidDisplay failed to resolve ${orcid}`, error)
+    }, [error, orcid])
 
     if (familyName && givenName) return givenName + " " + familyName
-    return null
+    if (error) return orcid
+    return <Skeleton className="rfs-h-4 rfs-w-14 rfs-bg-muted-foreground/10" />
 }
