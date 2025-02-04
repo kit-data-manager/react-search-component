@@ -25,7 +25,7 @@ const demoConfig: FairDOConfig = {
     apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
     indices: [
         {
-            name: "fdo-test-8",
+            name: "fdo-test-9",
             facets: [
                 {
                     key: "resourceType.keyword",
