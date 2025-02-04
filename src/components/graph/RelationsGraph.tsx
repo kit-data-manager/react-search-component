@@ -2,6 +2,8 @@ import { buildGraphForReferences, getLayoutedElements, ResultPID } from "@/compo
 import {
     Background,
     BackgroundVariant,
+    Controls,
+    MiniMap,
     NodeProps,
     ReactFlow,
     useEdgesState,
@@ -83,6 +85,8 @@ export function RelationsGraph(props: { base: string; referencedBy: string[]; re
             proOptions={{ hideAttribution: true }}
         >
             <Background color="hsl(var(--rfs-border))" variant={BackgroundVariant.Lines} />
+            <Controls />
+            <MiniMap zoomable pannable />
         </ReactFlow>
     )
 }
