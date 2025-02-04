@@ -25,7 +25,7 @@ const demoConfig: FairDOConfig = {
     apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
     indices: [
         {
-            name: "fdo-test-6",
+            name: "fdo-test-8",
             facets: [
                 {
                     key: "resourceType.keyword",
@@ -33,8 +33,8 @@ const demoConfig: FairDOConfig = {
                 },
                 {
                     key: "hadPrimarySource.keyword",
-                    label: "Source",
-                    prettyPrintURLs: true
+                    label: "Source"
+                    // usePidResolver: true
                 },
                 {
                     key: "NMR_Method.keyword",
@@ -47,7 +47,8 @@ const demoConfig: FairDOConfig = {
                 },
                 {
                     key: "Acquisition_Nucleus.keyword",
-                    label: "Acquisition Nucleus"
+                    label: "Acquisition Nucleus",
+                    usePidResolver: true
                 },
                 {
                     key: "dateCreatedRfc3339",
@@ -62,7 +63,7 @@ const demoConfig: FairDOConfig = {
                 {
                     key: "licenseURL.keyword",
                     label: "License",
-                    prettyPrintURLs: true
+                    usePidResolver: true
                 },
                 {
                     key: "digitalObjectType.keyword",
@@ -168,7 +169,7 @@ export const GenericResultRenderer: Story = {
                         icon: <UserIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         label: "Contact",
                         field: "contact",
-                        valueMapper: (v) => (Array.isArray(v) ? v.map((vv) => <OrcidDisplay orcid={vv} />) : <OrcidDisplay orcid={v} />)
+                        singleValueMapper: (v) => <OrcidDisplay orcid={v} />
                     },
                     {
                         icon: <GraduationCap className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
@@ -178,26 +179,26 @@ export const GenericResultRenderer: Story = {
                     {
                         icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "hadPrimarySource",
-                        valueMapper: (v) => tryURLPrettyPrint(v + ""),
+                        // singleValueMapper: (v) => <PidDisplay pid={v} />,
                         label: "Source"
                     },
                     {
                         icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "licenseURL",
-                        valueMapper: (v) => tryURLPrettyPrint(v + ""),
+                        singleValueMapper: (v) => tryURLPrettyPrint(v),
                         label: "License URL"
                     },
                     {
                         icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "Compound.Molar_mass",
                         label: "Molar Mass",
-                        valueMapper: (v) => v + " g/mol"
+                        singleValueMapper: (v) => v + " g/mol"
                     },
                     {
                         icon: <Microscope className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         label: "NMR Method",
                         field: "NMR_Method",
-                        valueMapper: (v) => <PidDisplay pid={v + ""} />
+                        singleValueMapper: (v) => <PidDisplay pid={v} />
                     },
                     {
                         icon: <AudioLines className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
@@ -207,7 +208,8 @@ export const GenericResultRenderer: Story = {
                     {
                         icon: <CircleDot className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         label: "Acquisition Nucleus",
-                        field: "Acquisition_Nucleus"
+                        field: "Acquisition_Nucleus",
+                        singleValueMapper: (v) => <PidDisplay pid={v} />
                     }
                 ]}
                 titleField="name"

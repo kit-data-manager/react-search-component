@@ -6,20 +6,41 @@ import { autoUnwrap } from "@/components/result/utils"
 import { useCopyToClipboard } from "usehooks-ts"
 
 export interface GenericResultViewTagProps {
+    /**
+     * The elasticsearch field that this tag will display
+     */
     field: string
     result: SearchResult
+    /**
+     * Icon for this tag, can be any react component. Ideally a [lucide icon](https://lucide.dev) with 16px by 16px site.
+     */
     icon?: ReactNode
+    /**
+     * Label to display in a tooltip
+     */
     label?: string
-    valueMapper?: (value: string | string[]) => string | ReactNode
+    /**
+     * Optional, here you can map each value or all values of the elasticsearch field to a string or a React component.
+     * Can't the used together with `singleValueMapper`
+     * @param value
+     */
+    valueMapper?: (value: string | string[]) => ReactNode
+    /**
+     * Optional, here you can map each value of the elasticsearch field to a string or a React component. Can't be used
+     * together with `valueMapper`
+     * @param value
+     */
+    singleValueMapper?: (value: string) => ReactNode
 }
 
-export function GenericResultViewTag({ field, result, icon, label, valueMapper }: GenericResultViewTagProps) {
+export function GenericResultViewTag({ field, result, icon, label, valueMapper, singleValueMapper }: GenericResultViewTagProps) {
     const value = useMemo(() => {
-        const value = autoUnwrap(result[field])
+        const value: string | string[] = autoUnwrap(result[field])
         if (!value) return undefined
         if (valueMapper) return valueMapper(value)
+        if (singleValueMapper) return Array.isArray(value) ? value.map(singleValueMapper) : singleValueMapper(value)
         else return value
-    }, [field, result, valueMapper])
+    }, [field, result, singleValueMapper, valueMapper])
 
     const [, copy] = useCopyToClipboard()
 
@@ -33,7 +54,7 @@ export function GenericResultViewTag({ field, result, icon, label, valueMapper }
     )
 
     const base = useCallback(
-        (value: string) => {
+        (value: ReactNode) => {
             return (
                 <Badge variant="secondary" className="rfs-truncate" onClick={copyTagValue}>
                     <span className="rfs-flex rfs-truncate">

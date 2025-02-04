@@ -1,13 +1,17 @@
 import { z } from "zod"
 
+/**
+ * !TODO Replace with resolver from pid-component
+ */
+
 const TS4TIBResponse = z.object({
     response: z.object({
         docs: z.object({ label: z.string(), iri: z.string() }).array()
     })
 })
 
-export class OntobeeResolver {
-    async parse(url: string) {
+export class TempResolver {
+    async resolvePurl(url: string) {
         try {
             const result = await fetch(`https://service.tib.eu/ts4tib/api/select?q=${url}`)
             const data = await result.json()
@@ -23,6 +27,17 @@ export class OntobeeResolver {
             return url
         }
     }
+
+    async resolveSpdx(url: string) {
+        try {
+            const result = await fetch(url)
+            const data = await result.json()
+            console.log(data)
+        } catch (e) {
+            console.error(e)
+            return url
+        }
+    }
 }
 
-export const ontobeeResolver = new OntobeeResolver()
+export const tempResolver = new TempResolver()

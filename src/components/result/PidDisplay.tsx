@@ -1,6 +1,6 @@
 import { PidResolver, pidResolver } from "@/lib/pidResolver"
 import { memo, useCallback } from "react"
-import { ontobeeResolver } from "@/lib/OntobeeResolver"
+import { tempResolver } from "@/lib/TempResolver"
 import useSWRImmutable from "swr/immutable"
 
 /**
@@ -14,7 +14,9 @@ export const PidDisplay = memo(function PidDisplay({ pid }: { pid: string }) {
             const content = await pidResolver.resolve(pid)
             return content.name
         } else if (pid.startsWith("http://purl.obolibrary.org")) {
-            return ontobeeResolver.parse(pid)
+            return tempResolver.resolvePurl(pid)
+        } else if (pid.startsWith("https://spdx.org")) {
+            return tempResolver.resolveSpdx(pid)
         } else {
             return pid
         }
@@ -22,9 +24,5 @@ export const PidDisplay = memo(function PidDisplay({ pid }: { pid: string }) {
 
     const { data, error } = useSWRImmutable(pid, resolveContent)
 
-    if (error) {
-        return <div className="rfs-text-red-500">{pid}</div>
-    }
-
-    return <span>{data ?? ""}</span>
+    return <span>{error ? pid : (data ?? "")}</span>
 })

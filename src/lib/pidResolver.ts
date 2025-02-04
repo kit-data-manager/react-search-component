@@ -43,12 +43,15 @@ export class PidResolver {
                     return PIDDataSchema.parse(data)
                 } catch (e) {
                     console.error(`Failed to parse response for resolve request of pid ${pid}`, e)
-                    throw undefined
+                    return null
                 }
+            } else {
+                console.error(`Network request failed for parsing pid ${pid}`, request.status)
+                return null
             }
         } catch (e) {
             console.error(`Network request failed for parsing pid ${pid}`, e)
-            throw undefined
+            return null
         }
     }
 }
