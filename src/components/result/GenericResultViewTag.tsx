@@ -31,9 +31,20 @@ export interface GenericResultViewTagProps {
      * @param value
      */
     singleValueMapper?: (value: string) => ReactNode
+    onClick?: (e: MouseEvent<HTMLDivElement>, tagValue: ReactNode) => void
+    clickBehavior?: "copy-text"
 }
 
-export function GenericResultViewTag({ field, result, icon, label, valueMapper, singleValueMapper }: GenericResultViewTagProps) {
+export function GenericResultViewTag({
+    field,
+    result,
+    icon,
+    label,
+    valueMapper,
+    singleValueMapper,
+    clickBehavior = "copy-text",
+    onClick
+}: GenericResultViewTagProps) {
     const value = useMemo(() => {
         const value: string | string[] = autoUnwrap(result[field])
         if (!value) return undefined
@@ -53,17 +64,27 @@ export function GenericResultViewTag({ field, result, icon, label, valueMapper, 
         [copy]
     )
 
+    const handleClick = useCallback(
+        (value: ReactNode, e: MouseEvent<HTMLDivElement>) => {
+            if (onClick) onClick(e, value)
+            if (clickBehavior === "copy-text") {
+                copyTagValue(e)
+            }
+        },
+        [clickBehavior, copyTagValue, onClick]
+    )
+
     const base = useCallback(
         (value: ReactNode) => {
             return (
-                <Badge variant="secondary" className="rfs-truncate" onClick={copyTagValue}>
+                <Badge variant="secondary" className="rfs-truncate" onClick={(e) => handleClick(value, e)}>
                     <span className="rfs-flex rfs-truncate">
                         {icon} {value}
                     </span>
                 </Badge>
             )
         },
-        [copyTagValue, icon]
+        [handleClick, icon]
     )
 
     if (!label) return base(value)
