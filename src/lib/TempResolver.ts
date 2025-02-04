@@ -10,6 +10,8 @@ const TS4TIBResponse = z.object({
     })
 })
 
+const SPDX_LICENSE_REGEX = /https:\/\/spdx\.org\/licenses\/(.*)\.json/
+
 export class TempResolver {
     async resolvePurl(url: string) {
         try {
@@ -30,9 +32,8 @@ export class TempResolver {
 
     async resolveSpdx(url: string) {
         try {
-            const result = await fetch(url)
-            const data = await result.json()
-            console.log(data)
+            const match = SPDX_LICENSE_REGEX.exec(url)
+            return match ? match[1] : null
         } catch (e) {
             console.error(e)
             return url

@@ -185,7 +185,7 @@ export const GenericResultRenderer: Story = {
                     {
                         icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "licenseURL",
-                        singleValueMapper: (v) => tryURLPrettyPrint(v),
+                        singleValueMapper: (v) => <PidDisplay pid={v} />,
                         label: "License URL"
                     },
                     {
