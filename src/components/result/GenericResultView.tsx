@@ -1,11 +1,11 @@
-import { useCallback, useContext, useEffect, useMemo } from "react"
+import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { RFS_GlobalModalContext } from "@/components/RFS_GlobalModalContext"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 import { useStore } from "zustand/index"
 import { resultCache } from "@/lib/ResultCache"
 import { autoUnwrap, autoUnwrapArray, toArray } from "@/components/result/utils"
 import { DateTime } from "luxon"
-import { ChevronDown, Download, GitFork, ImageOff, Microscope, Pencil, PlusIcon, SearchIcon } from "lucide-react"
+import { ChevronDown, Download, GitFork, ImageOff, LoaderCircle, Microscope, Pencil, PlusIcon, SearchIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -123,6 +123,7 @@ export function GenericResultView({
     const { openRelationGraph } = useContext(RFS_GlobalModalContext)
     const { searchTerm, elasticConnector, searchFor } = useContext(FairDOSearchContext)
     const addToResultCache = useStore(resultCache, (s) => s.set)
+    const [loadingRelatedItems, setLoadingRelatedItems] = useState(false)
 
     const getField = useCallback(
         (field: string) => {
@@ -277,8 +278,10 @@ export function GenericResultView({
 
     const showRelatedItemsGraph = useCallback(async () => {
         if (!pid) return
+        setLoadingRelatedItems(true)
         if (isMetadataFor) await fetchRelatedItems(isMetadataFor.join(" "), isMetadataFor.length)
         if (hasMetadata) await fetchRelatedItems(hasMetadata.join(" "), hasMetadata.length)
+        setLoadingRelatedItems(false)
 
         openRelationGraph(hasMetadata ?? [], pid, isMetadataFor ?? [])
     }, [fetchRelatedItems, hasMetadata, isMetadataFor, openRelationGraph, pid])
@@ -368,8 +371,19 @@ export function GenericResultView({
                     <div className="rfs-mt-8 rfs-flex rfs-flex-col rfs-flex-wrap rfs-justify-end rfs-gap-2 md:rfs-flex-row md:rfs-items-center md:rfs-gap-4">
                         {showRelatedItemsButton && (
                             <div className="rfs-flex rfs-items-center">
-                                <Button className="rfs-grow rfs-rounded-r-none" size="sm" variant="secondary" onClick={showRelatedItemsGraph}>
-                                    <GitFork className="rfs-mr-1 rfs-size-4" /> Show Related Items
+                                <Button
+                                    className="rfs-grow rfs-rounded-r-none"
+                                    disabled={loadingRelatedItems}
+                                    size="sm"
+                                    variant="secondary"
+                                    onClick={showRelatedItemsGraph}
+                                >
+                                    {loadingRelatedItems ? (
+                                        <LoaderCircle className="rfs-mr-1 rfs-size-4 rfs-animate-spin" />
+                                    ) : (
+                                        <GitFork className="rfs-mr-1 rfs-size-4" />
+                                    )}
+                                    Show Related Items
                                 </Button>
                                 <Button
                                     className="rfs-rounded-l-none rfs-border-l rfs-border-l-border rfs-text-xs rfs-font-bold"
