@@ -14,7 +14,7 @@ import { GenericResultViewTag, GenericResultViewTagProps } from "@/components/re
 import { GenericResultViewImageCarousel } from "@/components/result/GenericResultViewImageCarousel"
 import { z } from "zod"
 
-const HTTP_REGEX = /https?:\/\/[a-z]+\.[a-z]+.*/gm
+const HTTP_REGEX = /https?:\/\/.*/
 
 export interface GenericResultViewProps {
     /**
