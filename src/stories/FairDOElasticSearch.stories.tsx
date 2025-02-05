@@ -25,7 +25,7 @@ const demoConfig: FairDOConfig = {
     apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
     indices: [
         {
-            name: "fdo-test-9",
+            name: "fdo-prod",
             facets: [
                 {
                     key: "resourceType.keyword",
@@ -33,8 +33,8 @@ const demoConfig: FairDOConfig = {
                 },
                 {
                     key: "hadPrimarySource.keyword",
-                    label: "Source"
-                    // usePidResolver: true
+                    label: "Source",
+                    usePidResolver: true
                 },
                 {
                     key: "NMR_Method.keyword",
@@ -119,7 +119,7 @@ const demoConfigWithCompound: FairDOConfig = {
     apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
     indices: [
         {
-            name: "fdo-test-5",
+            name: "fdo-prod",
             facets: [
                 {
                     key: "Compound.Molar_mass",
@@ -179,7 +179,7 @@ export const GenericResultRenderer: Story = {
                     {
                         icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "hadPrimarySource",
-                        // singleValueMapper: (v) => <PidDisplay pid={v} />,
+                        singleValueMapper: (v) => <PidDisplay pid={v} />,
                         label: "Source"
                     },
                     {
