@@ -1,8 +1,8 @@
 import type { FacetConfiguration, FilterValueRange, SearchDriverOptions, SearchFieldConfiguration, SearchQuery } from "@elastic/search-ui"
 import type { FairDOConfig, FairDODateRangeFacetConfig, FairDOFacetConfig, FairDONumericRangeFacetConfig } from "./FairDOConfig"
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
-import moment from "moment"
 import { parseStringValueToNumber } from "./helpers"
+import { DateTime, Duration } from "luxon"
 
 export class FairDOConfigBuilder {
     private readonly config: FairDOConfig
@@ -174,66 +174,86 @@ export class FairDOConfigBuilder {
 
     buildDateRangeFacet(facetConfig: FairDODateRangeFacetConfig) {
         let ranges: FilterValueRange[] = []
+        const getDate = (minus: number) =>
+            DateTime.now()
+                .minus(Duration.fromObject({ years: minus }))
+                .toFormat("yyyy")
+
         if (facetConfig.type === "date_year") {
             ranges = [
                 {
-                    from: moment().format("yyyy"),
+                    from: DateTime.now().toFormat("yyyy"),
                     name: "This Year"
                 },
                 {
-                    from: moment().subtract(2, "years").format("yyyy"),
-                    to: moment().subtract(1, "years").format("yyyy"),
+                    from: getDate(2),
+                    to: getDate(1),
                     name: "Last Year"
                 },
                 {
-                    from: moment().subtract(3, "years").format("yyyy"),
-                    to: moment().subtract(2, "years").format("yyyy"),
+                    from: getDate(3),
+                    to: getDate(2),
                     name: "2 years ago"
                 },
                 {
-                    from: moment().subtract(4, "years").format("yyyy"),
-                    to: moment().subtract(3, "years").format("yyyy"),
+                    from: getDate(4),
+                    to: getDate(3),
                     name: "3 years ago"
                 },
                 {
-                    from: moment().subtract(5, "years").format("yyyy"),
-                    to: moment().subtract(4, "years").format("yyyy"),
+                    from: getDate(5),
+                    to: getDate(4),
                     name: "4 years ago"
                 },
                 {
-                    from: moment().subtract(6, "years").format("yyyy"),
-                    to: moment().subtract(5, "years").format("yyyy"),
+                    from: getDate(6),
+                    to: getDate(5),
                     name: "5 years ago"
                 },
                 {
-                    from: moment().subtract(10, "years").format("yyyy"),
-                    to: moment().subtract(6, "years").format("yyyy"),
+                    from: getDate(10),
+                    to: getDate(6),
                     name: "10 years ago"
                 },
                 {
-                    to: moment().subtract(11, "years").format("yyyy"),
+                    to: getDate(11),
                     name: "Older"
                 }
             ]
         } else if (facetConfig.type === "date_time") {
             ranges = [
                 {
-                    from: moment().month("January").date(1).hour(0).minute(0).second(0).format("YYYY-MM-DDTHH:mm:ss"),
-                    to: moment().month("December").date(31).hour(23).minute(59).second(59).format("YYYY-MM-DDTHH:mm:ss"),
+                    from: DateTime.now().startOf("year").toFormat("YYYY-MM-DDTHH:mm:ss"),
+                    to: DateTime.now().endOf("year").toFormat("YYYY-MM-DDTHH:mm:ss"),
                     name: "This Year"
                 },
                 {
-                    from: moment().subtract(1, "years").month("January").date(1).hour(0).minute(0).second(0).format("YYYY-MM-DDTHH:mm:ss"),
-                    to: moment().subtract(1, "years").month("December").date(31).hour(23).minute(59).second(59).format("YYYY-MM-DDTHH:mm:ss"),
+                    from: DateTime.now()
+                        .minus(Duration.fromObject({ years: 1 }))
+                        .startOf("year")
+                        .toFormat("YYYY-MM-DDTHH:mm:ss"),
+                    to: DateTime.now()
+                        .minus(Duration.fromObject({ years: 1 }))
+                        .endOf("year")
+                        .toFormat("YYYY-MM-DDTHH:mm:ss"),
                     name: "Last Year"
                 },
                 {
-                    from: moment().subtract(2, "years").month("January").date(1).hour(0).minute(0).second(0).format("YYYY-MM-DDTHH:mm:ss"),
-                    to: moment().subtract(2, "years").month("December").date(31).hour(23).minute(59).second(59).format("YYYY-MM-DDTHH:mm:ss"),
+                    from: DateTime.now()
+                        .minus(Duration.fromObject({ years: 2 }))
+                        .startOf("year")
+                        .toFormat("YYYY-MM-DDTHH:mm:ss"),
+                    to: DateTime.now()
+                        .minus(Duration.fromObject({ years: 2 }))
+                        .endOf("year")
+                        .toFormat("YYYY-MM-DDTHH:mm:ss"),
                     name: "2 years ago"
                 },
                 {
-                    to: moment().subtract(3, "years").month("December").date(31).hour(23).minute(59).second(59).format("YYYY-MM-DDTHH:mm:ss"),
+                    to: DateTime.now()
+                        .minus(Duration.fromObject({ years: 3 }))
+                        .endOf("year")
+                        .toFormat("YYYY-MM-DDTHH:mm:ss"),
                     name: "Older"
                 }
             ]
