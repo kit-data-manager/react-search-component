@@ -43,9 +43,11 @@ export function GenericResultViewImage({
                                 alt={`Preview for ${title}`}
                             />
                         </DialogTrigger>
-                        <DialogContent className="rfs-justify-center rfs-flex rfs-p-4 rfs-max-w-none rfs-w-auto">
+                        <DialogContent className="rfs-p-4 rfs-max-w-none rfs-w-auto">
                             <DialogTitle>{title}</DialogTitle>
-                            <img className="rfs-max-w-[90vw] rfs-max-h-[90vh]" src={previewImage} alt={`Preview for ${title}`} />
+                            <div className="rfs-justify-center rfs-flex">
+                                <img className="rfs-max-w-[90vw] rfs-max-h-[90vh]" src={previewImage} alt={`Preview for ${title}`} />
+                            </div>
                         </DialogContent>
                     </Dialog>
                 )
