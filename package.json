@@ -1,7 +1,6 @@
 {
   "name": "@kit-data-manager/react-fairdo-search",
   "version": "0.0.1",
-  "private": true,
   "main": "dist/index.js",
   "type": "module",
   "author": {
