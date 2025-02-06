@@ -125,7 +125,7 @@
   "homepage": "https://kit-data-manager.github.io/react-fairdo-search/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kit-data-manager/react-fairdo-search"
+    "url": "git+https://github.com/kit-data-manager/react-fairdo-search.git"
   },
   "contributors": [
     {

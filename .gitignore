@@ -30,3 +30,4 @@ out
 storybook-static
 .next
 *.tgz
+.npmrc
