@@ -19,7 +19,7 @@ export function GenericResultViewImage({
                     <div className="rfs-relative">
                         <GenericResultViewImageCarousel images={previewImage} title={title} />
                         <Dialog>
-                            <DialogTrigger>
+                            <DialogTrigger asChild>
                                 <Button
                                     size="icon"
                                     variant={"outline"}
@@ -36,9 +36,9 @@ export function GenericResultViewImage({
                     </div>
                 ) : (
                     <Dialog>
-                        <DialogTrigger>
+                        <DialogTrigger className="rfs-justify-center rfs-flex">
                             <img
-                                className="md:rfs-max-h-[200px] md:rfs-max-w-[200px] rfs-object-contain"
+                                className="md:rfs-max-h-[200px] md:rfs-max-w-[200px] rfs-max-h-full rfs-object-contain"
                                 src={previewImage}
                                 alt={`Preview for ${title}`}
                             />
