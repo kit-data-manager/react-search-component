@@ -4,7 +4,6 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { FairDOElasticSearch } from "@/components/FairDOElasticSearch"
 import { GenericResultView } from "@/components/result/GenericResultView"
 import { AtomIcon, AudioLines, CircleDot, GlobeIcon, GraduationCap, Microscope, ScaleIcon, UserIcon } from "lucide-react"
-import { tryURLPrettyPrint } from "@/lib/utils"
 import { PidDisplay } from "@/components/result/PidDisplay"
 import { OrcidDisplay } from "@/components/result/OrcidDisplay"
 
@@ -111,44 +110,44 @@ const demoConfig: FairDOConfig = {
     ]
 }
 
-const demoConfigWithCompound: FairDOConfig = {
-    debug: false,
-    alwaysSearchOnInitialLoad: true,
-    // host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
-    host: "https://ddaa9283-f114-4496-b6ed-af12ee34b107.ka.bw-cloud-instance.org:9200",
-    apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
-    indices: [
-        {
-            name: "fdo-prod",
-            facets: [
-                {
-                    key: "Compound.Molar_mass",
-                    label: "Compound",
-                    type: "min-max-slider"
-                }
-            ],
-            resultFields: [], // Leave empty to get all fields
-            searchFields: ["name", "pid", "hasMetadata", "isMetadataFor", "NMR_Method"]
-        }
-    ],
-    initialState: {
-        sortList: [
-            {
-                field: "_score",
-                direction: "desc"
-            },
-            {
-                field: "name.keyword",
-                direction: "asc"
-            },
-            {
-                field: "locationPreview/Sample.keyword",
-                direction: "asc"
-            }
-        ]
-    },
-    disjunctiveFacets: ["NMR_Method.keyword"]
-}
+// const demoConfigWithCompound: FairDOConfig = {
+//     debug: false,
+//     alwaysSearchOnInitialLoad: true,
+//     // host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
+//     host: "https://ddaa9283-f114-4496-b6ed-af12ee34b107.ka.bw-cloud-instance.org:9200",
+//     apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
+//     indices: [
+//         {
+//             name: "fdo-prod",
+//             facets: [
+//                 {
+//                     key: "Compound.Molar_mass",
+//                     label: "Compound",
+//                     type: "min-max-slider"
+//                 }
+//             ],
+//             resultFields: [], // Leave empty to get all fields
+//             searchFields: ["name", "pid", "hasMetadata", "isMetadataFor", "NMR_Method"]
+//         }
+//     ],
+//     initialState: {
+//         sortList: [
+//             {
+//                 field: "_score",
+//                 direction: "desc"
+//             },
+//             {
+//                 field: "name.keyword",
+//                 direction: "asc"
+//             },
+//             {
+//                 field: "locationPreview/Sample.keyword",
+//                 direction: "asc"
+//             }
+//         ]
+//     },
+//     disjunctiveFacets: ["NMR_Method.keyword"]
+// }
 
 export const NoResultRenderer: Story = {
     args: {
@@ -169,7 +168,8 @@ export const GenericResultRenderer: Story = {
                         icon: <UserIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         label: "Contact",
                         field: "contact",
-                        singleValueMapper: (v) => <OrcidDisplay orcid={v} />
+                        singleValueMapper: (v) => <OrcidDisplay orcid={v} />,
+                        clickBehavior: "follow-url"
                     },
                     {
                         icon: <GraduationCap className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
@@ -228,49 +228,49 @@ export const GenericResultRenderer: Story = {
     }
 }
 
-export const CompoundSlider: Story = {
-    args: {
-        config: demoConfigWithCompound,
-        resultView: (props) => (
-            <GenericResultView
-                result={props.result}
-                invertImageInDarkMode
-                tags={[
-                    {
-                        icon: <GraduationCap className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
-                        label: "Resource Type",
-                        field: "resourceType"
-                    },
-                    {
-                        icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
-                        field: "hadPrimarySource",
-                        valueMapper: (v) => tryURLPrettyPrint(v + ""),
-                        label: "Source"
-                    },
-                    {
-                        icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
-                        field: "licenseURL",
-                        valueMapper: (v) => tryURLPrettyPrint(v + ""),
-                        label: "License URL"
-                    },
-                    {
-                        icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
-                        field: "Compound.Molar_mass",
-                        label: "Molar Mass",
-                        valueMapper: (v) => v + " g/mol"
-                    }
-                ]}
-                titleField="name"
-                creationDateField="dateCreatedRfc3339"
-                additionalIdentifierField="identifier"
-                digitalObjectLocationField="digitalObjectLocation"
-                imageField="locationPreview/Sample"
-                parentItemPidField="hasMetadata"
-                relatedItemPidsField="isMetadataFor"
-                pidField="pid"
-                relatedItemsPrefetch={{ searchFields: { pid: {} } }}
-                showOpenInFairDoScope
-            />
-        )
-    }
-}
+// export const CompoundSlider: Story = {
+//     args: {
+//         config: demoConfigWithCompound,
+//         resultView: (props) => (
+//             <GenericResultView
+//                 result={props.result}
+//                 invertImageInDarkMode
+//                 tags={[
+//                     {
+//                         icon: <GraduationCap className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+//                         label: "Resource Type",
+//                         field: "resourceType"
+//                     },
+//                     {
+//                         icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+//                         field: "hadPrimarySource",
+//                         valueMapper: (v) => tryURLPrettyPrint(v + ""),
+//                         label: "Source"
+//                     },
+//                     {
+//                         icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+//                         field: "licenseURL",
+//                         valueMapper: (v) => tryURLPrettyPrint(v + ""),
+//                         label: "License URL"
+//                     },
+//                     {
+//                         icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+//                         field: "Compound.Molar_mass",
+//                         label: "Molar Mass",
+//                         valueMapper: (v) => v + " g/mol"
+//                     }
+//                 ]}
+//                 titleField="name"
+//                 creationDateField="dateCreatedRfc3339"
+//                 additionalIdentifierField="identifier"
+//                 digitalObjectLocationField="digitalObjectLocation"
+//                 imageField="locationPreview/Sample"
+//                 parentItemPidField="hasMetadata"
+//                 relatedItemPidsField="isMetadataFor"
+//                 pidField="pid"
+//                 relatedItemsPrefetch={{ searchFields: { pid: {} } }}
+//                 showOpenInFairDoScope
+//             />
+//         )
+//     }
+// }

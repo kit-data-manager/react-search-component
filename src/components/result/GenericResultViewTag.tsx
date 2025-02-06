@@ -31,8 +31,8 @@ export interface GenericResultViewTagProps {
      * @param value
      */
     singleValueMapper?: (value: string) => ReactNode
-    onClick?: (e: MouseEvent<HTMLDivElement>, tagValue: ReactNode) => void
-    clickBehavior?: "copy-text"
+    onClick?: (e: MouseEvent<HTMLDivElement>, tagValue: ReactNode, fieldValue: string | string[]) => void
+    clickBehavior?: "copy-text" | "follow-url"
 }
 
 export function GenericResultViewTag({
@@ -45,13 +45,16 @@ export function GenericResultViewTag({
     clickBehavior = "copy-text",
     onClick
 }: GenericResultViewTagProps) {
+    const fieldValue = useMemo(() => {
+        return autoUnwrap(result[field]) as string | string[]
+    }, [field, result])
+
     const value = useMemo(() => {
-        const value: string | string[] = autoUnwrap(result[field])
-        if (!value) return undefined
-        if (valueMapper) return valueMapper(value)
-        if (singleValueMapper) return Array.isArray(value) ? value.map(singleValueMapper) : singleValueMapper(value)
-        else return value
-    }, [field, result, singleValueMapper, valueMapper])
+        if (!fieldValue) return undefined
+        if (valueMapper) return valueMapper(fieldValue)
+        if (singleValueMapper) return Array.isArray(fieldValue) ? fieldValue.map(singleValueMapper) : singleValueMapper(fieldValue)
+        else return fieldValue
+    }, [fieldValue, singleValueMapper, valueMapper])
 
     const [, copy] = useCopyToClipboard()
 
@@ -65,19 +68,21 @@ export function GenericResultViewTag({
     )
 
     const handleClick = useCallback(
-        (value: ReactNode, e: MouseEvent<HTMLDivElement>) => {
-            if (onClick) onClick(e, value)
+        (fieldValue: string | string[], value: ReactNode, e: MouseEvent<HTMLDivElement>) => {
+            if (onClick) onClick(e, value, fieldValue)
             if (clickBehavior === "copy-text") {
                 copyTagValue(e)
+            } else if (clickBehavior === "follow-url" && !Array.isArray(fieldValue)) {
+                window.open(fieldValue, "_blank")
             }
         },
         [clickBehavior, copyTagValue, onClick]
     )
 
     const base = useCallback(
-        (value: ReactNode) => {
+        (fieldValue: string | string[], value: ReactNode) => {
             return (
-                <Badge variant="secondary" className="rfs-truncate" onClick={(e) => handleClick(value, e)}>
+                <Badge variant="secondary" className="rfs-truncate" onClick={(e) => handleClick(fieldValue, value, e)}>
                     <span className="rfs-flex rfs-truncate">
                         {icon} {value}
                     </span>
@@ -87,13 +92,13 @@ export function GenericResultViewTag({
         [handleClick, icon]
     )
 
-    if (!label) return base(value)
+    if (!label) return Array.isArray(value) ? value.map((v) => base(fieldValue[value.indexOf(v)], v)) : base(fieldValue, value)
     if (!value) return null
 
     if (Array.isArray(value)) {
         return value.map((entry, i) => (
             <Tooltip delayDuration={500} key={i}>
-                <TooltipTrigger>{base(entry)}</TooltipTrigger>
+                <TooltipTrigger>{base(fieldValue[value.indexOf(entry)], entry)}</TooltipTrigger>
                 <TooltipContent>{label}</TooltipContent>
             </Tooltip>
         ))
@@ -101,7 +106,7 @@ export function GenericResultViewTag({
 
     return (
         <Tooltip delayDuration={500}>
-            <TooltipTrigger>{base(value)}</TooltipTrigger>
+            <TooltipTrigger>{base(fieldValue, value)}</TooltipTrigger>
             <TooltipContent>{label}</TooltipContent>
         </Tooltip>
     )
