@@ -9,6 +9,7 @@ import { ComponentType, useEffect, useMemo, useRef, useState } from "react"
 import { DefaultFacetOption } from "@/components/search/DefaultFacetOption"
 import type { FacetValue } from "@elastic/search-ui"
 import type { FairDOFacetConfig } from "@/config/FairDOConfig"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 export interface OptionViewProps {
     option: FacetValue
@@ -40,7 +41,13 @@ export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigBuild
     return (
         <div className="rfs-px-4 rfs-pt-0 rfs-pb-8">
             <div className="rfs-flex rfs-items-center rfs-justify-between rfs-pb-2">
-                <div className="rfs-text-sm rfs-font-bold">{props.label}</div>
+                <Tooltip disableHoverableContent={true} open={selfConfig.description ? undefined : false}>
+                    <TooltipTrigger asChild>
+                        <div className="rfs-text-sm rfs-font-bold">{props.label}</div>
+                    </TooltipTrigger>
+                    <TooltipContent>{selfConfig.description}</TooltipContent>
+                </Tooltip>
+
                 {props.showSearch && (
                     <Popover>
                         <PopoverTrigger asChild>

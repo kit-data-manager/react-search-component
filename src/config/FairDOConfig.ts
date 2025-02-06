@@ -3,6 +3,7 @@ import { RequestState, SearchFieldConfiguration } from "@elastic/search-ui"
 export interface FairDOCoreFacetConfig {
     key: string
     label: string
+    description?: string
     /**
      * Not properly implemented at the moment
      */
