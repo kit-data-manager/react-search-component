@@ -167,7 +167,7 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
                 variant={variant}
                 size={size}
                 className={cn(
-                    "rfs-absolute rfs- rfs-h-8 rfs-w-8 rfs-rounded-full",
+                    "rfs-absolute rfs-h-8 rfs-w-8 rfs-rounded-full",
                     orientation === "horizontal"
                         ? "rfs-left-0 rfs-top-1/2 rfs--translate-y-1/2"
                         : "rfs--top-12 rfs-left-1/2 rfs--translate-x-1/2 rfs-rotate-90",

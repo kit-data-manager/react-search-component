@@ -5,14 +5,14 @@ import { useStore } from "zustand/index"
 import { resultCache } from "@/lib/ResultCache"
 import { autoUnwrap, autoUnwrapArray, toArray } from "@/components/result/utils"
 import { DateTime } from "luxon"
-import { ChevronDown, Download, GitFork, ImageOff, LoaderCircle, Microscope, Pencil, PlusIcon, SearchIcon } from "lucide-react"
+import { ChevronDown, Download, GitFork, LoaderCircle, Microscope, Pencil, PlusIcon, SearchIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { SearchFieldConfiguration } from "@elastic/search-ui"
 import { GenericResultViewTag, GenericResultViewTagProps } from "@/components/result/GenericResultViewTag"
-import { GenericResultViewImageCarousel } from "@/components/result/GenericResultViewImageCarousel"
 import { z } from "zod"
+import { GenericResultViewImage } from "@/components/result/GenericResultViewImage"
 
 const HTTP_REGEX = /https?:\/\/.*/
 
@@ -318,27 +318,7 @@ export function GenericResultView({
             <div
                 className={`rfs-grid ${imageField ? "rfs-grid-rows-[150px_1fr] md:rfs-grid-cols-[200px_1fr] md:rfs-grid-rows-1" : ""} rfs-gap-4 rfs-overflow-x-auto md:rfs-max-w-full`}
             >
-                {imageField && (
-                    <div
-                        className={`rfs-flex rfs-justify-center rfs-rounded md:rfs-items-center rfs-p-2 d ${invertImageInDarkMode ? "dark:rfs-invert" : ""} `}
-                    >
-                        {previewImage ? (
-                            Array.isArray(previewImage) ? (
-                                <GenericResultViewImageCarousel images={previewImage} title={title} />
-                            ) : (
-                                <img
-                                    className="md:rfs-max-h-[200px] md:rfs-max-w-[200px] rfs-object-contain"
-                                    src={previewImage}
-                                    alt={`Preview for ${title}`}
-                                />
-                            )
-                        ) : (
-                            <div className="rfs-flex rfs-flex-col rfs-justify-center dark:rfs-text-background">
-                                <ImageOff className="rfs-size-6 rfs-text-muted-foreground/50" />
-                            </div>
-                        )}
-                    </div>
-                )}
+                {imageField && <GenericResultViewImage previewImage={previewImage} title={title} invertImageInDarkMode={invertImageInDarkMode} />}
                 <div className="rfs-flex rfs-flex-col rfs-overflow-x-auto md:rfs-max-w-full">
                     {exactPidMatch && (
                         <div className="rfs-mb-2">

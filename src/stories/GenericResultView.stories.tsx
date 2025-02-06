@@ -58,7 +58,7 @@ export const MultipleImages: Story = {
             images: {
                 raw: [
                     "https://www.chemotion-repository.net/images/samples/c830eb171cd3b0a481eda0e2a49279ad78765ab0a3b29238b59bb754a67dfd3cd69b3fadba0db65545ed0f9bf4eec9936d16f23e88453c53c3c21b65d54a853f.svg",
-                    "https://www.chemotion-repository.net/images/samples/c830eb171cd3b0a481eda0e2a49279ad78765ab0a3b29238b59bb754a67dfd3cd69b3fadba0db65545ed0f9bf4eec9936d16f23e88453c53c3c21b65d54a853f.svg",
+                    "https://www.chemotion-repository.net/images/samples/36d8f52238fe63c89855af68b865d237313c8cabd6acec2be6f6770a4e2c98ca99c4ea43e783e546e27cfbbbb956a90c43a173fca460e1fb0439cf9cfe077624.svg",
                     "https://www.chemotion-repository.net/images/samples/c830eb171cd3b0a481eda0e2a49279ad78765ab0a3b29238b59bb754a67dfd3cd69b3fadba0db65545ed0f9bf4eec9936d16f23e88453c53c3c21b65d54a853f.svg"
                 ]
             }

@@ -1,7 +1,7 @@
 import { Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { useEffect, useState } from "react"
 
-export function GenericResultViewImageCarousel({ images, title }: { images: string[]; title?: string }) {
+export function GenericResultViewImageCarousel({ images, title, fullSize }: { images: string[]; title?: string; fullSize?: boolean }) {
     const [api, setApi] = useState<CarouselApi>()
     const [slide, setSlide] = useState<number>(0)
 
@@ -12,19 +12,19 @@ export function GenericResultViewImageCarousel({ images, title }: { images: stri
     }, [api])
 
     return (
-        <Carousel className="w-full max-w-xs" setApi={setApi}>
+        <Carousel className="w-full max-w-xs rfs-relative" setApi={setApi}>
             <CarouselContent>
                 {images.map((image, index) => (
-                    <CarouselItem key={index}>
+                    <CarouselItem key={index} className="rfs-flex rfs-justify-center">
                         <img
-                            className="md:rfs-size-[200px]"
+                            className={fullSize ? "" : "md:rfs-size-[200px]"}
                             src={image}
                             alt={`Preview ${index + 1} of ${images.length} for ${title ?? "unnamed result"}`}
                         />
                     </CarouselItem>
                 ))}
             </CarouselContent>
-            <div className={"rfs-opacity-0 group-hover/resultView:rfs-opacity-100 rfs-transition-opacity"}>
+            <div className={fullSize ? "" : "rfs-opacity-0 group-hover/resultView:rfs-opacity-100 rfs-transition-opacity"}>
                 <CarouselPrevious />
                 <CarouselNext />
             </div>
