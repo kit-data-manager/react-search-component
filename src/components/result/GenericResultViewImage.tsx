@@ -28,7 +28,7 @@ export function GenericResultViewImage({
                                     <Fullscreen className="rfs-size-4" />
                                 </Button>
                             </DialogTrigger>
-                            <DialogContent className="rfs-max-w-[90vw] rfs-w-auto">
+                            <DialogContent className="rfs-max-w-[90vw] rfs-max-h-[90vh] rfs-w-auto rfs-overflow-auto">
                                 <DialogTitle>{title}</DialogTitle>
                                 <GenericResultViewImageCarousel images={previewImage} title={title} fullSize />
                             </DialogContent>
@@ -43,7 +43,7 @@ export function GenericResultViewImage({
                                 alt={`Preview for ${title}`}
                             />
                         </DialogTrigger>
-                        <DialogContent className="rfs-p-4 rfs-max-w-none rfs-w-auto">
+                        <DialogContent className="rfs-p-4 rfs-max-w-none !rfs-w-auto">
                             <DialogTitle>{title}</DialogTitle>
                             <div className="rfs-justify-center rfs-flex">
                                 <img className="rfs-max-w-[90vw] rfs-max-h-[90vh]" src={previewImage} alt={`Preview for ${title}`} />
