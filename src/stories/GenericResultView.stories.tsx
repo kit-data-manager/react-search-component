@@ -101,7 +101,13 @@ export const Full: Story = {
             landingPageLocation: "https://www.chemotion-repository.net/inchikey/UMEUUBQHJXGOAF-UHFFFAOYSA-N.1",
             identifier: "CRS-39445",
             isMetadataFor: ["example1", "example2", "example3"],
-            timestamp: "2024-05-21"
+            timestamp: "2024-05-21",
+            numberTest: 2025,
+            numberArrayTest: [1, 2, 3],
+            booleanTest: true,
+            booleanArrayTest: [true, false],
+            stringTest: "A single entry",
+            stringArrayTest: ["Works", "with", "arrays"]
         },
         imageField: "locationPreview/Sample",
         invertImageInDarkMode: true,
@@ -114,19 +120,45 @@ export const Full: Story = {
             {
                 icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                 field: "hadPrimarySource",
-                valueMapper: tryURLPrettyPrint,
-                label: "Primary Source"
+                singleValueMapper: tryURLPrettyPrint,
+                label: "Primary Source",
+                clickBehavior: "follow-url"
             },
             {
                 icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                 field: "licenseURL",
-                valueMapper: tryURLPrettyPrint,
-                label: "License URL"
+                singleValueMapper: tryURLPrettyPrint,
+                label: "License URL",
+                clickBehavior: "follow-url"
             },
             {
                 icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                 field: "Compound",
                 label: "Compound"
+            },
+            {
+                field: "numberTest"
+            },
+            {
+                field: "numberArrayTest"
+            },
+            {
+                field: "booleanTest",
+                singleValueMapper: (b) => (b ? "Yes" : "No")
+            },
+            {
+                field: "booleanArrayTest",
+                singleValueMapper: (b) => (b ? "Yes" : "No")
+            },
+            {
+                field: "stringTest"
+            },
+            {
+                field: "stringArrayTest"
+            },
+            {
+                field: "stringArrayTest",
+                singleValueMapper: (v) => v.toUpperCase()
             }
         ]
     }

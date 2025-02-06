@@ -80,9 +80,9 @@ export function GenericResultViewTag({
     )
 
     const base = useCallback(
-        (fieldValue: string | string[], value: ReactNode) => {
+        (fieldValue: string | string[], value: ReactNode, key?: string) => {
             return (
-                <Badge variant="secondary" className="rfs-truncate" onClick={(e) => handleClick(fieldValue, value, e)}>
+                <Badge key={key} variant="secondary" className="rfs-truncate" onClick={(e) => handleClick(fieldValue, value, e)}>
                     <span className="rfs-flex rfs-truncate">
                         {icon} {value}
                     </span>
@@ -92,12 +92,12 @@ export function GenericResultViewTag({
         [handleClick, icon]
     )
 
-    if (!label) return Array.isArray(value) ? value.map((v) => base(fieldValue[value.indexOf(v)], v)) : base(fieldValue, value)
+    if (!label) return Array.isArray(value) ? value.map((v, i) => base(fieldValue[value.indexOf(v)], v, field + i)) : base(fieldValue, value)
     if (!value) return null
 
     if (Array.isArray(value)) {
         return value.map((entry, i) => (
-            <Tooltip delayDuration={500} key={i}>
+            <Tooltip delayDuration={500} key={field + i}>
                 <TooltipTrigger>{base(fieldValue[value.indexOf(entry)], entry)}</TooltipTrigger>
                 <TooltipContent>{label}</TooltipContent>
             </Tooltip>
