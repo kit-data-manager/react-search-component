@@ -341,7 +341,11 @@ export function GenericResultView({
                             )}
                         </div>
                     </div>
-                    <a href={`https://hdl.handle.net/${pid}`} target="_blank" className="rfs-mb-2 rfs-block rfs-leading-3 hover:rfs-underline">
+                    <a
+                        href={`https://hdl.handle.net/${pid}?noredirect`}
+                        target="_blank"
+                        className="rfs-mb-2 rfs-block rfs-leading-3 hover:rfs-underline"
+                    >
                         <span className="rfs-text-sm rfs-text-muted-foreground">{pid}</span>
                     </a>
                     <div className="rfs-flex rfs-flex-wrap rfs-gap-2 rfs-truncate">
