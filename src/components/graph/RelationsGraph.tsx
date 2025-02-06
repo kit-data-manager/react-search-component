@@ -86,7 +86,7 @@ export function RelationsGraph(props: { base: string; referencedBy: string[]; re
         >
             <Background color="hsl(var(--rfs-border))" variant={BackgroundVariant.Lines} />
             <Controls />
-            <MiniMap zoomable pannable />
+            <MiniMap zoomable pannable position={"top-left"} />
         </ReactFlow>
     )
 }
