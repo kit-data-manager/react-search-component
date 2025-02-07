@@ -13,6 +13,7 @@ import { SearchFieldConfiguration } from "@elastic/search-ui"
 import { GenericResultViewTag, GenericResultViewTagProps } from "@/components/result/GenericResultViewTag"
 import { z } from "zod"
 import { GenericResultViewImage } from "@/components/result/GenericResultViewImage"
+import { FairDOConfig } from "@/config/FairDOConfig"
 
 const HTTP_REGEX = /https?:\/\/.*/
 
@@ -96,6 +97,11 @@ export interface GenericResultViewProps {
      * Whether to show the open in FairDOScope button in the dropdown
      */
     showOpenInFairDoScope?: boolean
+
+    /**
+     * Pass the same config here as passed to FairDOElasticSearch
+     */
+    config: FairDOConfig
 }
 
 /**
@@ -118,7 +124,8 @@ export function GenericResultView({
     additionalIdentifierField = "identifier",
     relatedItemsPrefetch = { searchFields: { pid: {} } },
     tags = [],
-    showOpenInFairDoScope = true
+    showOpenInFairDoScope = true,
+    config
 }: GenericResultViewProps) {
     const { openRelationGraph } = useContext(RFS_GlobalModalContext)
     const { searchTerm, elasticConnector, searchFor } = useContext(FairDOSearchContext)
@@ -216,8 +223,11 @@ export function GenericResultView({
 
     const previewImage = useMemo(() => {
         const images = getArrayOrSingleField(imageField ?? "imageURL")
-        return Array.isArray(images) ? (images.length === 1 ? images[0] : images) : images
-    }, [getArrayOrSingleField, imageField])
+        const normalized = Array.isArray(images) ? (images.length === 1 ? images[0] : images) : images
+        if (config.imageProxy && normalized) {
+            return Array.isArray(normalized) ? normalized.map(config.imageProxy) : config.imageProxy(normalized)
+        } else return normalized
+    }, [config, getArrayOrSingleField, imageField])
 
     const identifier = useMemo(() => {
         const maybeArray = getArrayOrSingleField(additionalIdentifierField ?? "identifier")

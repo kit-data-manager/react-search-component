@@ -109,6 +109,14 @@ export interface FairDOConfig {
     }
 
     /**
+     * Rewrite image source URLs to use proxies for the images. You might want to consider using an image proxy
+     * if the images in you dataset are large.
+     * @example
+     * imageProxy: (src) => `https://myproxy.org/${src}?format=webp`
+     */
+    imageProxy?: (src: string) => string
+
+    /**
      * Initialize the internal state. This can be useful to specify the default sorting of the results.
      * @example
      * initialState: {

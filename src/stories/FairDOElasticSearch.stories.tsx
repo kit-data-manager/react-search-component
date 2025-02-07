@@ -135,7 +135,8 @@ const demoConfig: FairDOConfig = {
         "Pulse_Sequence_Name.keyword",
         "Acquisition_Nucleus.keyword",
         "licenseURL.keyword"
-    ]
+    ],
+    imageProxy: (src) => `https://wsrv.nl/?url=${src}&h=1000&output=webp&ll`
 }
 
 // const demoConfigWithCompound: FairDOConfig = {
@@ -191,6 +192,7 @@ export const GenericResultRenderer: Story = {
             <GenericResultView
                 result={props.result}
                 invertImageInDarkMode
+                config={demoConfig}
                 tags={[
                     {
                         icon: <UserIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
