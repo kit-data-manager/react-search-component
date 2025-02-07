@@ -31,6 +31,8 @@ import "../index.css"
 
     ### Example Configuration
 
+    > 🪄 I highly recommend using TypeScript, as it will automatically check your configuration and allow you to explore available configuration options.
+
     Feel free to copy this example and make it work for your use case.
 
     <Source code={`
@@ -116,8 +118,8 @@ export default function Home() {
                 parentItemPidField="hasMetadata"
                 relatedItemPidsField="isMetadataFor"
                 pidField="pid"
-                relatedItemsPrefetch={{ prefetchAmount: 20, searchFields: { pid: {}, isMetadataFor: {}, hasMetadata: {} } }}
-                showOpenInFairDoScope
+                relatedItemsPrefetch={{ searchFields: { pid: {} } }}
+                showOpenInFairDoScope // Many more options exist, use TypeScript to easily view them in your code
             />
         )
     }, [])
