@@ -3,7 +3,7 @@ import type { FairDOConfig } from "@/config/FairDOConfig.ts"
 import type { Meta, StoryObj } from "@storybook/react"
 import { FairDOElasticSearch } from "@/components/FairDOElasticSearch"
 import { GenericResultView } from "@/components/result/GenericResultView"
-import { AtomIcon, AudioLines, CircleDot, GlobeIcon, GraduationCap, Microscope, ScaleIcon, UserIcon } from "lucide-react"
+import { AtomIcon, AudioLines, CircleDot, FlaskConical, GlobeIcon, GraduationCap, Microscope, ScaleIcon, UserIcon } from "lucide-react"
 import { PidDisplay } from "@/components/result/PidDisplay"
 import { OrcidDisplay } from "@/components/result/OrcidDisplay"
 
@@ -39,6 +39,31 @@ const demoConfig: FairDOConfig = {
                     key: "NMR_Method.keyword",
                     label: "NMR Method",
                     usePidResolver: true
+                },
+                {
+                    key: "NMR_Solvent.keyword",
+                    label: "NMR Solvent",
+                    usePidResolver: true
+                },
+                {
+                    key: "Compound.Molar_mass",
+                    label: "Molar Mass",
+                    type: "numeric",
+                    ranges: [
+                        "0-100",
+                        "101-200",
+                        "201-300",
+                        "301-400",
+                        "401-500",
+                        "501-600",
+                        "601-700",
+                        "701-800",
+                        "801-900",
+                        "901-1000",
+                        "1001-1200",
+                        "1201-1400",
+                        ">1401"
+                    ]
                 },
                 {
                     key: "Pulse_Sequence_Name.keyword",
@@ -180,13 +205,18 @@ export const GenericResultRenderer: Story = {
                         icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "hadPrimarySource",
                         singleValueMapper: (v) => <PidDisplay pid={v} />,
-                        label: "Source"
+                        label: "Source",
+                        onClick: (e) =>
+                            "innerText" in e.target &&
+                            typeof e.target.innerText === "string" &&
+                            window.open("https://" + e.target.innerText, "_blank")
                     },
                     {
                         icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "licenseURL",
                         singleValueMapper: (v) => <PidDisplay pid={v} />,
-                        label: "License URL"
+                        label: "License URL",
+                        clickBehavior: "follow-url"
                     },
                     {
                         icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
@@ -198,6 +228,12 @@ export const GenericResultRenderer: Story = {
                         icon: <Microscope className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         label: "NMR Method",
                         field: "NMR_Method",
+                        singleValueMapper: (v) => <PidDisplay pid={v} />
+                    },
+                    {
+                        icon: <FlaskConical className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        label: "NMR Solvent",
+                        field: "NMR_Solvent",
                         singleValueMapper: (v) => <PidDisplay pid={v} />
                     },
                     {
