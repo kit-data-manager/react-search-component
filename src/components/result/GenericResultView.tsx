@@ -325,9 +325,9 @@ export function GenericResultView({
                             <Badge>Exact Match</Badge>
                         </div>
                     )}
-                    <div className="rfs-font-bold md:rfs-text-xl">
-                        {title}
-                        <div className="rfs-flex rfs-ml-2 rfs-text-sm rfs-font-normal rfs-text-muted-foreground rfs-gap-3">
+                    <div>
+                        <div className="rfs-font-bold md:rfs-text-xl rfs-mr-2">{title}</div>
+                        <div className="rfs-flex rfs-text-sm rfs-font-normal rfs-text-muted-foreground rfs-gap-3">
                             {identifier}
                             {creationDate && (
                                 <div className="rfs-flex rfs-items-center">
