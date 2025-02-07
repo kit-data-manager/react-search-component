@@ -33,7 +33,8 @@ export class FairDOConfigBuilder {
             autocompleteQuery: this.getAutocompleteQueryConfig(),
             apiConnector: this.buildConnector(),
             alwaysSearchOnInitialLoad: true,
-            initialState: this.getConfig().initialState
+            initialState: this.getConfig().initialState,
+            debug: this.getConfig().debug
         }
     }
 

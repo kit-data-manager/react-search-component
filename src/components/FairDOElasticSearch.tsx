@@ -19,6 +19,7 @@ import "../elastic-ui.css"
 import { TooltipProvider } from "./ui/tooltip"
 import { useAutoDarkMode } from "@/components/utils"
 import { PlaceholderResultView } from "@/components/result/PlaceholderResultView"
+import { DefaultSorting } from "@/components/search/DefaultSorting"
 
 /**
  * All-in-one component for rendering an elastic search UI based on the provided configuration. Includes
@@ -127,7 +128,7 @@ export function FairDOElasticSearch({
                                                 </>
                                             }
                                             bodyHeader={
-                                                <div className="rfs-mb-4 rfs-flex rfs-w-full rfs-items-center rfs-justify-between">
+                                                <div className="rfs-flex rfs-w-full rfs-items-center rfs-justify-between rfs-p-2">
                                                     {wasSearched && (
                                                         <PagingInfo
                                                             view={(props) => (
@@ -137,27 +138,7 @@ export function FairDOElasticSearch({
                                                             )}
                                                         />
                                                     )}
-                                                    {/*{wasSearched && (*/}
-                                                    {/*    <Sorting*/}
-                                                    {/*        sortOptions={[*/}
-                                                    {/*            {*/}
-                                                    {/*                name: "Relevance",*/}
-                                                    {/*                value: "_score",*/}
-                                                    {/*                direction: ""*/}
-                                                    {/*            },*/}
-                                                    {/*            {*/}
-                                                    {/*                name: "Title",*/}
-                                                    {/*                value: "name",*/}
-                                                    {/*                direction: "asc"*/}
-                                                    {/*            },*/}
-                                                    {/*            {*/}
-                                                    {/*                name: "Image",*/}
-                                                    {/*                value: "locationPreview/Sample.keyword",*/}
-                                                    {/*                direction: "asc"*/}
-                                                    {/*            }*/}
-                                                    {/*        ]}*/}
-                                                    {/*    />*/}
-                                                    {/*)}*/}
+                                                    {wasSearched && <DefaultSorting config={rawConfig} />}
                                                 </div>
                                             }
                                             bodyFooter={

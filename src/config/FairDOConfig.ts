@@ -1,4 +1,4 @@
-import { FilterType, RequestState, SearchFieldConfiguration } from "@elastic/search-ui"
+import { FilterType, RequestState, SearchFieldConfiguration, SortOption } from "@elastic/search-ui"
 
 export interface FairDOCoreFacetConfig {
     key: string
@@ -84,6 +84,10 @@ export interface FairDOConfig {
      * Configuration for the elastic indices that should be accessed
      */
     indices: FairDOIndexConfig[]
+    /**
+     * Configure possible sort options. Fields to sort by must be present in all used indices.
+     */
+    sortOptions?: (SortOption & { label?: string })[]
     /**
      * Disjunctive facets as specified in the elastic search ui documentation
      * @link https://www.elastic.co/guide/en/search-ui/current/api-react-components-facet.html#api-react-components-facet-example-of-an-or-based-facet-filter

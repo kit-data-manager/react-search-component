@@ -110,18 +110,21 @@ const demoConfig: FairDOConfig = {
             ]
         }
     ],
+    sortOptions: [
+        { field: "_score", direction: "asc", label: "Relevance" },
+        { field: "name.keyword", direction: "asc", label: "Name (ascending)" },
+        { field: "name.keyword", direction: "desc", label: "Name (descending)" },
+        { field: "Compound.Molar_mass", direction: "asc", label: "Molar Mass (ascending)" },
+        { field: "Compound.Molar_mass", direction: "desc", label: "Molar Mass (descending)" },
+        { field: "dateCreatedRfc3339", direction: "asc", label: "Date Created (ascending)" },
+        { field: "dateCreatedRfc3339", direction: "desc", label: "Date Created (descending)" },
+        { field: "dateModified", direction: "asc", label: "Date Modified (ascending)" },
+        { field: "dateModified", direction: "desc", label: "Date Modified (descending)" }
+    ],
     initialState: {
         sortList: [
             {
-                field: "_score",
-                direction: "desc"
-            },
-            {
                 field: "name.keyword",
-                direction: "asc"
-            },
-            {
-                field: "locationPreview/Sample.keyword",
                 direction: "asc"
             }
         ]
