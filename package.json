@@ -1,6 +1,6 @@
 {
   "name": "@kit-data-manager/react-fairdo-search",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/index.js",
   "type": "module",
   "author": {
@@ -124,7 +124,7 @@
   "homepage": "https://kit-data-manager.github.io/react-fairdo-search/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kit-data-manager/react-fairdo-search.git"
+    "url": "https://github.com/kit-data-manager/react-fairdo-search"
   },
   "contributors": [
     {
