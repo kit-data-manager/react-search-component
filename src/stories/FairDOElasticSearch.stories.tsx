@@ -111,7 +111,7 @@ const demoConfig: FairDOConfig = {
         }
     ],
     sortOptions: [
-        { field: "_score", direction: "asc", label: "Relevance" },
+        { field: "_score", direction: "desc", label: "Relevance" },
         { field: "name.keyword", direction: "asc", label: "Name (ascending)" },
         { field: "name.keyword", direction: "desc", label: "Name (descending)" },
         { field: "Compound.Molar_mass", direction: "asc", label: "Molar Mass (ascending)" },

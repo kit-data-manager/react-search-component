@@ -36,9 +36,14 @@ export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDO
 
     return (
         <WithSearch
-            mapContextToProps={({ searchTerm, setSearchTerm, clearFilters }: SearchContextState) => ({ searchTerm, setSearchTerm, clearFilters })}
+            mapContextToProps={({ searchTerm, setSearchTerm, clearFilters, setSort }: SearchContextState) => ({
+                searchTerm,
+                setSearchTerm,
+                clearFilters,
+                setSort
+            })}
         >
-            {({ searchTerm, setSearchTerm, clearFilters }: SearchContextState) => {
+            {({ searchTerm, setSearchTerm, clearFilters, setSort }: SearchContextState) => {
                 return (
                     <FairDOSearchContext.Provider
                         value={{
@@ -46,6 +51,7 @@ export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDO
                             searchFor: (query: string) => {
                                 clearFilters()
                                 setSearchTerm(query)
+                                setSort([{ field: "_score", direction: "desc" }], "desc")
                                 window.scrollTo({
                                     top: 0,
                                     left: 0,
