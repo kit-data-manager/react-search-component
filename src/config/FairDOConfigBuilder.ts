@@ -107,7 +107,6 @@ export class FairDOConfigBuilder {
         let allFacets: Record<string, FacetConfiguration> = {}
         for (const index of config.indices) {
             allFacets = (index.facets || []).reduce((acc, n) => {
-                acc = acc || {}
                 if ("type" in n && n.type === "numeric") {
                     const facetRanges = this.buildNumericRangeFacet(n)
                     acc[n.key] = {
@@ -152,20 +151,20 @@ export class FairDOConfigBuilder {
                 const toValue = n.replace("<", "")
                 acc.push({
                     to: parseStringValueToNumber(toValue),
-                    name: n
+                    name: n.replace("<", "< ")
                 })
             } else if (n.startsWith(">")) {
                 const fromValue = n.replace(">", "")
                 acc.push({
                     from: parseStringValueToNumber(fromValue),
-                    name: n
+                    name: n.replace(">", "> ")
                 })
             } else {
                 const fromToValue = n.split("-")
                 acc.push({
                     from: parseStringValueToNumber(fromToValue[0]),
                     to: parseStringValueToNumber(fromToValue[1]),
-                    name: n
+                    name: n.replace("-", " - ")
                 })
             }
             return acc

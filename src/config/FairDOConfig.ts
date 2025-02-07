@@ -1,9 +1,10 @@
-import { RequestState, SearchFieldConfiguration } from "@elastic/search-ui"
+import { FilterType, RequestState, SearchFieldConfiguration } from "@elastic/search-ui"
 
 export interface FairDOCoreFacetConfig {
     key: string
     label: string
     description?: string
+    filterType?: FilterType
     /**
      * Not properly implemented at the moment
      */

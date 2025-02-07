@@ -109,6 +109,7 @@ export function FairDOElasticSearch({
                                                             label={field.label ? field.label : field.key.substring(0, 20)}
                                                             view={(props) => <DefaultFacet {...props} config={config} optionView={facetOptionView} />}
                                                             isFilterable={field.isFilterable}
+                                                            filterType={field.filterType}
                                                         />
                                                     ))}
                                                     <ClearFilters />
