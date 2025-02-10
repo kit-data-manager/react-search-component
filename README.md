@@ -1,6 +1,9 @@
 # fairdo-elastic-search
 
+[![Static Badge](https://img.shields.io/badge/npm-red?logo=npm)](https://www.npmjs.com/package/@kit-data-manager/react-fairdo-search)
 [![Node.js CI](https://github.com/kit-data-manager/react-fairdo-search/actions/workflows/build.yml/badge.svg)](https://github.com/kit-data-manager/react-fairdo-search/actions/workflows/build.yml)
+![NPM Type Definitions](https://img.shields.io/npm/types/%40kit-data-manager%2Freact-fairdo-search)
+
 
 > ⚠️ This component is in active development. Consider it **not** ready for production.
 
