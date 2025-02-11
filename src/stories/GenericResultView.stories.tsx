@@ -15,11 +15,13 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
+const emptyConfig = { host: "", indices: [] }
+
 export const Simple: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <GlobalModalProvider resultView={GenericResultView}>
+                <GlobalModalProvider resultView={(props) => <GenericResultView {...props} {...Simple.args} config={emptyConfig} />}>
                     <div>
                         <Story />
                     </div>
@@ -35,7 +37,8 @@ export const Simple: Story = {
         titleField: "title",
         descriptionField: "description",
         imageField: undefined,
-        invertImageInDarkMode: true
+        invertImageInDarkMode: true,
+        config: emptyConfig
     }
 }
 
@@ -43,7 +46,7 @@ export const MultipleImages: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <GlobalModalProvider resultView={GenericResultView}>
+                <GlobalModalProvider resultView={(props) => <GenericResultView {...props} {...MultipleImages.args} config={emptyConfig} />}>
                     <div>
                         <Story />
                     </div>
@@ -66,7 +69,8 @@ export const MultipleImages: Story = {
         titleField: "title",
         descriptionField: "description",
         invertImageInDarkMode: true,
-        imageField: "images"
+        imageField: "images",
+        config: emptyConfig
     }
 }
 
@@ -74,7 +78,7 @@ export const Full: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <GlobalModalProvider resultView={GenericResultView}>
+                <GlobalModalProvider resultView={(props) => <GenericResultView {...props} {...Full.args} config={{ host: "", indices: [] }} />}>
                     <div>
                         <Story />
                     </div>
@@ -160,6 +164,7 @@ export const Full: Story = {
                 field: "stringArrayTest",
                 singleValueMapper: (v) => v.toUpperCase()
             }
-        ]
+        ],
+        config: emptyConfig
     }
 }

@@ -20,7 +20,7 @@ import { ResultViewWrapper } from "@/components/graph/ResultViewWrapper"
 import { ResultViewProps } from "@elastic/react-search-ui-views"
 
 /**
- * Renders an interactive graph for the specified RelationNodes.
+ * Renders an interactive graph for the specified results. Results will be fetched from cache via PID. Currently intended for internal use only.
  */
 export function RelationsGraph(props: { base: string; referencedBy: string[]; references: string[]; resultView: ComponentType<ResultViewProps> }) {
     const getFromCache = useStore(resultCache, (s) => s.get)
