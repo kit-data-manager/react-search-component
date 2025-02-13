@@ -355,7 +355,7 @@ export function GenericResultView({
                     >
                         <span className="rfs-text-sm rfs-text-muted-foreground">{pid}</span>
                     </a>
-                    <div className="rfs-flex rfs-flex-wrap rfs-gap-2 rfs-truncate">
+                    <div className="rfs-flex rfs-flex-wrap rfs-gap-2 rfs-truncate rfs-items-center">
                         {tags && tags.map((tag, i) => <GenericResultViewTag key={i} result={result} {...tag} />)}
                     </div>
                     <div className="rfs-grow">{description}</div>

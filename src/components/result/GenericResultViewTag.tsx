@@ -1,9 +1,10 @@
-import { MouseEvent, ReactNode, useCallback, useMemo } from "react"
+import { MouseEvent, ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
 import { SearchResult } from "@elastic/search-ui"
 import { autoUnwrap } from "@/components/result/utils"
 import { useCopyToClipboard } from "usehooks-ts"
+import { CheckIcon } from "lucide-react"
 
 export interface GenericResultViewTagProps {
     /**
@@ -32,7 +33,7 @@ export interface GenericResultViewTagProps {
      */
     singleValueMapper?: (value: string) => ReactNode
     onClick?: (e: MouseEvent<HTMLDivElement>, tagValue: ReactNode, fieldValue: string | string[]) => void
-    clickBehavior?: "copy-text" | "follow-url"
+    clickBehavior?: "copy-text" | "follow-url" | string
 }
 
 export function GenericResultViewTag({
@@ -45,6 +46,16 @@ export function GenericResultViewTag({
     clickBehavior = "copy-text",
     onClick
 }: GenericResultViewTagProps) {
+    const [showCopiedNotice, setShowCopiedNotice] = useState(false)
+
+    useEffect(() => {
+        if (showCopiedNotice) {
+            setTimeout(() => {
+                setShowCopiedNotice(false)
+            }, 1000)
+        }
+    }, [showCopiedNotice])
+
     const fieldValue = useMemo(() => {
         return autoUnwrap(result[field]) as string | string[]
     }, [field, result])
@@ -70,26 +81,44 @@ export function GenericResultViewTag({
     const handleClick = useCallback(
         (fieldValue: string | string[], value: ReactNode, e: MouseEvent<HTMLDivElement>) => {
             if (onClick) onClick(e, value, fieldValue)
-            if (clickBehavior === "copy-text") {
+            if (clickBehavior === "copy-text" && !showCopiedNotice) {
                 copyTagValue(e)
+                setShowCopiedNotice(true)
             } else if (clickBehavior === "follow-url" && !Array.isArray(fieldValue)) {
                 window.open(fieldValue, "_blank")
             }
         },
-        [clickBehavior, copyTagValue, onClick]
+        [clickBehavior, copyTagValue, onClick, showCopiedNotice]
     )
+
+    const clickBehaviourText = useMemo(() => {
+        if (onClick) return null // We don't know what will happen on click...
+        if (clickBehavior === "copy-text") {
+            return "Click to copy"
+        } else if (clickBehavior === "follow-url") {
+            return "Click to open"
+        } else return null
+    }, [clickBehavior, onClick])
 
     const base = useCallback(
         (fieldValue: string | string[], value: ReactNode, key?: string) => {
             return (
                 <Badge key={key} variant="secondary" className="rfs-truncate" onClick={(e) => handleClick(fieldValue, value, e)}>
                     <span className="rfs-flex rfs-truncate">
-                        {icon} {value}
+                        {showCopiedNotice ? (
+                            <>
+                                <CheckIcon className="rfs-size-4 rfs-mr-2" /> <span>Copied</span>
+                            </>
+                        ) : (
+                            <>
+                                {icon} {value}
+                            </>
+                        )}
                     </span>
                 </Badge>
             )
         },
-        [handleClick, icon]
+        [handleClick, icon, showCopiedNotice]
     )
 
     if (!label) return Array.isArray(value) ? value.map((v, i) => base(fieldValue[value.indexOf(v)], v, field + i)) : base(fieldValue, value)
@@ -99,7 +128,10 @@ export function GenericResultViewTag({
         return value.map((entry, i) => (
             <Tooltip delayDuration={500} key={field + i}>
                 <TooltipTrigger>{base(fieldValue[value.indexOf(entry)], entry)}</TooltipTrigger>
-                <TooltipContent>{label}</TooltipContent>
+                <TooltipContent>
+                    <div>{label}</div>
+                    <div className="rfs-text-xs rfs-text-muted-foreground">{clickBehaviourText}</div>
+                </TooltipContent>
             </Tooltip>
         ))
     }
@@ -107,7 +139,10 @@ export function GenericResultViewTag({
     return (
         <Tooltip delayDuration={500}>
             <TooltipTrigger>{base(fieldValue, value)}</TooltipTrigger>
-            <TooltipContent>{label}</TooltipContent>
+            <TooltipContent>
+                <div>{label}</div>
+                <div className="rfs-text-xs rfs-text-muted-foreground">{clickBehaviourText}</div>
+            </TooltipContent>
         </Tooltip>
     )
 }
