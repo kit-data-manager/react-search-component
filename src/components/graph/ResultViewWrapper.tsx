@@ -4,10 +4,18 @@ import { ResultViewProps } from "@elastic/react-search-ui-views"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 import { Button } from "@/components/ui/button"
 import { SearchIcon } from "lucide-react"
+import { useStore } from "zustand/index"
+import { resultCache } from "@/lib/ResultCache"
 
-export function ResultViewWrapper({ resultView: ResultView, data, id }: NodeProps & { resultView: ComponentType<ResultViewProps> }) {
+export function ResultViewWrapper({ resultView: ResultView, id }: NodeProps & { resultView: ComponentType<ResultViewProps> }) {
+    const get = useStore(resultCache, (s) => s.get)
+
+    const data = useMemo(() => {
+        return get(id)
+    }, [get, id])
+
     const dataEmpty = useMemo(() => {
-        return Object.keys(data).length === 0
+        return !data || Object.keys(data).length === 0
     }, [data])
 
     const { searchFor } = useContext(FairDOSearchContext)
@@ -19,7 +27,7 @@ export function ResultViewWrapper({ resultView: ResultView, data, id }: NodeProp
     return (
         <div className="rfs-w-[800px] -rfs-m-2">
             <Handle type="target" position={Position.Left} />
-            {dataEmpty ? (
+            {!data || dataEmpty ? (
                 <div className="rfs-m-2 rfs-p-4 rfs-rounded-lg rfs-bg-background rfs-border rfs-flex rfs-justify-between rfs-items-center">
                     <div>
                         <div>{id}</div>

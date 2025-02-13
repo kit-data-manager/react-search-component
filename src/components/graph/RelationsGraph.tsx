@@ -1,4 +1,4 @@
-import { buildGraphForReferences, getLayoutedElements, ResultPID } from "@/components/graph/helpers"
+import { buildGraphForReferences, getLayoutedElements } from "@/components/graph/helpers"
 import {
     Background,
     BackgroundVariant,
@@ -14,28 +14,22 @@ import {
 } from "@xyflow/react"
 import { ComponentType, useCallback, useEffect, useMemo, useRef } from "react"
 import "@xyflow/react/dist/style.css"
-import { useStore } from "zustand"
-import { resultCache } from "@/lib/ResultCache"
 import { ResultViewWrapper } from "@/components/graph/ResultViewWrapper"
 import { ResultViewProps } from "@elastic/react-search-ui-views"
+import { GraphNode } from "@/components/graph/GraphNode"
+import { RelationsGraphOptions } from "@/components/graph/RelationsGraphOptions"
 
 /**
  * Renders an interactive graph for the specified results. Results will be fetched from cache via PID. Currently intended for internal use only.
  */
-export function RelationsGraph(props: { base: string; referencedBy: string[]; references: string[]; resultView: ComponentType<ResultViewProps> }) {
-    const getFromCache = useStore(resultCache, (s) => s.get)
-
+export function RelationsGraph(props: { nodes: GraphNode[]; options?: RelationsGraphOptions; resultView: ComponentType<ResultViewProps> }) {
     const { initialEdges, initialNodes } = useMemo(() => {
-        const base: ResultPID = { pid: props.base, result: getFromCache(props.base) }
-        const referencedBy = props.referencedBy.map((pid) => ({ pid, result: getFromCache(pid) }))
-        const references = props.references.map((pid) => ({ pid, result: getFromCache(pid) }))
-
-        return buildGraphForReferences(base, referencedBy, references)
-    }, [getFromCache, props.base, props.referencedBy, props.references])
+        return buildGraphForReferences(props.nodes)
+    }, [props.nodes])
 
     const nodeTypes = useMemo(() => {
         return {
-            plain: (nodeProps: NodeProps) => <ResultViewWrapper {...nodeProps} resultView={props.resultView} />
+            result: (nodeProps: NodeProps) => <ResultViewWrapper {...nodeProps} resultView={props.resultView} />
         }
     }, [props.resultView])
 
@@ -58,11 +52,11 @@ export function RelationsGraph(props: { base: string; referencedBy: string[]; re
 
         window.requestAnimationFrame(() => {
             setTimeout(() => {
-                fitView({ nodes: [{ id: props.base }], duration: 200, padding: 1 })
+                fitView({ nodes: props.options?.focusedNodes?.map((n) => ({ id: n })), duration: 200, padding: 1 })
                 updateNodeInternals(nodes.map((n) => n.id))
             }, 100)
         })
-    }, [nodes, edges, setNodes, setEdges, fitView, props.base, updateNodeInternals])
+    }, [nodes, edges, setNodes, setEdges, fitView, props.options?.focusedNodes, updateNodeInternals])
 
     const onLayoutDebounced = useRef(onLayout)
     useEffect(() => {

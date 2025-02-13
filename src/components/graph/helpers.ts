@@ -1,56 +1,28 @@
 import { Edge, Node } from "@xyflow/react"
 import Dagre from "@dagrejs/dagre"
+import { GraphNode } from "@/components/graph/GraphNode"
 
-export type ResultPID = {
-    pid: string
-    result?: Record<string, unknown>
-}
+export function buildGraphForReferences(nodes: GraphNode[]) {
+    const initialNodes: { id: string; type: string; position: { x: number; y: number }; data: Record<string, unknown> }[] = nodes.map((node) => ({
+        type: node.type,
+        id: node.id,
+        position: { x: 0, y: 0 },
+        data: node.data ?? {}
+    }))
 
-export function buildGraphForReferences(base: ResultPID, parents: ResultPID[], _children: ResultPID[]) {
-    const children = _children.filter((pid) => !parents.find((e) => e.pid === pid.pid))
-    const yStartParents = -((parents.length - 1) * 100) / 2
-    const yStartChildren = -((children.length - 1) * 100) / 2
-    const nodes: { id: string; type: string; position: { x: number; y: number }; data: Record<string, unknown> }[] = [
-        {
-            id: base.pid,
-            type: "plain",
-            position: { x: 0, y: 0 },
-            data: { ...base.result }
+    const initialEdges: { id: string; source: string; target: string }[] = []
+
+    for (const node of nodes) {
+        for (const out of node.out) {
+            initialEdges.push({
+                id: `${node.id}-${out}`,
+                source: node.id,
+                target: out
+            })
         }
-    ]
-    const edges: { id: string; source: string; target: string }[] = []
-
-    for (let i = 0; i < parents.length; i++) {
-        nodes.push({
-            id: parents[i].pid,
-            type: "plain",
-            position: { x: -1000, y: yStartParents + i * 100 },
-            data: { ...parents[i].result }
-        })
-
-        edges.push({
-            id: `e-${parents[i].pid}-base`,
-            source: parents[i].pid,
-            target: base.pid
-        })
     }
 
-    for (let i = 0; i < children.length; i++) {
-        nodes.push({
-            id: children[i].pid,
-            type: "plain",
-            position: { x: 1000, y: yStartChildren + i * 100 },
-            data: { ...children[i].result }
-        })
-
-        edges.push({
-            id: `e-base-${children[i].pid}`,
-            source: base.pid,
-            target: children[i].pid
-        })
-    }
-
-    return { initialNodes: nodes, initialEdges: edges }
+    return { initialNodes, initialEdges }
 }
 
 export function getLayoutedElements(nodes: (Node & { type: string })[], edges: Edge[]) {

@@ -3,8 +3,6 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { DefaultFacet } from "@/components/search/DefaultFacet"
 import { FairDOConfigBuilder } from "@/config/FairDOConfigBuilder"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { GlobalModalProvider } from "@/components/GlobalModalProvider"
-import { GenericResultView } from "@/components/result"
 import type { FairDOConfig } from "@/config/FairDOConfig"
 
 const meta = {
@@ -39,11 +37,9 @@ export const Default: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <GlobalModalProvider resultView={GenericResultView}>
-                    <div className="rfs-max-w-60">
-                        <Story />
-                    </div>
-                </GlobalModalProvider>
+                <div className="rfs-max-w-60">
+                    <Story />
+                </div>
             </TooltipProvider>
         )
     ],
@@ -72,11 +68,9 @@ export const PrettyURL: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <GlobalModalProvider resultView={GenericResultView}>
-                    <div className="rfs-max-w-60">
-                        <Story />
-                    </div>
-                </GlobalModalProvider>
+                <div className="rfs-max-w-60">
+                    <Story />
+                </div>
             </TooltipProvider>
         )
     ],
@@ -103,11 +97,9 @@ export const WithPidResolver: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <GlobalModalProvider resultView={GenericResultView}>
-                    <div className="rfs-max-w-60">
-                        <Story />
-                    </div>
-                </GlobalModalProvider>
+                <div className="rfs-max-w-60">
+                    <Story />
+                </div>
             </TooltipProvider>
         )
     ],

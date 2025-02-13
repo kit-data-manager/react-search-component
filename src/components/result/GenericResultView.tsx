@@ -13,6 +13,7 @@ import { SearchFieldConfiguration } from "@elastic/search-ui"
 import { GenericResultViewTag, GenericResultViewTagProps } from "@/components/result/GenericResultViewTag"
 import { z } from "zod"
 import { GenericResultViewImage } from "@/components/result/GenericResultViewImage"
+import { GraphNodeUtils } from "@/components/graph/GraphNodeUtils"
 
 const HTTP_REGEX = /https?:\/\/.*/
 
@@ -122,7 +123,6 @@ export function GenericResultView({
 }: GenericResultViewProps) {
     const { openRelationGraph } = useContext(RFS_GlobalModalContext)
     const { searchTerm, elasticConnector, searchFor, config } = useContext(FairDOSearchContext)
-    console.log(config)
     const addToResultCache = useStore(resultCache, (s) => s.set)
     const [loadingRelatedItems, setLoadingRelatedItems] = useState(false)
 
@@ -287,7 +287,10 @@ export function GenericResultView({
         if (hasMetadata) await fetchRelatedItems(hasMetadata.join(" "), hasMetadata.length)
         setLoadingRelatedItems(false)
 
-        openRelationGraph(hasMetadata ?? [], pid, isMetadataFor ?? [])
+        const nodes = GraphNodeUtils.buildNodesSequential("result", hasMetadata ?? [], pid, isMetadataFor ?? [])
+        openRelationGraph(nodes, {
+            focusedNodes: [pid]
+        })
     }, [fetchRelatedItems, hasMetadata, isMetadataFor, openRelationGraph, pid])
 
     const showRelatedItemsButton = useMemo(() => {

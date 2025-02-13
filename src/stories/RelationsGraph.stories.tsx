@@ -5,6 +5,7 @@ import { GenericResultView } from "@/components/result"
 import { resultCache } from "@/lib/ResultCache"
 import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
 import { FairDOConfig } from "@/config/FairDOConfig"
+import { GraphNodeUtils } from "@/components/graph"
 
 const meta = {
     component: RelationsGraph,
@@ -42,9 +43,7 @@ export const Default: Story = {
         }
     ],
     args: {
-        referencedBy: ["a", "b", "c"],
-        base: "self",
-        references: ["1", "2", "3", "4", "5"],
+        nodes: GraphNodeUtils.buildNodesSequential("result", ["a", "b", "c"], "self", ["1", "2", "3", "4", "5"]),
         resultView: (props) => <GenericResultView {...props} />
     }
 }

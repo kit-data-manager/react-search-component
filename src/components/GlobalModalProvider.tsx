@@ -6,26 +6,25 @@ import { ReactFlowProvider } from "@xyflow/react"
 import { useCallback, useState } from "react"
 import { RFS_GlobalModalContext } from "./RFS_GlobalModalContext"
 import { ResultViewProps } from "@elastic/react-search-ui-views"
+import { GraphNode } from "@/components/graph/GraphNode"
+import { RelationsGraphOptions } from "@/components/graph/RelationsGraphOptions"
 
 export function GlobalModalProvider(props: PropsWithChildren<{ resultView: ComponentType<ResultViewProps> }>) {
     const [relationGraphState, setRelationGraphState] = useState<{
-        source: string[]
-        target: string[]
-        base: string
+        nodes: GraphNode[]
+        options: RelationsGraphOptions
         isOpen: boolean
     }>({
-        source: [],
-        target: [],
-        base: "",
+        nodes: [],
+        options: {},
         isOpen: false
     })
 
-    const openRelationGraph = useCallback((source: string[], base: string, target: string[]) => {
+    const openRelationGraph = useCallback((nodes: GraphNode[], options?: RelationsGraphOptions) => {
         setRelationGraphState({
-            source,
-            base,
-            target,
-            isOpen: true
+            nodes,
+            isOpen: true,
+            options: options ?? {}
         })
     }, [])
 
@@ -37,12 +36,11 @@ export function GlobalModalProvider(props: PropsWithChildren<{ resultView: Compo
         <RFS_GlobalModalContext.Provider value={{ openRelationGraph }}>
             <ReactFlowProvider>
                 <RelationsGraphModal
+                    nodes={relationGraphState.nodes}
                     isOpen={relationGraphState.isOpen}
                     onOpenChange={onRelationGraphOpenChange}
-                    referencedBy={relationGraphState.source}
-                    references={relationGraphState.target}
-                    base={relationGraphState.base}
                     resultView={props.resultView}
+                    options={relationGraphState.options}
                 />
 
                 {props.children}
