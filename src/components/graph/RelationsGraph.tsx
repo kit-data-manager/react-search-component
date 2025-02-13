@@ -2,6 +2,7 @@ import { buildGraphForReferences, getLayoutedElements } from "@/components/graph
 import {
     Background,
     BackgroundVariant,
+    ColorMode,
     Controls,
     MiniMap,
     NodeProps,
@@ -12,7 +13,7 @@ import {
     useReactFlow,
     useUpdateNodeInternals
 } from "@xyflow/react"
-import { ComponentType, useCallback, useEffect, useMemo, useRef } from "react"
+import { ComponentType, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import "@xyflow/react/dist/style.css"
 import { ResultViewWrapper } from "@/components/graph/ResultViewWrapper"
 import { ResultViewProps } from "@elastic/react-search-ui-views"
@@ -23,6 +24,14 @@ import { RelationsGraphOptions } from "@/components/graph/RelationsGraphOptions"
  * Renders an interactive graph for the specified results. Results will be fetched from cache via PID. Currently intended for internal use only.
  */
 export function RelationsGraph(props: { nodes: GraphNode[]; options?: RelationsGraphOptions; resultView: ComponentType<ResultViewProps> }) {
+    const [colorMode, setColorMode] = useState<ColorMode>("system")
+
+    useEffect(() => {
+        const dark = document.querySelector("html")?.classList.contains("dark")
+        if (dark === true) setColorMode("dark")
+        else setColorMode("light")
+    }, [])
+
     const { initialEdges, initialNodes } = useMemo(() => {
         return buildGraphForReferences(props.nodes)
     }, [props.nodes])
@@ -77,6 +86,7 @@ export function RelationsGraph(props: { nodes: GraphNode[]; options?: RelationsG
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             proOptions={{ hideAttribution: true }}
+            colorMode={colorMode}
         >
             <Background color="hsl(var(--rfs-border))" variant={BackgroundVariant.Lines} />
             <Controls />
