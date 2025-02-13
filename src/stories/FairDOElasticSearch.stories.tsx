@@ -192,7 +192,6 @@ export const GenericResultRenderer: Story = {
             <GenericResultView
                 result={props.result}
                 invertImageInDarkMode
-                config={demoConfig}
                 tags={[
                     {
                         icon: <UserIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
