@@ -15,11 +15,18 @@ import { useCallback, useMemo } from "react"
  */
 export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDOConfig }) {
     const connector = useMemo(() => {
-        return new FairDOConfigBuilder(props.config).buildConnector()
+        try {
+            return new FairDOConfigBuilder(props.config).buildConnector()
+        } catch (e) {
+            console.error("Failed to build connector in FairDOSearchProvider", e)
+            return undefined
+        }
     }, [props.config])
 
     const searchForBackground = useCallback(
-        (query: string) => {
+        async (query: string) => {
+            if (!connector) return
+
             // Hacky but works
             return connector.onSearch(
                 { searchTerm: query, resultsPerPage: 20 },
@@ -33,6 +40,25 @@ export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDO
         },
         [connector, props.config.indices]
     )
+
+    // Fallback for testing without elastic context
+    if (!connector) {
+        console.warn("Using fallback context for FairDOSearchProvider as elastic config is invalid. Elastic-related features will not work.")
+        return (
+            <FairDOSearchContext.Provider
+                value={{
+                    searchTerm: "",
+                    searchFor: () => {},
+                    searchForBackground: async () => {
+                        return undefined
+                    },
+                    config: props.config
+                }}
+            >
+                {props.children}
+            </FairDOSearchContext.Provider>
+        )
+    }
 
     return (
         <WithSearch
@@ -59,7 +85,8 @@ export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDO
                                 })
                             },
                             elasticConnector: connector,
-                            searchForBackground
+                            searchForBackground,
+                            config: props.config
                         }}
                     >
                         {props.children}

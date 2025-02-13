@@ -42,7 +42,8 @@ export function RelationsGraphModal({
                         searchFor: localSearchFor,
                         searchTerm: searchContext.searchTerm,
                         searchForBackground: searchContext.searchForBackground,
-                        elasticConnector: searchContext.elasticConnector
+                        elasticConnector: searchContext.elasticConnector,
+                        config: searchContext.config
                     }}
                 >
                     <RelationsGraph referencedBy={referencedBy} references={references} base={base} resultView={resultView} />

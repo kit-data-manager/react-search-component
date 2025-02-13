@@ -138,7 +138,7 @@ export function FairDOElasticSearch({
                                                             )}
                                                         />
                                                     )}
-                                                    {wasSearched && <DefaultSorting config={rawConfig} />}
+                                                    {wasSearched && <DefaultSorting />}
                                                 </div>
                                             }
                                             bodyFooter={

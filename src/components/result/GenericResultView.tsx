@@ -13,7 +13,6 @@ import { SearchFieldConfiguration } from "@elastic/search-ui"
 import { GenericResultViewTag, GenericResultViewTagProps } from "@/components/result/GenericResultViewTag"
 import { z } from "zod"
 import { GenericResultViewImage } from "@/components/result/GenericResultViewImage"
-import { FairDOConfig } from "@/config/FairDOConfig"
 
 const HTTP_REGEX = /https?:\/\/.*/
 
@@ -97,11 +96,6 @@ export interface GenericResultViewProps {
      * Whether to show the open in FairDOScope button in the dropdown
      */
     showOpenInFairDoScope?: boolean
-
-    /**
-     * Pass the same config here as passed to FairDOElasticSearch
-     */
-    config: FairDOConfig
 }
 
 /**
@@ -124,11 +118,11 @@ export function GenericResultView({
     additionalIdentifierField = "identifier",
     relatedItemsPrefetch = { searchFields: { pid: {} } },
     tags = [],
-    showOpenInFairDoScope = true,
-    config
+    showOpenInFairDoScope = true
 }: GenericResultViewProps) {
     const { openRelationGraph } = useContext(RFS_GlobalModalContext)
-    const { searchTerm, elasticConnector, searchFor } = useContext(FairDOSearchContext)
+    const { searchTerm, elasticConnector, searchFor, config } = useContext(FairDOSearchContext)
+    console.log(config)
     const addToResultCache = useStore(resultCache, (s) => s.set)
     const [loadingRelatedItems, setLoadingRelatedItems] = useState(false)
 

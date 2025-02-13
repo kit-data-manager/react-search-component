@@ -3,6 +3,7 @@
 import type { ResponseState } from "@elastic/search-ui"
 import type ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
 import { createContext } from "react"
+import { FairDOConfig } from "@/config/FairDOConfig"
 
 /**
  * Extends the elasticsearch SearchContext with additional utilities
@@ -29,6 +30,7 @@ export interface FairDOSearchContext {
     searchTerm: string
 
     elasticConnector?: ElasticsearchAPIConnector
+    config: FairDOConfig
 }
 
 /**
@@ -45,5 +47,8 @@ export const FairDOSearchContext = createContext<FairDOSearchContext>({
     async searchForBackground(): Promise<ResponseState | undefined> {
         console.error(`FairDOSearchContext not mounted, but searchFor was executed`)
         return undefined
+    },
+    get config(): FairDOConfig {
+        throw "FairDOSearchContext not mounted, but tried to read config"
     }
 })

@@ -1,11 +1,12 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useCallback, useContext } from "react"
 import { SearchContext } from "@elastic/react-search-ui"
-import { FairDOConfig } from "@/config/FairDOConfig"
 import { ArrowUpDown } from "lucide-react"
+import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 
-export function DefaultSorting({ config }: { config: FairDOConfig }) {
+export function DefaultSorting() {
     const search = useContext(SearchContext)
+    const { config } = useContext(FairDOSearchContext)
 
     const handleChange = useCallback(
         (value: string) => {

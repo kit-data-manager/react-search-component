@@ -5,6 +5,7 @@ import { AtomIcon, GlobeIcon, GraduationCap, ScaleIcon } from "lucide-react"
 import { tryURLPrettyPrint } from "@/lib/utils"
 import { GlobalModalProvider } from "@/components/GlobalModalProvider"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
 
 const meta = {
     component: GenericResultView,
@@ -21,11 +22,11 @@ export const Simple: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <GlobalModalProvider resultView={(props) => <GenericResultView {...props} {...Simple.args} config={emptyConfig} />}>
-                    <div>
+                <FairDOSearchProvider config={emptyConfig}>
+                    <GlobalModalProvider resultView={(props) => <GenericResultView {...props} {...Simple.args} />}>
                         <Story />
-                    </div>
-                </GlobalModalProvider>
+                    </GlobalModalProvider>
+                </FairDOSearchProvider>
             </TooltipProvider>
         )
     ],
@@ -37,8 +38,7 @@ export const Simple: Story = {
         titleField: "title",
         descriptionField: "description",
         imageField: undefined,
-        invertImageInDarkMode: true,
-        config: emptyConfig
+        invertImageInDarkMode: true
     }
 }
 
@@ -46,11 +46,11 @@ export const MultipleImages: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <GlobalModalProvider resultView={(props) => <GenericResultView {...props} {...MultipleImages.args} config={emptyConfig} />}>
-                    <div>
+                <FairDOSearchProvider config={emptyConfig}>
+                    <GlobalModalProvider resultView={(props) => <GenericResultView {...props} {...MultipleImages.args} />}>
                         <Story />
-                    </div>
-                </GlobalModalProvider>
+                    </GlobalModalProvider>
+                </FairDOSearchProvider>
             </TooltipProvider>
         )
     ],
@@ -69,8 +69,7 @@ export const MultipleImages: Story = {
         titleField: "title",
         descriptionField: "description",
         invertImageInDarkMode: true,
-        imageField: "images",
-        config: emptyConfig
+        imageField: "images"
     }
 }
 
@@ -78,11 +77,11 @@ export const Full: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <GlobalModalProvider resultView={(props) => <GenericResultView {...props} {...Full.args} config={{ host: "", indices: [] }} />}>
-                    <div>
+                <FairDOSearchProvider config={emptyConfig}>
+                    <GlobalModalProvider resultView={(props) => <GenericResultView {...props} {...Full.args} />}>
                         <Story />
-                    </div>
-                </GlobalModalProvider>
+                    </GlobalModalProvider>
+                </FairDOSearchProvider>
             </TooltipProvider>
         )
     ],
@@ -164,7 +163,6 @@ export const Full: Story = {
                 field: "stringArrayTest",
                 singleValueMapper: (v) => v.toUpperCase()
             }
-        ],
-        config: emptyConfig
+        ]
     }
 }
