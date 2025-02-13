@@ -61,12 +61,13 @@ export default function Home() {
                     searchFields: ["name", "pid", "hasMetadata", "isMetadataFor"]
                 }
             ],
+            sortOptions: [
+                { field: "_score", direction: "desc", label: "Relevance" },
+                { field: "name.keyword", direction: "asc", label: "Name (ascending)" },
+                { field: "name.keyword", direction: "desc", label: "Name (descending)" }
+            ],
             initialState: {
                 sortList: [
-                    {
-                        field: "_score",
-                        direction: "desc"
-                    },
                     {
                         field: "name.keyword",
                         direction: "asc"
@@ -88,7 +89,6 @@ export default function Home() {
         return (
             <GenericResultView
                 result={props.result}
-                config={config}
                 invertImageInDarkMode // Not recommended for colorful images
                 tags={[
                     {
