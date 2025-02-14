@@ -87,7 +87,7 @@ export interface FairDOConfig {
     /**
      * Configure possible sort options. Fields to sort by must be present in all used indices.
      */
-    sortOptions?: (SortOption & { label?: string })[]
+    sortOptions?: (SortOption & { label?: string; default?: boolean })[]
     /**
      * Disjunctive facets as specified in the elastic search ui documentation
      * @link https://www.elastic.co/guide/en/search-ui/current/api-react-components-facet.html#api-react-components-facet-example-of-an-or-based-facet-filter
@@ -117,20 +117,7 @@ export interface FairDOConfig {
     imageProxy?: (src: string) => string
 
     /**
-     * Initialize the internal state. This can be useful to specify the default sorting of the results.
-     * @example
-     * initialState: {
-     *         sortList: [
-     *             {
-     *                 field: "_score",
-     *                 direction: "desc"
-     *             },
-     *             {
-     *                 field: "name.keyword",
-     *                 direction: "asc"
-     *             }
-     *         ]
-     *     },
+     * Initialize the internal state. This can be useful to specify some default states.
      */
     initialState?: Partial<RequestState>
 }

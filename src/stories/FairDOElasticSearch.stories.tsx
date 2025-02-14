@@ -112,7 +112,7 @@ const demoConfig: FairDOConfig = {
     ],
     sortOptions: [
         { field: "_score", direction: "desc", label: "Relevance" },
-        { field: "name.keyword", direction: "asc", label: "Name (ascending)" },
+        { field: "name.keyword", direction: "asc", label: "Name (ascending)", default: true },
         { field: "name.keyword", direction: "desc", label: "Name (descending)" },
         { field: "Compound.Molar_mass", direction: "asc", label: "Molar Mass (ascending)" },
         { field: "Compound.Molar_mass", direction: "desc", label: "Molar Mass (descending)" },
@@ -121,14 +121,6 @@ const demoConfig: FairDOConfig = {
         { field: "dateModified", direction: "asc", label: "Date Modified (ascending)" },
         { field: "dateModified", direction: "desc", label: "Date Modified (descending)" }
     ],
-    initialState: {
-        sortList: [
-            {
-                field: "name.keyword",
-                direction: "asc"
-            }
-        ]
-    },
     disjunctiveFacets: [
         "NMR_Method.keyword",
         "resourceType.keyword",
@@ -138,45 +130,6 @@ const demoConfig: FairDOConfig = {
     ],
     imageProxy: (src) => `https://wsrv.nl/?url=${src}&h=1000&output=webp&ll`
 }
-
-// const demoConfigWithCompound: FairDOConfig = {
-//     debug: false,
-//     alwaysSearchOnInitialLoad: true,
-//     // host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
-//     host: "https://ddaa9283-f114-4496-b6ed-af12ee34b107.ka.bw-cloud-instance.org:9200",
-//     apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
-//     indices: [
-//         {
-//             name: "fdo-prod",
-//             facets: [
-//                 {
-//                     key: "Compound.Molar_mass",
-//                     label: "Compound",
-//                     type: "min-max-slider"
-//                 }
-//             ],
-//             resultFields: [], // Leave empty to get all fields
-//             searchFields: ["name", "pid", "hasMetadata", "isMetadataFor", "NMR_Method"]
-//         }
-//     ],
-//     initialState: {
-//         sortList: [
-//             {
-//                 field: "_score",
-//                 direction: "desc"
-//             },
-//             {
-//                 field: "name.keyword",
-//                 direction: "asc"
-//             },
-//             {
-//                 field: "locationPreview/Sample.keyword",
-//                 direction: "asc"
-//             }
-//         ]
-//     },
-//     disjunctiveFacets: ["NMR_Method.keyword"]
-// }
 
 export const NoResultRenderer: Story = {
     args: {
@@ -267,50 +220,3 @@ export const GenericResultRenderer: Story = {
         )
     }
 }
-
-// export const CompoundSlider: Story = {
-//     args: {
-//         config: demoConfigWithCompound,
-//         resultView: (props) => (
-//             <GenericResultView
-//                 result={props.result}
-//                 invertImageInDarkMode
-//                 tags={[
-//                     {
-//                         icon: <GraduationCap className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
-//                         label: "Resource Type",
-//                         field: "resourceType"
-//                     },
-//                     {
-//                         icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
-//                         field: "hadPrimarySource",
-//                         valueMapper: (v) => tryURLPrettyPrint(v + ""),
-//                         label: "Source"
-//                     },
-//                     {
-//                         icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
-//                         field: "licenseURL",
-//                         valueMapper: (v) => tryURLPrettyPrint(v + ""),
-//                         label: "License URL"
-//                     },
-//                     {
-//                         icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
-//                         field: "Compound.Molar_mass",
-//                         label: "Molar Mass",
-//                         valueMapper: (v) => v + " g/mol"
-//                     }
-//                 ]}
-//                 titleField="name"
-//                 creationDateField="dateCreatedRfc3339"
-//                 additionalIdentifierField="identifier"
-//                 digitalObjectLocationField="digitalObjectLocation"
-//                 imageField="locationPreview/Sample"
-//                 parentItemPidField="hasMetadata"
-//                 relatedItemPidsField="isMetadataFor"
-//                 pidField="pid"
-//                 relatedItemsPrefetch={{ searchFields: { pid: {} } }}
-//                 showOpenInFairDoScope
-//             />
-//         )
-//     }
-// }

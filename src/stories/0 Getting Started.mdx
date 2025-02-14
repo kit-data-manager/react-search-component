@@ -41,7 +41,7 @@ export default function Home() {
     const config: FairDOConfig = useMemo(() => {
         return {
             alwaysSearchOnInitialLoad: true,
-            host: <elastic host>,
+            host: "your elastic host",
             indices: [
                 {
                     name: "index-name-here",
@@ -63,17 +63,9 @@ export default function Home() {
             ],
             sortOptions: [
                 { field: "_score", direction: "desc", label: "Relevance" },
-                { field: "name.keyword", direction: "asc", label: "Name (ascending)" },
+                { field: "name.keyword", direction: "asc", label: "Name (ascending)", default: true },
                 { field: "name.keyword", direction: "desc", label: "Name (descending)" }
             ],
-            initialState: {
-                sortList: [
-                    {
-                        field: "name.keyword",
-                        direction: "asc"
-                    }
-                ]
-            },
             connectionOptions: {
                 headers: {
                     // Pass your authentication headers here
