@@ -6,6 +6,8 @@ import { ComponentType, useCallback, useContext } from "react"
 import { ResultViewProps } from "@elastic/react-search-ui-views"
 import { GraphNode } from "@/components/graph/GraphNode"
 import { RelationsGraphOptions } from "@/components/graph/RelationsGraphOptions"
+import { Button } from "@/components/ui/button"
+import { X } from "lucide-react"
 
 export function RelationsGraphModal({
     isOpen,
@@ -32,7 +34,7 @@ export function RelationsGraphModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className="rfs-h-max rfs-max-h-[min(100vh,800px)] rfs-min-h-[500px] rfs-min-w-[500px] !rfs-max-w-[min(calc(100vw-40px),1500px)] !rfs-p-0">
+            <DialogContent className="rfs-h-[calc(100vh-40px)] rfs-max-w-none rfs-w-[calc(100vw-40px)] !rfs-p-0" hideCloseButton>
                 <VisuallyHidden.Root>
                     <DialogTitle>Relationship graph</DialogTitle>
                 </VisuallyHidden.Root>
@@ -48,6 +50,12 @@ export function RelationsGraphModal({
                 >
                     <RelationsGraph nodes={nodes} resultView={resultView} options={options} />
                 </FairDOSearchContext.Provider>
+
+                <div className="rfs-absolute rfs-right-4 rfs-top-4">
+                    <Button variant="outline" onClick={() => onOpenChange(false)}>
+                        <X className="rfs-size-4" /> Close <span className="rfs-font-mono rfs-text-muted-foreground rfs-ml-2">Esc</span>
+                    </Button>
+                </div>
             </DialogContent>
         </Dialog>
     )

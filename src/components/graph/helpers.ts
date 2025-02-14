@@ -2,7 +2,7 @@ import { Edge, Node } from "@xyflow/react"
 import Dagre from "@dagrejs/dagre"
 import { GraphNode } from "@/components/graph/GraphNode"
 
-export function buildGraphForReferences(nodes: GraphNode[]) {
+export function buildGraphFromNodes(nodes: GraphNode[]) {
     const initialNodes: { id: string; type: string; position: { x: number; y: number }; data: Record<string, unknown> }[] = nodes.map((node) => ({
         type: node.type,
         id: node.id,
@@ -25,9 +25,9 @@ export function buildGraphForReferences(nodes: GraphNode[]) {
     return { initialNodes, initialEdges }
 }
 
-export function getLayoutedElements(nodes: (Node & { type: string })[], edges: Edge[]) {
+export function computeNodeLayout(nodes: (Node & { type: string })[], edges: Edge[]) {
     const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}))
-    g.setGraph({ rankdir: "LR", nodesep: 25, ranksep: 100 })
+    g.setGraph({ rankdir: "LR", nodesep: 30, ranksep: 150 })
 
     edges.forEach((edge) => g.setEdge(edge.source, edge.target))
     nodes.forEach((node) =>

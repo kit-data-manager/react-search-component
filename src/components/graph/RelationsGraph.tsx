@@ -1,4 +1,4 @@
-import { buildGraphForReferences, getLayoutedElements } from "@/components/graph/helpers"
+import { buildGraphFromNodes, computeNodeLayout } from "@/components/graph/helpers"
 import {
     Background,
     BackgroundVariant,
@@ -33,7 +33,7 @@ export function RelationsGraph(props: { nodes: GraphNode[]; options?: RelationsG
     }, [])
 
     const { initialEdges, initialNodes } = useMemo(() => {
-        return buildGraphForReferences(props.nodes)
+        return buildGraphFromNodes(props.nodes)
     }, [props.nodes])
 
     const nodeTypes = useMemo(() => {
@@ -54,7 +54,7 @@ export function RelationsGraph(props: { nodes: GraphNode[]; options?: RelationsG
     }, [initialEdges, initialNodes, setEdges, setNodes])
 
     const onLayout = useCallback(() => {
-        const layouted = getLayoutedElements(nodes, edges)
+        const layouted = computeNodeLayout(nodes, edges)
 
         setNodes([...layouted.nodes])
         setEdges([...layouted.edges])
@@ -87,6 +87,9 @@ export function RelationsGraph(props: { nodes: GraphNode[]; options?: RelationsG
             onEdgesChange={onEdgesChange}
             proOptions={{ hideAttribution: true }}
             colorMode={colorMode}
+            nodesDraggable={false}
+            nodesConnectable={false}
+            edgesFocusable={false}
         >
             <Background color="hsl(var(--rfs-border))" variant={BackgroundVariant.Lines} />
             <Controls />
