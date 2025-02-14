@@ -23,8 +23,13 @@ import { RelationsGraphOptions } from "@/components/graph/RelationsGraphOptions"
 /**
  * Renders an interactive graph for the specified results. Results will be fetched from cache via PID. Currently intended for internal use only.
  */
-export function RelationsGraph(props: { nodes: GraphNode[]; options?: RelationsGraphOptions; resultView: ComponentType<ResultViewProps> }) {
-    const [colorMode, setColorMode] = useState<ColorMode>("system")
+export function RelationsGraph(props: {
+    nodes: GraphNode[]
+    options?: RelationsGraphOptions
+    resultView: ComponentType<ResultViewProps>
+    dark?: boolean
+}) {
+    const [colorMode, setColorMode] = useState<ColorMode>(props.dark ? "dark" : "light")
 
     useEffect(() => {
         const dark = document.querySelector("html")?.classList.contains("dark")

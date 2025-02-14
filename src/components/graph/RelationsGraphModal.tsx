@@ -14,13 +14,15 @@ export function RelationsGraphModal({
     onOpenChange,
     nodes,
     resultView,
-    options
+    options,
+    dark
 }: {
     isOpen: boolean
     onOpenChange: (val: boolean) => void
     nodes: GraphNode[]
     options?: RelationsGraphOptions
     resultView: ComponentType<ResultViewProps>
+    dark?: boolean
 }) {
     const searchContext = useContext(FairDOSearchContext)
 
@@ -48,7 +50,7 @@ export function RelationsGraphModal({
                         config: searchContext.config
                     }}
                 >
-                    <RelationsGraph nodes={nodes} resultView={resultView} options={options} />
+                    <RelationsGraph nodes={nodes} resultView={resultView} options={options} dark={dark} />
                 </FairDOSearchContext.Provider>
 
                 <div className="rfs-absolute rfs-right-4 rfs-top-4">

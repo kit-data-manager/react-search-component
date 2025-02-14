@@ -9,7 +9,7 @@ import { ResultViewProps } from "@elastic/react-search-ui-views"
 import { GraphNode } from "@/components/graph/GraphNode"
 import { RelationsGraphOptions } from "@/components/graph/RelationsGraphOptions"
 
-export function GlobalModalProvider(props: PropsWithChildren<{ resultView: ComponentType<ResultViewProps> }>) {
+export function GlobalModalProvider(props: PropsWithChildren<{ resultView: ComponentType<ResultViewProps>; dark?: boolean }>) {
     const [relationGraphState, setRelationGraphState] = useState<{
         nodes: GraphNode[]
         options: RelationsGraphOptions
@@ -41,6 +41,7 @@ export function GlobalModalProvider(props: PropsWithChildren<{ resultView: Compo
                     onOpenChange={onRelationGraphOpenChange}
                     resultView={props.resultView}
                     options={relationGraphState.options}
+                    dark={props.dark}
                 />
 
                 {props.children}

@@ -60,8 +60,6 @@ export function DefaultSorting() {
         return () => search.driver.unsubscribeToStateChanges(handler)
     }, [makeKey, search.driver])
 
-    console.log("haha")
-
     if (!config.sortOptions || config.sortOptions.length === 0) return null
 
     return (

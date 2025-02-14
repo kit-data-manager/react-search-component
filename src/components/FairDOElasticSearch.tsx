@@ -48,7 +48,7 @@ export function FairDOElasticSearch({
     facetOptionView?: ComponentType<OptionViewProps>
 
     /**
-     * Set to true to enable dark mode. Alternatively, set class="dark" on your html or body element
+     * Set to true to enable dark mode
      */
     dark?: boolean
 }) {
@@ -74,7 +74,7 @@ export function FairDOElasticSearch({
         <SearchProvider config={elasticConfig}>
             <FairDOSearchProvider config={rawConfig}>
                 <TooltipProvider>
-                    <GlobalModalProvider resultView={actualResultView}>
+                    <GlobalModalProvider resultView={actualResultView} dark={dark}>
                         <WithSearch
                             mapContextToProps={({ wasSearched, isLoading }: SearchContextState) => ({
                                 wasSearched,
