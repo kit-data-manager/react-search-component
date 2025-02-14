@@ -212,9 +212,8 @@ export const GenericResultRenderer: Story = {
                 digitalObjectLocationField="digitalObjectLocation"
                 imageField="locationPreview/Sample"
                 parentItemPidField="hasMetadata"
-                relatedItemPidsField="isMetadataFor"
+                childItemPidField="isMetadataFor"
                 pidField="pid"
-                relatedItemsPrefetch={{ searchFields: { pid: {} } }}
                 showOpenInFairDoScope
             />
         )

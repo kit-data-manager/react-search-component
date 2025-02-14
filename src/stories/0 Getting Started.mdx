@@ -81,7 +81,15 @@ export default function Home() {
         return (
             <GenericResultView
                 result={props.result}
-                invertImageInDarkMode // Not recommended for colorful images
+
+                pidField="pid"
+                titleField="name"
+                creationDateField="dateCreatedRfc3339"
+                imageField="locationPreview/Sample"
+
+                parentItemPidField="hasMetadata"
+                childItemPidField="isMetadataFor"
+
                 tags={[
                     {
                         icon: <GraduationCap />,
@@ -91,28 +99,24 @@ export default function Home() {
                     {
                         icon: <GlobeIcon />,
                         field: "hadPrimarySource",
-                        valueMapper: tryURLPrettyPrint
+                        singleValueMapper: tryURLPrettyPrint
                     },
                     {
                         icon: <ScaleIcon />,
                         field: "licenseURL",
-                        valueMapper: tryURLPrettyPrint
+                        singleValueMapper: value => value + " can be mapped" // Can use simple string mapping
                     },
                     {
                         icon: <AtomIcon />,
-                        field: "Compound"
+                        field: "Compound",
+                        singleValueMapper: value => <div>{value}</div> // Can pass any component as tag content
                     }
                 ]}
-                titleField="name"
-                creationDateField="dateCreatedRfc3339"
-                identifierField="identifier"
-                digitalObjectLocationField="digitalObjectLocation"
-                imageField="locationPreview/Sample"
-                parentItemPidField="hasMetadata"
-                relatedItemPidsField="isMetadataFor"
-                pidField="pid"
-                relatedItemsPrefetch={{ searchFields: { pid: {} } }}
-                showOpenInFairDoScope // Many more options exist, use TypeScript to easily view them in your code
+
+                invertImageInDarkMode // Not recommended for colorful images
+                showOpenInFairDoScope
+
+                // ...many more options exist, use TypeScript to easily view them in your code
             />
         )
     }, [])

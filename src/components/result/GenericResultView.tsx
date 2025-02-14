@@ -59,17 +59,20 @@ export interface GenericResultViewProps {
     pidField?: string
 
     /**
-     * The elastic field where the related items of the current FDO will be read from. Should be an array of PIDs or otherwise unique identifiers. Will be displayed in a related items graph.
+     * The elastic field where the unique identifier of the child item(s) of the current FDO will be read from. Should be an array of PIDs or otherwise unique identifiers. Will be displayed in a related items graph.
      */
-    relatedItemPidsField?: string
+    childItemPidField?: string
 
     /**
      * Options for prefetching of related items in the relations graph. It is recommended to define this if the default settings don't work properly.
+     * @default Value of pidField
+     * @example
+     * relatedItemsPrefetch={{ searchFields: { pid: {} } }}
      */
-    relatedItemsPrefetch?: { searchFields?: Record<string, SearchFieldConfiguration> }
+    relatedItemsPrefetchOptions?: { searchFields?: Record<string, SearchFieldConfiguration> }
 
     /**
-     * The elastic field where the unique identifier of the parent item (metadata item) of the current FDO will be read from. Will be accessible via a `Find Metadata` button
+     * The elastic field where the unique identifier of the parent item(s) of the current FDO will be read from. Should be an array of PIDs or otherwise unique identifiers. Will be displayed in a related items graph.
      */
     parentItemPidField?: string
 
@@ -112,12 +115,12 @@ export function GenericResultView({
     landingPageLocationField = "landingPageLocation",
     digitalObjectLocationField = "digitalObjectLocation",
     pidField = "pid",
-    relatedItemPidsField = "isMetadataFor",
+    childItemPidField = "isMetadataFor",
     parentItemPidField = "hasMetadata",
     creationDateField = "creationDate",
     editedDateField = "editedDate",
     additionalIdentifierField = "identifier",
-    relatedItemsPrefetch = { searchFields: { pid: {} } },
+    relatedItemsPrefetchOptions = { searchFields: { pid: {} } },
     tags = [],
     showOpenInFairDoScope = true
 }: GenericResultViewProps) {
@@ -229,9 +232,9 @@ export function GenericResultView({
     }, [getArrayOrSingleField, additionalIdentifierField])
 
     const isMetadataFor = useMemo(() => {
-        const val = getArrayOrSingleField(relatedItemPidsField ?? "isMetadataFor")
+        const val = getArrayOrSingleField(childItemPidField ?? "isMetadataFor")
         return val ? toArray(val) : undefined
-    }, [getArrayOrSingleField, relatedItemPidsField])
+    }, [getArrayOrSingleField, childItemPidField])
 
     const creationDate = useMemo(() => {
         const value = getField(creationDateField ?? "dateCreated")
@@ -260,7 +263,7 @@ export function GenericResultView({
                     {
                         result_fields: {},
                         searchTerm: term,
-                        search_fields: relatedItemsPrefetch?.searchFields ?? { [pidField ?? "pid"]: {} },
+                        search_fields: relatedItemsPrefetchOptions?.searchFields ?? { [pidField ?? "pid"]: {} },
                         resultsPerPage: amount
                     }
                 )
@@ -277,7 +280,7 @@ export function GenericResultView({
                 alert("Failed to fetch related items, graph may be incomplete")
             }
         },
-        [addToResultCache, elasticConnector, pidField, relatedItemsPrefetch?.searchFields]
+        [addToResultCache, elasticConnector, pidField, relatedItemsPrefetchOptions?.searchFields]
     )
 
     const showRelatedItemsGraph = useCallback(async () => {
