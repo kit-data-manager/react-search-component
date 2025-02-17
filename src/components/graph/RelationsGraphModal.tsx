@@ -36,7 +36,7 @@ export function RelationsGraphModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className="rfs-h-[calc(100vh-40px)] rfs-max-w-none rfs-w-[calc(100vw-40px)] !rfs-p-0" hideCloseButton>
+            <DialogContent className="rfs-h-[calc(100vh-40px)] rfs-max-w-none !rfs-w-[calc(100vw-40px)] !rfs-p-0" hideCloseButton>
                 <VisuallyHidden.Root>
                     <DialogTitle>Relationship graph</DialogTitle>
                 </VisuallyHidden.Root>

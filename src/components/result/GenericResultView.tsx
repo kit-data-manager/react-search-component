@@ -5,15 +5,17 @@ import { useStore } from "zustand/index"
 import { resultCache } from "@/lib/ResultCache"
 import { autoUnwrap, autoUnwrapArray, toArray } from "@/components/result/utils"
 import { DateTime } from "luxon"
-import { ChevronDown, Download, GitFork, LoaderCircle, Microscope, Pencil, PlusIcon, SearchIcon } from "lucide-react"
+import { ChevronDown, Download, GitFork, LoaderCircle, Microscope, Pencil, PlusIcon, SearchIcon, TableProperties } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { SearchFieldConfiguration } from "@elastic/search-ui"
 import { GenericResultViewTag, GenericResultViewTagProps } from "@/components/result/GenericResultViewTag"
 import { z } from "zod"
 import { GenericResultViewImage } from "@/components/result/GenericResultViewImage"
 import { GraphNodeUtils } from "@/components/graph/GraphNodeUtils"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import { PidComponent } from "@kit-data-manager/react-pid-component"
 
 const HTTP_REGEX = /https?:\/\/.*/
 
@@ -100,6 +102,11 @@ export interface GenericResultViewProps {
      * Whether to show the open in FairDOScope button in the dropdown
      */
     showOpenInFairDoScope?: boolean
+
+    /**
+     * Whether to show the Inspect FDO button in the dropdown
+     */
+    showInspectFDO?: boolean
 }
 
 /**
@@ -122,12 +129,14 @@ export function GenericResultView({
     additionalIdentifierField = "identifier",
     relatedItemsPrefetchOptions = { searchFields: { pid: {} } },
     tags = [],
-    showOpenInFairDoScope = true
+    showOpenInFairDoScope = true,
+    showInspectFDO = true
 }: GenericResultViewProps) {
     const { openRelationGraph } = useContext(RFS_GlobalModalContext)
     const { searchTerm, elasticConnector, searchFor, config } = useContext(FairDOSearchContext)
     const addToResultCache = useStore(resultCache, (s) => s.set)
     const [loadingRelatedItems, setLoadingRelatedItems] = useState(false)
+    const [showInspectDialog, setShowInspectDialog] = useState(false)
 
     const getField = useCallback(
         (field: string) => {
@@ -409,6 +418,7 @@ export function GenericResultView({
                                                 <Download className="rfs-mr-1 rfs-size-4" /> Download Digital Object
                                             </DropdownMenuItem>
                                         </a>
+                                        <DropdownMenuSeparator />
                                         <DropdownMenuItem onClick={searchForThis}>
                                             <SearchIcon className="rfs-mr-1 rfs-size-4" /> Search for this
                                         </DropdownMenuItem>
@@ -419,6 +429,14 @@ export function GenericResultView({
                                                 </DropdownMenuItem>
                                             </a>
                                         )}
+                                        {showInspectFDO && (
+                                            <>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem onClick={() => setShowInspectDialog(true)}>
+                                                    <TableProperties className="rfs-size-4 rfs-mr-1" /> Inspect FDO
+                                                </DropdownMenuItem>
+                                            </>
+                                        )}
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>
@@ -426,6 +444,16 @@ export function GenericResultView({
                     </div>
                 </div>
             </div>
+
+            {showInspectFDO && (
+                <Dialog open={showInspectDialog} onOpenChange={setShowInspectDialog}>
+                    <DialogContent className="rfs-max-w-[calc(100vw-40px)] !rfs-min-w-[min(1200px,calc(100vw-40px))]">
+                        <DialogTitle>Inspect Fair Digital Object</DialogTitle>
+
+                        <PidComponent openByDefault value={pid} levelOfSubcomponents={10} />
+                    </DialogContent>
+                </Dialog>
+            )}
         </div>
     )
 }
