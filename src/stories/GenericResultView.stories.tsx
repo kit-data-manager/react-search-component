@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { GenericResultView } from "@/components/result/GenericResultView"
 import { AtomIcon, GlobeIcon, GraduationCap, ScaleIcon } from "lucide-react"
 import { tryURLPrettyPrint } from "@/lib/utils"
-import { GlobalModalProvider } from "@/components/GlobalModalProvider"
+import { RelationsGraphProvider } from "@/components/graph/RelationsGraphProvider"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
 
@@ -23,9 +23,9 @@ export const Simple: Story = {
         (Story) => (
             <TooltipProvider>
                 <FairDOSearchProvider config={emptyConfig}>
-                    <GlobalModalProvider resultView={(props) => <GenericResultView {...props} {...Simple.args} />}>
+                    <RelationsGraphProvider resultView={(props) => <GenericResultView {...props} {...Simple.args} />}>
                         <Story />
-                    </GlobalModalProvider>
+                    </RelationsGraphProvider>
                 </FairDOSearchProvider>
             </TooltipProvider>
         )
@@ -47,9 +47,9 @@ export const MultipleImages: Story = {
         (Story) => (
             <TooltipProvider>
                 <FairDOSearchProvider config={emptyConfig}>
-                    <GlobalModalProvider resultView={(props) => <GenericResultView {...props} {...MultipleImages.args} />}>
+                    <RelationsGraphProvider resultView={(props) => <GenericResultView {...props} {...MultipleImages.args} />}>
                         <Story />
-                    </GlobalModalProvider>
+                    </RelationsGraphProvider>
                 </FairDOSearchProvider>
             </TooltipProvider>
         )
@@ -78,9 +78,9 @@ export const Full: Story = {
         (Story) => (
             <TooltipProvider>
                 <FairDOSearchProvider config={emptyConfig}>
-                    <GlobalModalProvider resultView={(props) => <GenericResultView {...props} {...Full.args} />}>
+                    <RelationsGraphProvider resultView={(props) => <GenericResultView {...props} {...Full.args} />}>
                         <Story />
-                    </GlobalModalProvider>
+                    </RelationsGraphProvider>
                 </FairDOSearchProvider>
             </TooltipProvider>
         )

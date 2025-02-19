@@ -6,6 +6,7 @@ import {
     Controls,
     MiniMap,
     NodeProps,
+    NodeTypes,
     ReactFlow,
     useEdgesState,
     useNodesInitialized,
@@ -28,6 +29,7 @@ export function RelationsGraph(props: {
     options?: RelationsGraphOptions
     resultView: ComponentType<ResultViewProps>
     dark?: boolean
+    nodeTypes?: NodeTypes
 }) {
     const [colorMode, setColorMode] = useState<ColorMode>(props.dark ? "dark" : "light")
 
@@ -43,9 +45,10 @@ export function RelationsGraph(props: {
 
     const nodeTypes = useMemo(() => {
         return {
-            result: (nodeProps: NodeProps) => <ResultViewWrapper {...nodeProps} resultView={props.resultView} />
+            result: (nodeProps: NodeProps) => <ResultViewWrapper {...nodeProps} resultView={props.resultView} />,
+            ...props.nodeTypes
         }
-    }, [props.resultView])
+    }, [props.nodeTypes, props.resultView])
 
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)

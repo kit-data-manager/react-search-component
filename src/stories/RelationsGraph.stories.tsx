@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import { ReactFlowProvider } from "@xyflow/react"
+import { Handle, Position, ReactFlowProvider } from "@xyflow/react"
 import { RelationsGraph } from "@/components/graph/RelationsGraph"
 import { GenericResultView } from "@/components/result"
 import { resultCache } from "@/lib/ResultCache"
@@ -43,7 +43,36 @@ export const Default: Story = {
         }
     ],
     args: {
-        nodes: GraphNodeUtils.buildNodesSequential("result", ["a", "b", "c"], "self", ["1", "2", "3", "4", "5"]),
+        nodes: GraphNodeUtils.buildSequentialGraphFromIds("result", ["a", "b", "c"], "self", ["1", "2", "3", "4", "5"]),
+        resultView: (props) => <GenericResultView {...props} />
+    }
+}
+
+export const CustomNode: Story = {
+    decorators: [
+        (Story) => {
+            return (
+                <ReactFlowProvider>
+                    <FairDOSearchProvider config={emptyConfig}>
+                        <div style={{ width: "100%", height: "min(70vh, 700px)" }}>
+                            <Story />
+                        </div>
+                    </FairDOSearchProvider>
+                </ReactFlowProvider>
+            )
+        }
+    ],
+    args: {
+        nodes: GraphNodeUtils.buildSequentialGraphFromIds("custom", ["a", "b", "c"], "self", ["1", "2", "3", "4", "5"]),
+        nodeTypes: {
+            custom: (props) => (
+                <>
+                    <Handle type={"target"} position={Position.Left} />
+                    <div className="rfs-p-4 rfs-bg-green-300">This is a custom Node Component ({props.id})</div>
+                    <Handle type={"source"} position={Position.Right} />
+                </>
+            )
+        },
         resultView: (props) => <GenericResultView {...props} />
     }
 }

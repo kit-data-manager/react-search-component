@@ -3,7 +3,7 @@
 import type { FairDOConfig } from "@/config/FairDOConfig"
 import type { SearchContextState } from "@elastic/search-ui"
 import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
-import { GlobalModalProvider } from "@/components/GlobalModalProvider"
+import { RelationsGraphProvider } from "@/components/graph/RelationsGraphProvider"
 import { ClearFilters } from "@/components/search/ClearFilters"
 import { DefaultFacet, OptionViewProps } from "@/components/search/DefaultFacet"
 import { DefaultSearchBox } from "@/components/search/DefaultSearchBox"
@@ -20,6 +20,7 @@ import { TooltipProvider } from "./ui/tooltip"
 import { useAutoDarkMode } from "@/components/utils"
 import { PlaceholderResultView } from "@/components/result/PlaceholderResultView"
 import { DefaultSorting } from "@/components/search/DefaultSorting"
+import { NodeTypes } from "@xyflow/react"
 
 /**
  * All-in-one component for rendering an elastic search UI based on the provided configuration. Includes
@@ -32,20 +33,40 @@ import { DefaultSorting } from "@/components/search/DefaultSorting"
  *
  * #### 🖌️ Customization
  * You can customize the default behaviour by overriding the default result view (resultView) or the views of the facet
- * options (facetOptionView)
+ * options (facetOptionView).
+ *
+ * You can also specify your own graph nodes to dynamically render any relationships between objects. ([Package Docs](https://reactflow.dev/learn/customization/custom-nodes))
  */
 export function FairDOElasticSearch({
     config: rawConfig,
     resultView,
     facetOptionView,
-    dark
+    dark,
+    graphNodeTypes
 }: {
     /**
      * Make sure the config is either memoized or constant (defined outside any components)
      */
     config: FairDOConfig
+
+    /**
+     * React Component that will be used to render the results from the current search. Consider using the `GenericResultView`
+     */
     resultView: ComponentType<ResultViewProps>
+
+    /**
+     * React Component that will be used to render the individual options (text right of the checkboxes) in a facet.
+     */
     facetOptionView?: ComponentType<OptionViewProps>
+
+    /**
+     * Specify additional node types to render in the relations graph. Optional. The "result" node type is present by default
+     * and can be overwritten here.
+     * > **⚠ Important**: Make sure to memoize the object passed to this prop, or pass a constant object.
+     *
+     * Consult the [React Flow Documentation](https://reactflow.dev/learn/customization/custom-nodes) on how to specify nodes. **Make sure your node has one `target` and one `source` Handle.**
+     */
+    graphNodeTypes?: NodeTypes
 
     /**
      * Set to true to enable dark mode
@@ -74,7 +95,7 @@ export function FairDOElasticSearch({
         <SearchProvider config={elasticConfig}>
             <FairDOSearchProvider config={rawConfig}>
                 <TooltipProvider>
-                    <GlobalModalProvider resultView={actualResultView} dark={dark}>
+                    <RelationsGraphProvider resultView={actualResultView} dark={dark} nodeTypes={graphNodeTypes}>
                         <WithSearch
                             mapContextToProps={({ wasSearched, isLoading }: SearchContextState) => ({
                                 wasSearched,
@@ -181,7 +202,7 @@ export function FairDOElasticSearch({
                                 )
                             }}
                         </WithSearch>
-                    </GlobalModalProvider>
+                    </RelationsGraphProvider>
                 </TooltipProvider>
             </FairDOSearchProvider>
         </SearchProvider>

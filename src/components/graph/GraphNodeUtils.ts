@@ -1,8 +1,24 @@
 import { GraphNode } from "@/components/graph/GraphNode"
 import { toArray } from "@/components/result"
 
+/**
+ * Utilities for working with the RelationsGraph
+ */
 export class GraphNodeUtils {
-    static buildNodesSequential(type: string, ...ids: (string | string[])[]): GraphNode[] {
+    /**
+     * Build a sequential graph (n:n:n:...) by passing just the identifiers of the nodes in layers.
+     * @param type Type of the nodes (use "result" to display your resultView)
+     * @param ids Each entry resembled one layer in the sequential graph
+     * @example
+     * buildSequentialGraphFromIds("result", "a", ["b", "c", "d"], "e")
+     * // result:
+     * //        b
+     * //     /     \
+     * //    a - c - e
+     * //     \     /
+     * //        d
+     */
+    static buildSequentialGraphFromIds(type: string, ...ids: (string | string[])[]): GraphNode[] {
         const nodes: GraphNode[] = []
 
         for (let layer = 0; layer < ids.length; layer++) {

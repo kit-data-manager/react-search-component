@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react"
-import { RFS_GlobalModalContext } from "@/components/RFS_GlobalModalContext"
+import { RelationsGraphContext } from "@/components/graph/RelationsGraphContext"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 import { useStore } from "zustand/index"
 import { resultCache } from "@/lib/ResultCache"
@@ -132,7 +132,7 @@ export function GenericResultView({
     showOpenInFairDoScope = true,
     showInspectFDO = true
 }: GenericResultViewProps) {
-    const { openRelationGraph } = useContext(RFS_GlobalModalContext)
+    const { openRelationsGraph } = useContext(RelationsGraphContext)
     const { searchTerm, elasticConnector, searchFor, config } = useContext(FairDOSearchContext)
     const addToResultCache = useStore(resultCache, (s) => s.set)
     const [loadingRelatedItems, setLoadingRelatedItems] = useState(false)
@@ -299,11 +299,11 @@ export function GenericResultView({
         if (hasMetadata) await fetchRelatedItems(hasMetadata.join(" "), hasMetadata.length)
         setLoadingRelatedItems(false)
 
-        const nodes = GraphNodeUtils.buildNodesSequential("result", hasMetadata ?? [], pid, isMetadataFor ?? [])
-        openRelationGraph(nodes, {
+        const nodes = GraphNodeUtils.buildSequentialGraphFromIds("result", hasMetadata ?? [], pid, isMetadataFor ?? [])
+        openRelationsGraph(nodes, {
             focusedNodes: [pid]
         })
-    }, [fetchRelatedItems, hasMetadata, isMetadataFor, openRelationGraph, pid])
+    }, [fetchRelatedItems, hasMetadata, isMetadataFor, openRelationsGraph, pid])
 
     const showRelatedItemsButton = useMemo(() => {
         return (hasMetadata && hasMetadata.length > 0) || (isMetadataFor && isMetadataFor.length > 0)
