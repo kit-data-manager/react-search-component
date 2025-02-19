@@ -31,16 +31,25 @@ export function RelationsGraphProvider(
 
     const openOrAddToRelationsGraph = useCallback((nodes: GraphNode[], options?: RelationsGraphOptions) => {
         setState((prev) => ({
-            nodes: prev.nodes
-                .concat(nodes)
-                .reduce<GraphNode[]>((acc, node) => (acc.find((inner) => inner.id === node.id) ? acc : acc.concat(node)), []),
+            nodes: prev.nodes.concat(nodes).reduce<GraphNode[]>((acc, node) => {
+                const existingIndex = acc.findIndex((inner) => inner.id === node.id)
+                const existing = existingIndex >= 0 ? acc[existingIndex] : null
+                if (existing) {
+                    existing.in = existing.in.concat(node.in)
+                    existing.out = existing.out.concat(node.out)
+                    existing.data = node.data
+
+                    acc[existingIndex] = { ...existing }
+                    return acc
+                } else return acc.concat(node)
+            }, []),
             isOpen: true,
             options: options ?? prev.options ?? {}
         }))
     }, [])
 
     const onRelationsGraphOpenChange = useCallback((isOpen: boolean) => {
-        setState((prev) => ({ ...prev, isOpen }))
+        setState(() => ({ isOpen, nodes: [], options: {} }))
     }, [])
 
     const closeRelationsGraph = useCallback(() => {

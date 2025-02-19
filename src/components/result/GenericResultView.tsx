@@ -132,7 +132,7 @@ export function GenericResultView({
     showOpenInFairDoScope = true,
     showInspectFDO = true
 }: GenericResultViewProps) {
-    const { openRelationsGraph } = useContext(RelationsGraphContext)
+    const { openOrAddToRelationsGraph } = useContext(RelationsGraphContext)
     const { searchTerm, elasticConnector, searchFor, config } = useContext(FairDOSearchContext)
     const addToResultCache = useStore(resultCache, (s) => s.set)
     const [loadingRelatedItems, setLoadingRelatedItems] = useState(false)
@@ -300,10 +300,10 @@ export function GenericResultView({
         setLoadingRelatedItems(false)
 
         const nodes = GraphNodeUtils.buildSequentialGraphFromIds("result", hasMetadata ?? [], pid, isMetadataFor ?? [])
-        openRelationsGraph(nodes, {
+        openOrAddToRelationsGraph(nodes, {
             focusedNodes: [pid]
         })
-    }, [fetchRelatedItems, hasMetadata, isMetadataFor, openRelationsGraph, pid])
+    }, [fetchRelatedItems, hasMetadata, isMetadataFor, openOrAddToRelationsGraph, pid])
 
     const showRelatedItemsButton = useMemo(() => {
         return (hasMetadata && hasMetadata.length > 0) || (isMetadataFor && isMetadataFor.length > 0)
