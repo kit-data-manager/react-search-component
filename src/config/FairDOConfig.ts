@@ -96,6 +96,12 @@ export interface FairDOConfig {
 
     /**
      * Specify connection options, like an Authorization header
+     * @example
+     * connectionOptions: {
+     *     headers: {
+     *         Authorization: `Bearer ${myToken}`
+     *     }
+     * }
      */
     connectionOptions?: {
         /**
