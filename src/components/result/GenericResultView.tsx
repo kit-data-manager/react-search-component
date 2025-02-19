@@ -447,10 +447,12 @@ export function GenericResultView({
 
             {showInspectFDO && (
                 <Dialog open={showInspectDialog} onOpenChange={setShowInspectDialog}>
-                    <DialogContent className="rfs-max-w-[calc(100vw-40px)] !rfs-min-w-[min(1200px,calc(100vw-40px))]">
+                    <DialogContent className="!rfs-max-w-[calc(100vw-40px)] !rfs-min-w-[min(1200px,calc(100vw-40px))]">
                         <DialogTitle>Inspect Fair Digital Object</DialogTitle>
 
-                        <PidComponent openByDefault value={pid} levelOfSubcomponents={10} />
+                        <div className={"rfs-overflow-auto"}>
+                            <PidComponent openByDefault value={pid} levelOfSubcomponents={10} />
+                        </div>
                     </DialogContent>
                 </Dialog>
             )}
