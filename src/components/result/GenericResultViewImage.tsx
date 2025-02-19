@@ -28,9 +28,13 @@ export function GenericResultViewImage({
                                     <Fullscreen className="rfs-size-4" />
                                 </Button>
                             </DialogTrigger>
-                            <DialogContent className="rfs-max-w-[90vw] rfs-max-h-[90vh] rfs-w-auto rfs-overflow-auto">
-                                <DialogTitle>{title}</DialogTitle>
-                                <GenericResultViewImageCarousel images={previewImage} title={title} fullSize />
+                            <DialogContent className="rfs-max-w-[90vw] rfs-max-h-[90vh] rfs-w-fit !rfs-p-0 rfs-overflow-auto">
+                                <div className={"rfs-p-4"}>
+                                    <GenericResultViewImageCarousel images={previewImage} title={title} fullSize />
+                                </div>
+                                <div className="rfs-bg-muted rfs-p-4 rfs-rounded-b-lg">
+                                    <DialogTitle>{title}</DialogTitle>
+                                </div>
                             </DialogContent>
                         </Dialog>
                     </div>
@@ -43,10 +47,12 @@ export function GenericResultViewImage({
                                 alt={`Preview for ${title}`}
                             />
                         </DialogTrigger>
-                        <DialogContent className="rfs-p-4 rfs-max-w-none !rfs-w-auto">
-                            <DialogTitle>{title}</DialogTitle>
-                            <div className="rfs-justify-center rfs-flex">
-                                <img className="rfs-max-w-[90vw] rfs-max-h-[90vh]" src={previewImage} alt={`Preview for ${title}`} />
+                        <DialogContent className="!rfs-p-0 !rfs-max-w-[calc(100vw-40px)] !rfs-max-h-[calc(100vh-40px)] !rfs-w-fit rfs-overflow-auto">
+                            <div className="rfs-justify-center rfs-flex rfs-p-4">
+                                <img src={previewImage} alt={`Preview for ${title}`} />
+                            </div>
+                            <div className="rfs-bg-muted rfs-p-4 rfs-rounded-b-lg">
+                                <DialogTitle>{title}</DialogTitle>
                             </div>
                         </DialogContent>
                     </Dialog>
