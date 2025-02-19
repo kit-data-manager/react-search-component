@@ -8,6 +8,7 @@ import { GraphNode } from "@/components/graph/GraphNode"
 import { RelationsGraphOptions } from "@/components/graph/RelationsGraphOptions"
 import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
+import { NodeTypes } from "@xyflow/react"
 
 export function RelationsGraphModal({
     isOpen,
@@ -15,7 +16,8 @@ export function RelationsGraphModal({
     nodes,
     resultView,
     options,
-    dark
+    dark,
+    nodeTypes
 }: {
     isOpen: boolean
     onOpenChange: (val: boolean) => void
@@ -23,6 +25,7 @@ export function RelationsGraphModal({
     options?: RelationsGraphOptions
     resultView: ComponentType<ResultViewProps>
     dark?: boolean
+    nodeTypes?: NodeTypes
 }) {
     const searchContext = useContext(FairDOSearchContext)
 
@@ -50,7 +53,7 @@ export function RelationsGraphModal({
                         config: searchContext.config
                     }}
                 >
-                    <RelationsGraph nodes={nodes} resultView={resultView} options={options} dark={dark} />
+                    <RelationsGraph nodes={nodes} resultView={resultView} options={options} dark={dark} nodeTypes={nodeTypes} />
                 </FairDOSearchContext.Provider>
 
                 <div className="rfs-absolute rfs-right-4 rfs-top-4">
