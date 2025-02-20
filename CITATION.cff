@@ -4,7 +4,7 @@ type: software
 title: '@kit-data-manager/react-fairdo-search'
 abstract: All-in-one component for rendering an elastic search UI for searching fair
   digital objects.
-version: 0.0.7
+version: 0.0.8
 keywords:
 - react
 - reactjs
