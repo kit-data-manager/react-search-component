@@ -1,8 +1,8 @@
-import type { FacetConfiguration, FilterValueRange, SearchDriverOptions, SearchFieldConfiguration, SearchQuery } from "@elastic/search-ui"
+import type { FacetConfiguration, SearchDriverOptions, SearchFieldConfiguration, SearchQuery } from "@elastic/search-ui"
 import type { FairDOConfig, FairDODateRangeFacetConfig, FairDOFacetConfig, FairDONumericRangeFacetConfig } from "./FairDOConfig"
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
 import { parseStringValueToNumber } from "./helpers"
-import { DateTime, Duration } from "luxon"
+import { DateRangeBuilder } from "@/config/date/DateRangeBuilder"
 
 export class FairDOConfigBuilder {
     private readonly config: FairDOConfig
@@ -73,26 +73,13 @@ export class FairDOConfigBuilder {
                 return acc
             }, allSearchFields)
 
-            // build result fields for current index
-            allResultFields = (index.resultFields || []).reduce(
-                // accumulate from index.resultFields
-                (acc, n) => {
-                    // initialize accumulator if acc is not available, yet
-                    acc = acc || {}
-                    // set n-element (n is resultFieldKey) in acc to result object to obtain raw value
-                    acc[n] = {
-                        raw: {}
-                        /* snippet: {
-                  size: 100,
-                  fallback: true
-                } */
-                    }
-                    // return current acc to next iteration
-                    return acc
-                },
-                // set initial value to already collected fields
-                allResultFields
-            )
+            allResultFields = (index.resultFields || []).reduce((acc, n) => {
+                acc = acc || {}
+                acc[n] = {
+                    raw: {}
+                }
+                return acc
+            }, allResultFields)
         }
 
         return {
@@ -115,19 +102,12 @@ export class FairDOConfigBuilder {
                         type: "range",
                         ranges: facetRanges
                     }
-                } else if ("type" in n && (n.type === "date_time" || n.type === "date_year")) {
+                } else if ("type" in n && (n.type === "date_time" || n.type === "date_year" || n.type === "date_time_no_millis")) {
                     const facetRanges = this.buildDateRangeFacet(n)
                     acc[n.key] = {
                         ...n,
                         type: "range",
                         ranges: facetRanges
-                    }
-                } else if ("type" in n && n.type === "min-max-slider") {
-                    // TODO work out how to get slider min and max values
-                    acc[n.key] = {
-                        ...n,
-                        type: "value",
-                        size: 100
                     }
                 } else {
                     // no specific range facet, use default arguments
@@ -173,114 +153,17 @@ export class FairDOConfigBuilder {
     }
 
     buildDateRangeFacet(facetConfig: FairDODateRangeFacetConfig) {
-        let ranges: FilterValueRange[] = []
-        const getDate = (minus: number) =>
-            DateTime.now()
-                .minus(Duration.fromObject({ years: minus }))
-                .toFormat("yyyy")
-
         if (facetConfig.type === "date_year") {
-            ranges = [
-                {
-                    from: DateTime.now().toFormat("yyyy"),
-                    name: "This Year"
-                },
-                {
-                    from: getDate(2),
-                    to: getDate(1),
-                    name: "Last Year"
-                },
-                {
-                    from: getDate(3),
-                    to: getDate(2),
-                    name: "2 years ago"
-                },
-                {
-                    from: getDate(4),
-                    to: getDate(3),
-                    name: "3 years ago"
-                },
-                {
-                    from: getDate(5),
-                    to: getDate(4),
-                    name: "4 years ago"
-                },
-                {
-                    from: getDate(6),
-                    to: getDate(5),
-                    name: "5 years ago"
-                },
-                {
-                    from: getDate(10),
-                    to: getDate(6),
-                    name: "10 years ago"
-                },
-                {
-                    to: getDate(11),
-                    name: "Older"
-                }
-            ]
+            return DateRangeBuilder.dateYears()
         } else if (facetConfig.type === "date_time") {
-            ranges = [
-                {
-                    from: DateTime.now().startOf("year").toFormat("YYYY-MM-DDTHH:mm:ss"),
-                    to: DateTime.now().endOf("year").toFormat("YYYY-MM-DDTHH:mm:ss"),
-                    name: "This Year"
-                },
-                {
-                    from: DateTime.now()
-                        .minus(Duration.fromObject({ years: 1 }))
-                        .startOf("year")
-                        .toFormat("YYYY-MM-DDTHH:mm:ss"),
-                    to: DateTime.now()
-                        .minus(Duration.fromObject({ years: 1 }))
-                        .endOf("year")
-                        .toFormat("YYYY-MM-DDTHH:mm:ss"),
-                    name: "Last Year"
-                },
-                {
-                    from: DateTime.now()
-                        .minus(Duration.fromObject({ years: 2 }))
-                        .startOf("year")
-                        .toFormat("YYYY-MM-DDTHH:mm:ss"),
-                    to: DateTime.now()
-                        .minus(Duration.fromObject({ years: 2 }))
-                        .endOf("year")
-                        .toFormat("YYYY-MM-DDTHH:mm:ss"),
-                    name: "2 years ago"
-                },
-                {
-                    to: DateTime.now()
-                        .minus(Duration.fromObject({ years: 3 }))
-                        .endOf("year")
-                        .toFormat("YYYY-MM-DDTHH:mm:ss"),
-                    name: "Older"
-                }
-            ]
+            return DateRangeBuilder.dateTimes()
+        } else if (facetConfig.type === "date_time_no_millis") {
+            return DateRangeBuilder.dateTimesNoMillis()
         }
-
-        return ranges
     }
 
     getAutocompleteQueryConfig() {
-        /* const querySuggestFields = getConfig().querySuggestFields
-        if (
-            !querySuggestFields ||
-            !Array.isArray(querySuggestFields) ||
-            querySuggestFields.length === 0
-        ) {
-            return {}
-        }
-
-        return {
-            suggestions: {
-                types: {
-                    documents: {
-                        fields: getConfig().querySuggestFields
-                    }
-                }
-            }
-        } */
+        // Currently not supported
         return {}
     }
 }
