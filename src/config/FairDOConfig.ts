@@ -30,16 +30,12 @@ export interface FairDONumericRangeFacetConfig extends FairDOCoreFacetConfig {
  * Date range facet that automatically renders available options
  */
 export interface FairDODateRangeFacetConfig extends FairDOCoreFacetConfig {
-    type: "date_time" | "date_year"
-}
-
-export interface FairDOSliderFacetConfig extends FairDOCoreFacetConfig {
-    type: "min-max-slider"
+    type: "date_time" | "date_year" | "date_time_no_millis"
 }
 
 export type FairDODefaultFacetConfig = FairDOCoreFacetConfig
 
-export type FairDOFacetConfig = FairDONumericRangeFacetConfig | FairDODefaultFacetConfig | FairDODateRangeFacetConfig | FairDOSliderFacetConfig
+export type FairDOFacetConfig = FairDONumericRangeFacetConfig | FairDODefaultFacetConfig | FairDODateRangeFacetConfig
 
 export interface FairDOIndexConfig {
     /**

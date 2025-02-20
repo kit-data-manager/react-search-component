@@ -77,12 +77,12 @@ const demoConfig: FairDOConfig = {
                 {
                     key: "dateCreatedRfc3339",
                     label: "Created",
-                    type: "date_year"
+                    type: "date_time"
                 },
                 {
                     key: "dateModified",
                     label: "Last modified",
-                    type: "date_year"
+                    type: "date_time"
                 },
                 {
                     key: "licenseURL.keyword",
