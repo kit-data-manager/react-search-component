@@ -6,7 +6,10 @@ import { ObjectRender } from "@/components/result/ObjectRender"
 export function PlaceholderResultView(props: ResultViewProps) {
     return (
         <div className="rfs-border rfs-p-4 rfs-mb-2 rfs-rounded-lg rfs-space-y-2">
-            <div>Please specify resultView to render results</div>
+            <div>
+                No result view has been specified. Please specify <code>resultView</code> or <code>resultViewPerIndex</code> on the{" "}
+                <code>FairDOElasticSearch</code> component
+            </div>
             <Dialog>
                 <DialogTrigger asChild>
                     <Button variant="secondary" size="sm">
