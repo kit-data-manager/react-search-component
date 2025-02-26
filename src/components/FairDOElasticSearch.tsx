@@ -13,14 +13,14 @@ import { FairDOConfigBuilder } from "@/config/FairDOConfigBuilder"
 import { ErrorBoundary, Facet, Paging, PagingInfo, Results, ResultsPerPage, SearchBox, SearchProvider, WithSearch } from "@elastic/react-search-ui"
 import { Layout, ResultViewProps } from "@elastic/react-search-ui-views"
 import { LoaderCircle } from "lucide-react"
-import { ComponentType, useMemo } from "react"
+import { ComponentType, useCallback, useMemo } from "react"
 import "../index.css"
 import "../elastic-ui.css"
 import { TooltipProvider } from "./ui/tooltip"
 import { useAutoDarkMode } from "@/components/utils"
-import { PlaceholderResultView } from "@/components/result/PlaceholderResultView"
 import { DefaultSorting } from "@/components/search/DefaultSorting"
 import { NodeTypes } from "@xyflow/react"
+import { ResultViewSelector } from "@/components/result/ResultViewSelector"
 
 /**
  * All-in-one component for rendering an elastic search UI based on the provided configuration. Includes
@@ -40,6 +40,7 @@ import { NodeTypes } from "@xyflow/react"
 export function FairDOElasticSearch({
     config: rawConfig,
     resultView,
+    resultViewPerIndex,
     facetOptionView,
     dark,
     graphNodeTypes
@@ -50,9 +51,27 @@ export function FairDOElasticSearch({
     config: FairDOConfig
 
     /**
-     * React Component that will be used to render the results from the current search. Consider using the `GenericResultView`
+     * React Component that will be used to render the results from the current search. Consider using the `GenericResultView`.
+     * You can set custom result views per view using the `resultViewPerIndex` prop. Will be used as the result view
+     * for all indices that have no override configured in `resultViewPerIndex`
+     * @optional Can be omitted when `resultViewPerIndex` is specified for each index
+     * @example
+     * resultView={ ({ result }) => <GenericResultView result={result} ... /> }
      */
-    resultView: ComponentType<ResultViewProps>
+    resultView?: ComponentType<ResultViewProps>
+
+    /**
+     * React Component that will be used to render the results from the current search. Consider using the `GenericResultView`.
+     * In this prop you have to additionally specify which index the result view should be used for. If you want to use
+     * the same result view for all indices, use `resultView`.
+     * @optional can be omitted when `resultView` is set
+     * @example
+     * resultViewPerIndex={{
+     *     "my-index-1": ({ result }) => <GenericResultView result={result} ... />
+     *     "my-index-2": OtherResultView
+     * }}
+     */
+    resultViewPerIndex?: Record<string, ComponentType<ResultViewProps>>
 
     /**
      * React Component that will be used to render the individual options (text right of the checkboxes) in a facet.
@@ -87,9 +106,12 @@ export function FairDOElasticSearch({
         return config.getFacetFields()
     }, [config])
 
-    const actualResultView = useMemo(() => {
-        return resultView ?? ((props: ResultViewProps) => <PlaceholderResultView {...props} />)
-    }, [resultView])
+    const actualResultView = useCallback(
+        (props: ResultViewProps) => {
+            return <ResultViewSelector resultProps={props} resultView={resultView} resultViewPerIndex={resultViewPerIndex} />
+        },
+        [resultView, resultViewPerIndex]
+    )
 
     return (
         <SearchProvider config={elasticConfig}>
