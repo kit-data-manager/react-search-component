@@ -1,7 +1,7 @@
 [project]
 name = "@kit-data-manager/react-fairdo-search"
-version = "0.0.8"
-description = "All-in-one component for rendering an elastic search UI for searching fair digital objects."
+version = "0.1.0"
+description = "All-in-one component for rendering an elastic search UI for searching fair digital objects or anything else."
 license = "Apache-2.0"
 repository = "https://github.com/kit-data-manager/react-fairdo-search"
 homepage = "https://kit-data-manager.github.io/react-fairdo-search/"
@@ -20,7 +20,10 @@ keywords = [
   "fair",
   "fairdata",
   "fairdo",
-  "fairdigitalobject"
+  "fairdigitalobject",
+  "kit",
+  "data",
+  "manager"
 ]
 
 [[project.people]]

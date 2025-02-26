@@ -3,8 +3,8 @@ message: If you use this software, please cite it using these metadata.
 type: software
 title: '@kit-data-manager/react-fairdo-search'
 abstract: All-in-one component for rendering an elastic search UI for searching fair
-  digital objects.
-version: 0.0.8
+  digital objects or anything else.
+version: 0.1.0
 keywords:
 - react
 - reactjs
@@ -20,6 +20,9 @@ keywords:
 - fairdata
 - fairdo
 - fairdigitalobject
+- kit
+- data
+- manager
 authors:
 - email: christopher.raquet@kit.edu
   family-names: Raquet
