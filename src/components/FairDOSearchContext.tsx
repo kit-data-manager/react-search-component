@@ -3,7 +3,7 @@
 import type { ResponseState } from "@elastic/search-ui"
 import type ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
 import { createContext } from "react"
-import { FairDOConfig } from "@/config/FairDOConfig"
+import { FairDOConfig } from "@/lib/config/FairDOConfig"
 
 /**
  * Extends the elasticsearch SearchContext with additional utilities

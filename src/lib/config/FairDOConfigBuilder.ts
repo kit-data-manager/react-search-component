@@ -1,8 +1,8 @@
 import type { FacetConfiguration, SearchDriverOptions, SearchFieldConfiguration, SearchQuery } from "@elastic/search-ui"
 import type { FairDOConfig, FairDODateRangeFacetConfig, FairDOFacetConfig, FairDONumericRangeFacetConfig } from "./FairDOConfig"
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
-import { parseStringValueToNumber } from "./helpers"
-import { DateRangeBuilder } from "@/config/date/DateRangeBuilder"
+import { DateRangeBuilder } from "@/lib/config/date/DateRangeBuilder"
+import { parseStringValueToNumber } from "@/lib/utils"
 
 export class FairDOConfigBuilder {
     private readonly config: FairDOConfig

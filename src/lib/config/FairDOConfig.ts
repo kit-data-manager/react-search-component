@@ -1,15 +1,52 @@
-import { FilterType, RequestState, SearchFieldConfiguration, SortOption } from "@elastic/search-ui"
+import { FilterType, FilterValueValue, RequestState, SearchFieldConfiguration, SortOption } from "@elastic/search-ui"
+import { ReactNode } from "react"
 
 export interface FairDOCoreFacetConfig {
-    key: string
-    label: string
-    description?: string
-    filterType?: FilterType
     /**
-     * Not properly implemented at the moment
+     * The key of the elastic index for this facet.
+     * @example
+     * // Some examples on how to structure the key:
+     * name // normal
+     * data.entryName // nested
+     * data.entries.name // array access
+     *
+     */
+    key: string
+
+    /**
+     * Label to display in the UI
+     */
+    label: string
+
+    /**
+     *
+     */
+    description?: string
+
+    /**
+     * Determines the type of filter
+     */
+    filterType?: FilterType
+
+    /**
+     *
+     * @param value
+     */
+    singleValueMapper?: (value: FilterValueValue) => ReactNode
+
+    /**
+     * Not properly implemented at the moment. Use with caution.
      */
     isFilterable?: boolean
+
+    /**
+     * @deprecated Use `singleValueMapper: v => <PidNameDisplay pid={v + ""} />`
+     */
     usePidResolver?: boolean
+
+    /**
+     * @deprecated Use `singleValueMapper: v => prettyPrintURL(v + "")`
+     */
     prettyPrintURLs?: boolean
 }
 

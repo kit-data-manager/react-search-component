@@ -3,7 +3,6 @@ import { RelationsGraphContext } from "@/components/graph/RelationsGraphContext"
 import { FairDOSearchContext } from "@/components/FairDOSearchContext"
 import { useStore } from "zustand/index"
 import { resultCache } from "@/lib/ResultCache"
-import { autoUnwrap, autoUnwrapArray, toArray } from "@/components/result/utils"
 import { DateTime } from "luxon"
 import { ChevronDown, Download, GitFork, LoaderCircle, Microscope, Pencil, PlusIcon, SearchIcon, TableProperties } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
@@ -16,6 +15,7 @@ import { GenericResultViewImage } from "@/components/result/GenericResultViewIma
 import { GraphNodeUtils } from "@/components/graph/GraphNodeUtils"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { PidComponent } from "@kit-data-manager/react-pid-component"
+import { autoUnwrap, autoUnwrapArray, toArray } from "@/lib/utils"
 
 const HTTP_REGEX = /https?:\/\/.*/
 

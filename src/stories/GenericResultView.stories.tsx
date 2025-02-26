@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 
 import { GenericResultView } from "@/components/result/GenericResultView"
 import { AtomIcon, GlobeIcon, GraduationCap, ScaleIcon } from "lucide-react"
-import { tryURLPrettyPrint } from "@/lib/utils"
+import { prettyPrintURL } from "@/lib/utils"
 import { RelationsGraphProvider } from "@/components/graph/RelationsGraphProvider"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
@@ -123,14 +123,14 @@ export const Full: Story = {
             {
                 icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                 field: "hadPrimarySource",
-                singleValueMapper: tryURLPrettyPrint,
+                singleValueMapper: prettyPrintURL,
                 label: "Primary Source",
                 clickBehavior: "follow-url"
             },
             {
                 icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                 field: "licenseURL",
-                singleValueMapper: tryURLPrettyPrint,
+                singleValueMapper: prettyPrintURL,
                 label: "License URL",
                 clickBehavior: "follow-url"
             },

@@ -1,4 +1,4 @@
-import type { FairDOConfigBuilder } from "@/config/FairDOConfigBuilder"
+import type { FairDOConfigBuilder } from "@/lib/config/FairDOConfigBuilder"
 import type { FacetViewProps } from "@elastic/react-search-ui-views"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,7 +8,7 @@ import { PlusIcon, Search } from "lucide-react"
 import { ComponentType, useEffect, useMemo, useRef, useState } from "react"
 import { DefaultFacetOption } from "@/components/search/DefaultFacetOption"
 import type { FacetValue } from "@elastic/search-ui"
-import type { FairDOFacetConfig } from "@/config/FairDOConfig"
+import type { FairDOFacetConfig } from "@/lib/config/FairDOConfig"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 export interface OptionViewProps {

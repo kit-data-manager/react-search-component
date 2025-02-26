@@ -1,6 +1,6 @@
 "use client"
 
-import type { FairDOConfig } from "@/config/FairDOConfig"
+import type { FairDOConfig } from "@/lib/config/FairDOConfig"
 import type { SearchContextState } from "@elastic/search-ui"
 import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
 import { RelationsGraphProvider } from "@/components/graph/RelationsGraphProvider"
@@ -9,7 +9,7 @@ import { DefaultFacet, OptionViewProps } from "@/components/search/DefaultFacet"
 import { DefaultSearchBox } from "@/components/search/DefaultSearchBox"
 import { ErrorView } from "@/components/search/ErrorView"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FairDOConfigBuilder } from "@/config/FairDOConfigBuilder"
+import { FairDOConfigBuilder } from "@/lib/config/FairDOConfigBuilder"
 import { ErrorBoundary, Facet, Paging, PagingInfo, Results, ResultsPerPage, SearchBox, SearchProvider, WithSearch } from "@elastic/react-search-ui"
 import { Layout, ResultViewProps } from "@elastic/react-search-ui-views"
 import { LoaderCircle } from "lucide-react"
@@ -17,10 +17,10 @@ import { ComponentType, useCallback, useMemo } from "react"
 import "../index.css"
 import "../elastic-ui.css"
 import { TooltipProvider } from "./ui/tooltip"
-import { useAutoDarkMode } from "@/components/utils"
 import { DefaultSorting } from "@/components/search/DefaultSorting"
 import { NodeTypes } from "@xyflow/react"
 import { ResultViewSelector } from "@/components/result/ResultViewSelector"
+import { useAutoDarkMode } from "@/lib/hooks"
 
 /**
  * All-in-one component for rendering an elastic search UI based on the provided configuration. Includes

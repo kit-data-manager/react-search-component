@@ -2,9 +2,9 @@ import { MouseEvent, ReactNode, useCallback, useEffect, useMemo, useState } from
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
 import { SearchResult } from "@elastic/search-ui"
-import { autoUnwrap } from "@/components/result/utils"
 import { useCopyToClipboard } from "usehooks-ts"
 import { CheckIcon } from "lucide-react"
+import { autoUnwrap } from "@/lib/utils"
 
 export interface GenericResultViewTagProps {
     /**
