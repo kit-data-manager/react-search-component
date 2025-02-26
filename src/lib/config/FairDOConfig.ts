@@ -1,4 +1,5 @@
-import { FilterType, RequestState, SearchFieldConfiguration, SortOption } from "@elastic/search-ui"
+import { FilterType, FilterValueValue, RequestState, SearchFieldConfiguration, SortOption } from "@elastic/search-ui"
+import { ReactNode } from "react"
 
 export interface FairDOCoreFacetConfig {
     /**
@@ -28,10 +29,24 @@ export interface FairDOCoreFacetConfig {
     filterType?: FilterType
 
     /**
-     * Not properly implemented at the moment
+     *
+     * @param value
+     */
+    singleValueMapper?: (value: FilterValueValue) => ReactNode
+
+    /**
+     * Not properly implemented at the moment. Use with caution.
      */
     isFilterable?: boolean
+
+    /**
+     * @deprecated Use `singleValueMapper: v => <PidNameDisplay pid={v + ""} />`
+     */
     usePidResolver?: boolean
+
+    /**
+     * @deprecated Use `singleValueMapper: v => prettyPrintURL(v + "")`
+     */
     prettyPrintURLs?: boolean
 }
 

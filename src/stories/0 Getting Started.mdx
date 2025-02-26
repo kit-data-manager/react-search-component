@@ -49,12 +49,12 @@ export default function Home() {
                         {
                             key: "hadPrimarySource.keyword",
                             label: "Source",
-                            prettyPrintURLs: true // Will remove https://www.
+                            singleValueMapper: (v) => prettyPrintURL(v + "")
                         },
                         {
                             key: "licenseURL.keyword",
                             label: "License",
-                            prettyPrintURLs: true
+                            singleValueMapper: (v) => prettyPrintURL(v + "")
                         }
                     ],
                     resultFields: [], // Leave empty to get all fields

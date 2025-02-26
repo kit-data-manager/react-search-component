@@ -33,17 +33,17 @@ const demoConfig: FairDOConfig = {
                 {
                     key: "hadPrimarySource.keyword",
                     label: "Source",
-                    usePidResolver: true
+                    singleValueMapper: (v) => <PidNameDisplay pid={v + ""} />
                 },
                 {
                     key: "NMR_Method.keyword",
                     label: "NMR Method",
-                    usePidResolver: true
+                    singleValueMapper: (v) => <PidNameDisplay pid={v + ""} />
                 },
                 {
                     key: "NMR_Solvent.keyword",
                     label: "NMR Solvent",
-                    usePidResolver: true
+                    singleValueMapper: (v) => <PidNameDisplay pid={v + ""} />
                 },
                 {
                     key: "Compound.Molar_mass",
@@ -72,7 +72,7 @@ const demoConfig: FairDOConfig = {
                 {
                     key: "Acquisition_Nucleus.keyword",
                     label: "Acquisition Nucleus",
-                    usePidResolver: true
+                    singleValueMapper: (v) => <PidNameDisplay pid={v + ""} />
                 },
                 {
                     key: "dateCreatedRfc3339",
@@ -87,12 +87,12 @@ const demoConfig: FairDOConfig = {
                 {
                     key: "licenseURL.keyword",
                     label: "License",
-                    usePidResolver: true
+                    singleValueMapper: (v) => <PidNameDisplay pid={v + ""} />
                 },
                 {
                     key: "digitalObjectType.keyword",
                     label: "Digital Object Type",
-                    usePidResolver: true
+                    singleValueMapper: (v) => <PidNameDisplay pid={v + ""} />
                 }
             ],
             resultFields: [], // Leave empty to get all fields

@@ -4,6 +4,8 @@ import { DefaultFacet } from "@/components/search/DefaultFacet"
 import { FairDOConfigBuilder } from "@/lib/config/FairDOConfigBuilder"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import type { FairDOConfig } from "@/lib/config/FairDOConfig"
+import { PidNameDisplay } from "@/components/result"
+import { prettyPrintURL } from "@/lib/utils"
 
 const meta = {
     component: DefaultFacet
@@ -22,8 +24,9 @@ const demoConfig: FairDOConfig = {
             name: "fdo-prod",
             facets: [
                 { label: "My Facet", key: "facet1" },
-                { label: "Pretty URLs", key: "facet2", prettyPrintURLs: true },
-                { label: "With Pid Resolver", key: "facet3", usePidResolver: true }
+                { label: "Pretty URLs", key: "facet2", singleValueMapper: (v) => prettyPrintURL(v + "") },
+                { label: "With Pid Resolver", key: "facet3", singleValueMapper: (v) => <PidNameDisplay pid={v + ""} /> },
+                { label: "Fully Custom", key: "facet4", singleValueMapper: (v) => <div className="rfs-bg-green-500 rfs-p-2">{v}</div> }
             ],
             resultFields: [], // Leave empty to get all fields
             searchFields: []
@@ -112,6 +115,35 @@ export const WithPidResolver: Story = {
         options: [
             { count: 10, value: "21.T11148/010acb220a9c2c8c0ee6" },
             { count: 20, value: "21.T11148/ca9fd0b2414177b79ac2" }
+        ],
+        showMore: false,
+        values: [],
+        showSearch: false,
+        onSearch: () => {},
+        searchPlaceholder: "",
+        config: new FairDOConfigBuilder(demoConfig)
+    }
+}
+
+export const FullyCustom: Story = {
+    decorators: [
+        (Story) => (
+            <TooltipProvider>
+                <div className="rfs-max-w-60">
+                    <Story />
+                </div>
+            </TooltipProvider>
+        )
+    ],
+    args: {
+        label: "Fully Custom",
+        onMoreClick: () => {},
+        onRemove: () => {},
+        onChange: () => {},
+        onSelect: () => {},
+        options: [
+            { count: 10, value: "Value A" },
+            { count: 20, value: "Value B" }
         ],
         showMore: false,
         values: [],
