@@ -219,34 +219,3 @@ export const GenericResultRenderer: Story = {
         )
     }
 }
-
-const test: FairDOConfig = {
-    debug: false,
-    alwaysSearchOnInitialLoad: true,
-    // host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
-    host: "https://demo.datamanager.kit.edu/base-repo/api/v1/",
-    apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
-    indices: [
-        {
-            name: "baserepo",
-            facets: [
-                {
-                    key: "created",
-                    type: "date_time_no_millis",
-                    label: "Created"
-                }
-            ],
-            resultFields: [], // Leave empty to get all fields
-            searchFields: []
-        }
-    ],
-    disjunctiveFacets: [],
-    imageProxy: (src) => `https://wsrv.nl/?url=${src}&h=1000&output=webp&ll`
-}
-
-export const Test: Story = {
-    args: {
-        config: test,
-        resultView: null!
-    }
-}
