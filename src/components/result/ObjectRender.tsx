@@ -1,5 +1,5 @@
-import { PidDisplay } from "@/components/result/PidDisplay"
-import { PidResolver } from "@/lib/pidResolver"
+import { PidNameDisplay } from "@/components/result/PidNameDisplay"
+import { PidResolver } from "@/lib/PidResolver"
 
 /**
  * @internal
@@ -9,7 +9,7 @@ import { PidResolver } from "@/lib/pidResolver"
 export function ObjectRender({ data }: { data: Record<string, unknown> }) {
     if ("raw" in data && typeof data.raw === "string") {
         if (PidResolver.isPID(data.raw)) {
-            return <PidDisplay pid={data.raw} />
+            return <PidNameDisplay pid={data.raw} />
         } else {
             return <div>{data.raw}</div>
         }

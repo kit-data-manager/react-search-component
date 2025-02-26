@@ -1,10 +1,10 @@
-import type { FairDOConfig } from "@/config/FairDOConfig.ts"
+import type { FairDOConfig } from "@/lib/config/FairDOConfig.ts"
 
 import type { Meta, StoryObj } from "@storybook/react"
 import { FairDOElasticSearch } from "@/components/FairDOElasticSearch"
 import { GenericResultView } from "@/components/result/GenericResultView"
 import { AtomIcon, AudioLines, CircleDot, FlaskConical, GlobeIcon, GraduationCap, Microscope, ScaleIcon, UserIcon } from "lucide-react"
-import { PidDisplay } from "@/components/result/PidDisplay"
+import { PidNameDisplay } from "@/components/result/PidNameDisplay"
 import { OrcidDisplay } from "@/components/result/OrcidDisplay"
 
 const meta = {
@@ -161,7 +161,7 @@ export const GenericResultRenderer: Story = {
                     {
                         icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "hadPrimarySource",
-                        singleValueMapper: (v) => <PidDisplay pid={v} />,
+                        singleValueMapper: (v) => <PidNameDisplay pid={v} />,
                         label: "Source",
                         onClick: (e) =>
                             "innerText" in e.target &&
@@ -171,7 +171,7 @@ export const GenericResultRenderer: Story = {
                     {
                         icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "licenseURL",
-                        singleValueMapper: (v) => <PidDisplay pid={v} />,
+                        singleValueMapper: (v) => <PidNameDisplay pid={v} />,
                         label: "License URL",
                         clickBehavior: "follow-url"
                     },
@@ -185,13 +185,13 @@ export const GenericResultRenderer: Story = {
                         icon: <Microscope className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         label: "NMR Method",
                         field: "NMR_Method",
-                        singleValueMapper: (v) => <PidDisplay pid={v} />
+                        singleValueMapper: (v) => <PidNameDisplay pid={v} />
                     },
                     {
                         icon: <FlaskConical className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         label: "NMR Solvent",
                         field: "NMR_Solvent",
-                        singleValueMapper: (v) => <PidDisplay pid={v} />
+                        singleValueMapper: (v) => <PidNameDisplay pid={v} />
                     },
                     {
                         icon: <AudioLines className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
@@ -202,7 +202,7 @@ export const GenericResultRenderer: Story = {
                         icon: <CircleDot className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         label: "Acquisition Nucleus",
                         field: "Acquisition_Nucleus",
-                        singleValueMapper: (v) => <PidDisplay pid={v} />
+                        singleValueMapper: (v) => <PidNameDisplay pid={v} />
                     }
                 ]}
                 titleField="name"

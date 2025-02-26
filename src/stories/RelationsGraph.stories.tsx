@@ -4,7 +4,7 @@ import { RelationsGraph } from "@/components/graph/RelationsGraph"
 import { GenericResultView } from "@/components/result"
 import { resultCache } from "@/lib/ResultCache"
 import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
-import { FairDOConfig } from "@/config/FairDOConfig"
+import { FairDOConfig } from "@/lib/config/FairDOConfig"
 import { GraphNodeUtils } from "@/components/graph"
 
 const meta = {

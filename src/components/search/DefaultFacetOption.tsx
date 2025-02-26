@@ -1,10 +1,10 @@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
-import { PidDisplay } from "@/components/result/PidDisplay"
+import { PidNameDisplay } from "@/components/result/PidNameDisplay"
 import { FacetValue } from "@elastic/search-ui"
-import { FairDOFacetConfig } from "@/config/FairDOConfig"
+import { FairDOFacetConfig } from "@/lib/config/FairDOConfig"
 import { useMemo } from "react"
-import { tryURLPrettyPrint } from "@/lib/utils"
+import { prettyPrintURL } from "@/lib/utils"
 
 export function DefaultFacetOption({
     option,
@@ -23,7 +23,7 @@ export function DefaultFacetOption({
 
     const modifiedValue = useMemo(() => {
         if (facetConfig.prettyPrintURLs) {
-            return tryURLPrettyPrint(value)
+            return prettyPrintURL(value)
         } else return value
     }, [facetConfig.prettyPrintURLs, value])
 
@@ -33,7 +33,7 @@ export function DefaultFacetOption({
             <Label htmlFor={value + facetConfig.key} className="rfs-min-w-0 rfs-grow rfs-break-words">
                 {value ? (
                     facetConfig.usePidResolver ? (
-                        <PidDisplay pid={value} />
+                        <PidNameDisplay pid={value} />
                     ) : (
                         modifiedValue
                     )

@@ -1,4 +1,4 @@
-import { buildGraphFromNodes, computeNodeLayout } from "@/components/graph/helpers"
+import { GraphUtils } from "@/components/graph/GraphUtils"
 import {
     Background,
     BackgroundVariant,
@@ -40,7 +40,7 @@ export function RelationsGraph(props: {
     }, [])
 
     const { initialEdges, initialNodes } = useMemo(() => {
-        return buildGraphFromNodes(props.nodes)
+        return GraphUtils.buildGraphFromNodes(props.nodes)
     }, [props.nodes])
 
     const nodeTypes = useMemo(() => {
@@ -62,7 +62,7 @@ export function RelationsGraph(props: {
     }, [initialEdges, initialNodes, setEdges, setNodes])
 
     const onLayout = useCallback(() => {
-        const layouted = computeNodeLayout(nodes, edges)
+        const layouted = GraphUtils.computeNodeLayout(nodes, edges)
 
         setNodes([...layouted.nodes])
         setEdges([...layouted.edges])

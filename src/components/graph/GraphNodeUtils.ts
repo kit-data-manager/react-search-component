@@ -1,10 +1,11 @@
 import { GraphNode } from "@/components/graph/GraphNode"
-import { toArray } from "@/components/result"
+
+import { toArray } from "@/lib/utils"
 
 /**
  * Utilities for working with the RelationsGraph
  */
-export class GraphNodeUtils {
+export abstract class GraphNodeUtils {
     /**
      * Build a sequential graph (n:n:n:...) by passing just the identifiers of the nodes in layers.
      * @param type Type of the nodes (use "result" to display your resultView)

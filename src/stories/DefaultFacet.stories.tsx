@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
 import { DefaultFacet } from "@/components/search/DefaultFacet"
-import { FairDOConfigBuilder } from "@/config/FairDOConfigBuilder"
+import { FairDOConfigBuilder } from "@/lib/config/FairDOConfigBuilder"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import type { FairDOConfig } from "@/config/FairDOConfig"
+import type { FairDOConfig } from "@/lib/config/FairDOConfig"
 
 const meta = {
     component: DefaultFacet

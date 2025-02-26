@@ -1,10 +1,32 @@
 import { FilterType, RequestState, SearchFieldConfiguration, SortOption } from "@elastic/search-ui"
 
 export interface FairDOCoreFacetConfig {
+    /**
+     * The key of the elastic index for this facet.
+     * @example
+     * // Some examples on how to structure the key:
+     * name // normal
+     * data.entryName // nested
+     * data.entries.name // array access
+     *
+     */
     key: string
+
+    /**
+     * Label to display in the UI
+     */
     label: string
+
+    /**
+     *
+     */
     description?: string
+
+    /**
+     * Determines the type of filter
+     */
     filterType?: FilterType
+
     /**
      * Not properly implemented at the moment
      */
