@@ -8,7 +8,7 @@ import useSWRImmutable from "swr/immutable"
  * @param pid A valid PID
  * @constructor
  */
-export const PidNameDisplay = memo(function PidDisplay({ pid }: { pid: string }) {
+export const PidNameDisplay = memo(function PidNameDisplay({ pid }: { pid: string }) {
     const resolveContent = useCallback(async (pid: string) => {
         if (PidResolver.isPID(pid)) {
             const content = await pidResolver.resolve(pid)
