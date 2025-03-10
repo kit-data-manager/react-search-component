@@ -1,23 +1,26 @@
-# fairdo-elastic-search
+# react-search-component
 
-[![Static Badge](https://img.shields.io/badge/npm-red?logo=npm)](https://www.npmjs.com/package/@kit-data-manager/react-fairdo-search)
-[![Node.js CI](https://github.com/kit-data-manager/react-fairdo-search/actions/workflows/build.yml/badge.svg)](https://github.com/kit-data-manager/react-fairdo-search/actions/workflows/build.yml)
-![NPM Type Definitions](https://img.shields.io/npm/types/%40kit-data-manager%2Freact-fairdo-search)
+[![Static Badge](https://img.shields.io/badge/npm-red?logo=npm)](https://www.npmjs.com/package/@kit-data-manager/react-search-component)
+[![Node.js CI](https://github.com/kit-data-manager/react-search-component/actions/workflows/build.yml/badge.svg)](https://github.com/kit-data-manager/react-search-component/actions/workflows/build.yml)
+![NPM Type Definitions](https://img.shields.io/npm/types/%40kit-data-manager%2Freact-search-component)
 
 All-in-one, highly configurable React component for rendering an elastic search UI based on the provided configuration. Includes
-an interactive graph of related records.
+an **interactive graph** of related records and **unique identifier resolving**.
+
+> **Fair Digital Objects**\
+> This component includes some useful (optional) features for FAIR DOs
 
 This is an ESM Module intended for use in modern React applications. Make sure your bundler supports importing CSS files in JavaScript/TypeScript. Next.js is supported out of the box.
 
 ## Installation
 
 ```bash
-  npm install @kit-data-manager/react-fairdo-search
+  npm install @kit-data-manager/react-search-component
 ```
 
 ## Docs
 
-[Visit the Storybook](https://kit-data-manager.github.io/react-fairdo-search/?path=/docs/getting-started--docs) for examples and some documentation. For more documentation, consult the TypeScript typings.
+[Visit the Storybook](https://kit-data-manager.github.io/react-search-component/?path=/docs/getting-started--docs) for examples and some documentation. For more documentation, consult the TypeScript typings.
 
 ## Quick Start
 
@@ -41,7 +44,7 @@ uses the `GenericResultView` with modified data:
 
 ```typescript jsx
 import { useMemo } from "react"
-import { GenericResultView, ResultViewProps } from "@kit-data-manager/react-fairdo-search"
+import { GenericResultView, ResultViewProps } from "@kit-data-manager/react-search-component"
 
 export function MyResultView(props: ResultViewProps) {
     const mappedResult = useMemo(() => {
@@ -63,7 +66,7 @@ Styling is done using tailwind and css variables. Feel free to override these va
 
 ## Contributing
 
-Feedback and issue reports are welcome, simply [create an issue](https://github.com/kit-data-manager/react-fairdo-search/issues/new) here on GitHub.
+Feedback and issue reports are welcome, simply [create an issue](https://github.com/kit-data-manager/react-search-component/issues/new) here on GitHub.
 
 ### Development
 

@@ -2,13 +2,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { SearchContext } from "@elastic/react-search-ui"
 import { ArrowUpDown } from "lucide-react"
-import { FairDOSearchContext } from "@/components/FairDOSearchContext"
+import { ReactSearchComponentContext } from "@/components/ReactSearchComponentContext"
 import { SearchState, SortOption } from "@elastic/search-ui"
 
 export function DefaultSorting() {
     const [value, setValue] = useState("")
     const search = useContext(SearchContext)
-    const { config } = useContext(FairDOSearchContext)
+    const { config } = useContext(ReactSearchComponentContext)
 
     const handleChange = useCallback(
         (value: string) => {

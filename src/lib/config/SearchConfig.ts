@@ -1,7 +1,7 @@
 import { FilterType, FilterValueValue, RequestState, SearchFieldConfiguration, SortOption } from "@elastic/search-ui"
 import { ReactNode } from "react"
 
-export interface FairDOCoreFacetConfig {
+export interface CoreFacetConfig {
     /**
      * The key of the elastic index for this facet.
      * @example
@@ -53,7 +53,7 @@ export interface FairDOCoreFacetConfig {
 /**
  * Numeric range facet. Pass possible ranges to the ranges property
  */
-export interface FairDONumericRangeFacetConfig extends FairDOCoreFacetConfig {
+export interface NumericRangeFacetConfig extends CoreFacetConfig {
     type: "numeric"
 
     /**
@@ -66,15 +66,15 @@ export interface FairDONumericRangeFacetConfig extends FairDOCoreFacetConfig {
 /**
  * Date range facet that automatically renders available options
  */
-export interface FairDODateRangeFacetConfig extends FairDOCoreFacetConfig {
+export interface DateRangeFacetConfig extends CoreFacetConfig {
     type: "date_time" | "date_year" | "date_time_no_millis"
 }
 
-export type FairDODefaultFacetConfig = FairDOCoreFacetConfig
+export type DefaultFacetConfig = CoreFacetConfig
 
-export type FairDOFacetConfig = FairDONumericRangeFacetConfig | FairDODefaultFacetConfig | FairDODateRangeFacetConfig
+export type FacetConfig = NumericRangeFacetConfig | DefaultFacetConfig | DateRangeFacetConfig
 
-export interface FairDOIndexConfig {
+export interface IndexConfig {
     /**
      * Name of the index in Elasticsearch
      */
@@ -90,13 +90,13 @@ export interface FairDOIndexConfig {
     /**
      * Facets for this index
      */
-    facets: FairDOFacetConfig[]
+    facets: FacetConfig[]
 }
 
 /**
- * Configuration for the {@link FairDOElasticSearch} component
+ * Configuration for the {@link ReactSearchComponent} component
  */
-export interface FairDOConfig {
+export interface SearchConfig {
     /**
      * Enables debug features. Should be disabled in production
      */
@@ -116,7 +116,7 @@ export interface FairDOConfig {
     /**
      * Configuration for the elastic indices that should be accessed
      */
-    indices: FairDOIndexConfig[]
+    indices: IndexConfig[]
     /**
      * Configure possible sort options. Fields to sort by must be present in all used indices.
      */

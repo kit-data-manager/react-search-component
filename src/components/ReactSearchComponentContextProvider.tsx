@@ -1,8 +1,8 @@
-import type { FairDOConfig } from "@/lib/config/FairDOConfig"
+import type { SearchConfig } from "@/lib/config/SearchConfig"
 import type { SearchContextState } from "@elastic/search-ui"
 import type { PropsWithChildren } from "react"
-import { FairDOSearchContext } from "@/components/FairDOSearchContext"
-import { FairDOConfigBuilder } from "@/lib/config/FairDOConfigBuilder"
+import { ReactSearchComponentContext } from "@/components/ReactSearchComponentContext"
+import { SearchConfigBuilder } from "@/lib/config/SearchConfigBuilder"
 import { arrayToObjectEntries } from "@/lib/utils"
 import { WithSearch } from "@elastic/react-search-ui"
 import { useCallback, useMemo } from "react"
@@ -13,12 +13,12 @@ import { useCallback, useMemo } from "react"
  * @param props
  * @constructor
  */
-export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDOConfig }) {
+export function ReactSearchComponentContextProvider(props: PropsWithChildren & { config: SearchConfig }) {
     const connector = useMemo(() => {
         try {
-            return new FairDOConfigBuilder(props.config).buildConnector()
+            return new SearchConfigBuilder(props.config).buildConnector()
         } catch (e) {
-            console.error("Failed to build connector in FairDOSearchProvider", e)
+            console.error("Failed to build connector in ReactSearchComponentContextProvider", e)
             return undefined
         }
     }, [props.config])
@@ -43,9 +43,11 @@ export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDO
 
     // Fallback for testing without elastic context
     if (!connector) {
-        console.warn("Using fallback context for FairDOSearchProvider as elastic config is invalid. Elastic-related features will not work.")
+        console.warn(
+            "Using fallback context for ReactSearchComponentContextProvider as elastic config is invalid. Elastic-related features will not work."
+        )
         return (
-            <FairDOSearchContext.Provider
+            <ReactSearchComponentContext.Provider
                 value={{
                     searchTerm: "",
                     searchFor: () => {},
@@ -56,7 +58,7 @@ export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDO
                 }}
             >
                 {props.children}
-            </FairDOSearchContext.Provider>
+            </ReactSearchComponentContext.Provider>
         )
     }
 
@@ -71,7 +73,7 @@ export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDO
         >
             {({ searchTerm, setSearchTerm, clearFilters, setSort }: SearchContextState) => {
                 return (
-                    <FairDOSearchContext.Provider
+                    <ReactSearchComponentContext.Provider
                         value={{
                             searchTerm: searchTerm ?? "",
                             searchFor: (query: string) => {
@@ -90,7 +92,7 @@ export function FairDOSearchProvider(props: PropsWithChildren & { config: FairDO
                         }}
                     >
                         {props.children}
-                    </FairDOSearchContext.Provider>
+                    </ReactSearchComponentContext.Provider>
                 )
             }}
         </WithSearch>

@@ -1,7 +1,7 @@
 import { Handle, NodeProps, Position } from "@xyflow/react"
 import { ComponentType, useCallback, useContext, useMemo } from "react"
 import { ResultViewProps } from "@elastic/react-search-ui-views"
-import { FairDOSearchContext } from "@/components/FairDOSearchContext"
+import { ReactSearchComponentContext } from "@/components/ReactSearchComponentContext"
 import { Button } from "@/components/ui/button"
 import { SearchIcon } from "lucide-react"
 import { useStore } from "zustand/index"
@@ -18,7 +18,7 @@ export function ResultViewWrapper({ resultView: ResultView, id }: NodeProps & { 
         return !data || Object.keys(data).length === 0
     }, [data])
 
-    const { searchFor } = useContext(FairDOSearchContext)
+    const { searchFor } = useContext(ReactSearchComponentContext)
 
     const searchForThis = useCallback(() => {
         searchFor(id)

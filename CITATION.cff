@@ -1,10 +1,10 @@
 cff-version: 1.2.0
 message: If you use this software, please cite it using these metadata.
 type: software
-title: '@kit-data-manager/react-fairdo-search'
-abstract: All-in-one component for rendering an elastic search UI for searching fair
-  digital objects or anything else.
-version: 0.1.0
+title: '@kit-data-manager/react-search-component'
+abstract: All-in-one component for rendering an elastic search UI for searching anything.
+  Built-in support for visualizing related items in a graph and resolving unique identifiers.
+version: 0.1.1
 keywords:
 - react
 - reactjs
@@ -36,5 +36,5 @@ contact:
   given-names: Christopher
   affiliation: Karlsruhe Institute of Technology (KIT)
 license: Apache-2.0
-url: https://kit-data-manager.github.io/react-fairdo-search/
-repository-code: https://github.com/kit-data-manager/react-fairdo-search
+url: https://kit-data-manager.github.io/react-search-component/
+repository-code: https://github.com/kit-data-manager/react-search-component

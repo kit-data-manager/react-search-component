@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { RelationsGraphContext } from "@/components/graph/RelationsGraphContext"
-import { FairDOSearchContext } from "@/components/FairDOSearchContext"
+import { ReactSearchComponentContext } from "@/components/ReactSearchComponentContext"
 import { useStore } from "zustand/index"
 import { resultCache } from "@/lib/ResultCache"
 import { DateTime } from "luxon"
@@ -21,7 +21,7 @@ const HTTP_REGEX = /https?:\/\/.*/
 
 export interface GenericResultViewProps {
     /**
-     * Search result that will be rendered in this view. Will be provided by FairDOElasticSearch
+     * Search result that will be rendered in this view. Will be provided by ReactSearchComponent
      */
     result: Record<string, unknown>
 
@@ -99,12 +99,12 @@ export interface GenericResultViewProps {
     tags?: Omit<GenericResultViewTagProps, "result">[]
 
     /**
-     * Whether to show the open in FairDOScope button in the dropdown
+     * Whether to show the open in FairDOScope button in the dropdown. Useful if this result entry is an FDO
      */
     showOpenInFairDoScope?: boolean
 
     /**
-     * Whether to show the Inspect FDO button in the dropdown
+     * Whether to show the Inspect FDO button in the dropdown. Useful if this result entry is an FDO
      */
     showInspectFDO?: boolean
 }
@@ -133,7 +133,7 @@ export function GenericResultView({
     showInspectFDO = true
 }: GenericResultViewProps) {
     const { openOrAddToRelationsGraph } = useContext(RelationsGraphContext)
-    const { searchTerm, elasticConnector, searchFor, config } = useContext(FairDOSearchContext)
+    const { searchTerm, elasticConnector, searchFor, config } = useContext(ReactSearchComponentContext)
     const addToResultCache = useStore(resultCache, (s) => s.set)
     const [loadingRelatedItems, setLoadingRelatedItems] = useState(false)
     const [showInspectDialog, setShowInspectDialog] = useState(false)
@@ -448,7 +448,7 @@ export function GenericResultView({
             {showInspectFDO && (
                 <Dialog open={showInspectDialog} onOpenChange={setShowInspectDialog}>
                     <DialogContent className="!rfs-max-w-[calc(100vw-40px)] !rfs-min-w-[min(1200px,calc(100vw-40px))]">
-                        <DialogTitle>Inspect Fair Digital Object</DialogTitle>
+                        <DialogTitle>Inspect Result</DialogTitle>
 
                         <div className={"rfs-overflow-auto"}>
                             <PidComponent openByDefault value={pid} levelOfSubcomponents={10} />

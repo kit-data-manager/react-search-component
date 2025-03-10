@@ -5,7 +5,7 @@ import { AtomIcon, GlobeIcon, GraduationCap, ScaleIcon } from "lucide-react"
 import { prettyPrintURL } from "@/lib/utils"
 import { RelationsGraphProvider } from "@/components/graph/RelationsGraphProvider"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
+import { ReactSearchComponentContextProvider } from "@/components/ReactSearchComponentContextProvider"
 
 const meta = {
     component: GenericResultView,
@@ -22,11 +22,11 @@ export const Simple: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <FairDOSearchProvider config={emptyConfig}>
+                <ReactSearchComponentContextProvider config={emptyConfig}>
                     <RelationsGraphProvider resultView={(props) => <GenericResultView {...props} {...Simple.args} />}>
                         <Story />
                     </RelationsGraphProvider>
-                </FairDOSearchProvider>
+                </ReactSearchComponentContextProvider>
             </TooltipProvider>
         )
     ],
@@ -46,11 +46,11 @@ export const MultipleImages: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <FairDOSearchProvider config={emptyConfig}>
+                <ReactSearchComponentContextProvider config={emptyConfig}>
                     <RelationsGraphProvider resultView={(props) => <GenericResultView {...props} {...MultipleImages.args} />}>
                         <Story />
                     </RelationsGraphProvider>
-                </FairDOSearchProvider>
+                </ReactSearchComponentContextProvider>
             </TooltipProvider>
         )
     ],
@@ -77,11 +77,11 @@ export const Full: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <FairDOSearchProvider config={emptyConfig}>
+                <ReactSearchComponentContextProvider config={emptyConfig}>
                     <RelationsGraphProvider resultView={(props) => <GenericResultView {...props} {...Full.args} />}>
                         <Story />
                     </RelationsGraphProvider>
-                </FairDOSearchProvider>
+                </ReactSearchComponentContextProvider>
             </TooltipProvider>
         )
     ],

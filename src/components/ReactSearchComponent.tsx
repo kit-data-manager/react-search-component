@@ -1,15 +1,15 @@
 "use client"
 
-import type { FairDOConfig } from "@/lib/config/FairDOConfig"
+import type { SearchConfig } from "@/lib/config/SearchConfig"
 import type { SearchContextState } from "@elastic/search-ui"
-import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
+import { ReactSearchComponentContextProvider } from "@/components/ReactSearchComponentContextProvider"
 import { RelationsGraphProvider } from "@/components/graph/RelationsGraphProvider"
 import { ClearFilters } from "@/components/search/ClearFilters"
 import { DefaultFacet, OptionViewProps } from "@/components/search/DefaultFacet"
 import { DefaultSearchBox } from "@/components/search/DefaultSearchBox"
 import { ErrorView } from "@/components/search/ErrorView"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FairDOConfigBuilder } from "@/lib/config/FairDOConfigBuilder"
+import { SearchConfigBuilder } from "@/lib/config/SearchConfigBuilder"
 import { ErrorBoundary, Facet, Paging, PagingInfo, Results, ResultsPerPage, SearchBox, SearchProvider, WithSearch } from "@elastic/react-search-ui"
 import { Layout, ResultViewProps } from "@elastic/react-search-ui-views"
 import { LoaderCircle } from "lucide-react"
@@ -24,7 +24,7 @@ import { useAutoDarkMode } from "@/lib/hooks"
 
 /**
  * All-in-one component for rendering an elastic search UI based on the provided configuration. Includes
- * an interactive graph of related records. Pass in a config object ({@link FairDOConfig}) to configure the search.
+ * an interactive graph of related records. Pass in a config object ({@link SearchConfig}) to configure the search.
  *
  * #### ⚠️ Warning
  *
@@ -37,7 +37,7 @@ import { useAutoDarkMode } from "@/lib/hooks"
  *
  * You can also specify your own graph nodes to dynamically render any relationships between objects. ([Package Docs](https://reactflow.dev/learn/customization/custom-nodes))
  */
-export function FairDOElasticSearch({
+export function ReactSearchComponent({
     config: rawConfig,
     resultView,
     resultViewPerIndex,
@@ -48,7 +48,7 @@ export function FairDOElasticSearch({
     /**
      * Make sure the config is either memoized or constant (defined outside any components)
      */
-    config: FairDOConfig
+    config: SearchConfig
 
     /**
      * React Component that will be used to render the results from the current search. Consider using the `GenericResultView`.
@@ -95,7 +95,7 @@ export function FairDOElasticSearch({
     useAutoDarkMode(dark)
 
     const config = useMemo(() => {
-        return new FairDOConfigBuilder(rawConfig)
+        return new SearchConfigBuilder(rawConfig)
     }, [rawConfig])
 
     const elasticConfig = useMemo(() => {
@@ -115,7 +115,7 @@ export function FairDOElasticSearch({
 
     return (
         <SearchProvider config={elasticConfig}>
-            <FairDOSearchProvider config={rawConfig}>
+            <ReactSearchComponentContextProvider config={rawConfig}>
                 <TooltipProvider>
                     <RelationsGraphProvider resultView={actualResultView} dark={dark} nodeTypes={graphNodeTypes}>
                         <WithSearch
@@ -226,7 +226,7 @@ export function FairDOElasticSearch({
                         </WithSearch>
                     </RelationsGraphProvider>
                 </TooltipProvider>
-            </FairDOSearchProvider>
+            </ReactSearchComponentContextProvider>
         </SearchProvider>
     )
 }

@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
 import { DefaultFacet } from "@/components/search/DefaultFacet"
-import { FairDOConfigBuilder } from "@/lib/config/FairDOConfigBuilder"
+import { SearchConfigBuilder } from "@/lib/config/SearchConfigBuilder"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import type { FairDOConfig } from "@/lib/config/FairDOConfig"
+import type { SearchConfig } from "@/lib/config/SearchConfig"
 import { PidNameDisplay } from "@/components/result"
 import { prettyPrintURL } from "@/lib/utils"
 
@@ -13,7 +13,7 @@ const meta = {
 
 export default meta
 
-const demoConfig: FairDOConfig = {
+const demoConfig: SearchConfig = {
     debug: false,
     alwaysSearchOnInitialLoad: true,
     // host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
@@ -63,7 +63,7 @@ export const Default: Story = {
         showSearch: false,
         onSearch: () => {},
         searchPlaceholder: "",
-        config: new FairDOConfigBuilder(demoConfig)
+        config: new SearchConfigBuilder(demoConfig)
     }
 }
 
@@ -92,7 +92,7 @@ export const PrettyURL: Story = {
         showSearch: false,
         onSearch: () => {},
         searchPlaceholder: "",
-        config: new FairDOConfigBuilder(demoConfig)
+        config: new SearchConfigBuilder(demoConfig)
     }
 }
 
@@ -121,7 +121,7 @@ export const WithPidResolver: Story = {
         showSearch: false,
         onSearch: () => {},
         searchPlaceholder: "",
-        config: new FairDOConfigBuilder(demoConfig)
+        config: new SearchConfigBuilder(demoConfig)
     }
 }
 
@@ -150,6 +150,6 @@ export const FullyCustom: Story = {
         showSearch: false,
         onSearch: () => {},
         searchPlaceholder: "",
-        config: new FairDOConfigBuilder(demoConfig)
+        config: new SearchConfigBuilder(demoConfig)
     }
 }

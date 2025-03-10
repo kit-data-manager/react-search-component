@@ -5,13 +5,13 @@ import "../index.css"
 <Meta title="Getting Started" />
 
 <div>
-    # React FairDO Search
+    # React Search Component
 
-    All-in-one component for rendering an elastic search UI for searching fair digital objects.
+    All-in-one component for rendering an elastic search UI for searching anything, with built-in support for an interactive graph and unique identifier resolving.
 
     ### Demo
 
-    Select `FairDOElasticSearch` on the right for an example
+    Select `Demo` on the left for an example
 
 
     ### Usage
@@ -38,7 +38,7 @@ import "../index.css"
     <Source code={`
 export default function Home() {
     // First we configure the search itself. Here we defined the elastic endpoint as well as the facets.
-    const config: FairDOConfig = useMemo(() => {
+    const config: SearchConfig = useMemo(() => {
         return {
             alwaysSearchOnInitialLoad: true,
             host: "your elastic host",
@@ -122,7 +122,7 @@ export default function Home() {
     }, [])
 
     return (
-        <FairDOElasticSearch config={config} resultView={resultView} />
+        <ReactSearchComponent config={config} resultView={resultView} />
     )
 }
 `} />

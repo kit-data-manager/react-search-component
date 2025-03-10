@@ -1,4 +1,4 @@
-import type { FairDOConfigBuilder } from "@/lib/config/FairDOConfigBuilder"
+import type { SearchConfigBuilder } from "@/lib/config/SearchConfigBuilder"
 import type { FacetViewProps } from "@elastic/react-search-ui-views"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,17 +8,17 @@ import { PlusIcon, Search } from "lucide-react"
 import { ComponentType, useEffect, useMemo, useRef, useState } from "react"
 import { DefaultFacetOption } from "@/components/search/DefaultFacetOption"
 import type { FacetValue } from "@elastic/search-ui"
-import type { FairDOFacetConfig } from "@/lib/config/FairDOConfig"
+import type { FacetConfig } from "@/lib/config/SearchConfig"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 export interface OptionViewProps {
     option: FacetValue
-    facetConfig: FairDOFacetConfig
+    facetConfig: FacetConfig
     onSelect(v: string): void
     onRemove(v: string): void
 }
 
-export function DefaultFacet(props: FacetViewProps & { config: FairDOConfigBuilder; optionView?: ComponentType<OptionViewProps> }) {
+export function DefaultFacet(props: FacetViewProps & { config: SearchConfigBuilder; optionView?: ComponentType<OptionViewProps> }) {
     const [search, setSearch] = useState("")
 
     const selfConfig = useMemo(() => {

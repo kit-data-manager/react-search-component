@@ -1,22 +1,22 @@
-import type { FairDOConfig } from "@/lib/config/FairDOConfig.ts"
+import type { SearchConfig } from "@/lib/config/SearchConfig.ts"
 
 import type { Meta, StoryObj } from "@storybook/react"
-import { FairDOElasticSearch } from "@/components/FairDOElasticSearch"
+import { ReactSearchComponent } from "@/components/ReactSearchComponent"
 import { GenericResultView } from "@/components/result/GenericResultView"
 import { AtomIcon, AudioLines, CircleDot, FlaskConical, GlobeIcon, GraduationCap, Microscope, ScaleIcon, UserIcon } from "lucide-react"
 import { PidNameDisplay } from "@/components/result/PidNameDisplay"
 import { OrcidDisplay } from "@/components/result/OrcidDisplay"
 
 const meta = {
-    component: FairDOElasticSearch,
+    component: ReactSearchComponent,
     tags: ["autodocs"]
-} satisfies Meta<typeof FairDOElasticSearch>
+} satisfies Meta<typeof ReactSearchComponent>
 
 export default meta
 
 type Story = StoryObj<typeof meta>
 
-const demoConfig: FairDOConfig = {
+const demoConfig: SearchConfig = {
     debug: false,
     alwaysSearchOnInitialLoad: true,
     // host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",

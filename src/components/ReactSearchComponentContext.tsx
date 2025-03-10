@@ -3,12 +3,12 @@
 import type { ResponseState } from "@elastic/search-ui"
 import type ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
 import { createContext } from "react"
-import { FairDOConfig } from "@/lib/config/FairDOConfig"
+import { SearchConfig } from "@/lib/config/SearchConfig"
 
 /**
  * Extends the elasticsearch SearchContext with additional utilities
  */
-export interface FairDOSearchContext {
+export interface ReactSearchComponentContext {
     /**
      * Search for the specified string and scroll to the top of the page. This will change the
      * search term to `query` and clear all filters
@@ -30,25 +30,25 @@ export interface FairDOSearchContext {
     searchTerm: string
 
     elasticConnector?: ElasticsearchAPIConnector
-    config: FairDOConfig
+    config: SearchConfig
 }
 
 /**
  * Extends the elasticsearch SearchContext with additional utilities
  */
-export const FairDOSearchContext = createContext<FairDOSearchContext>({
+export const ReactSearchComponentContext = createContext<ReactSearchComponentContext>({
     searchFor: () => {
-        console.error(`FairDOSearchContext not mounted, but searchFor was executed`)
+        console.error(`ReactSearchComponentContext not mounted, but searchFor was executed`)
     },
     searchTerm: "",
     get elasticConnector() {
         return undefined
     },
     async searchForBackground(): Promise<ResponseState | undefined> {
-        console.error(`FairDOSearchContext not mounted, but searchFor was executed`)
+        console.error(`ReactSearchComponentContext not mounted, but searchFor was executed`)
         return undefined
     },
-    get config(): FairDOConfig {
-        throw "FairDOSearchContext not mounted, but tried to read config"
+    get config(): SearchConfig {
+        throw "ReactSearchComponentContext not mounted, but tried to read config"
     }
 })

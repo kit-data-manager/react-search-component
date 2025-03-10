@@ -1,4 +1,4 @@
-import { FairDOSearchContext } from "@/components/FairDOSearchContext"
+import { ReactSearchComponentContext } from "@/components/ReactSearchComponentContext"
 import { RelationsGraph } from "@/components/graph/RelationsGraph"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
@@ -27,7 +27,7 @@ export function RelationsGraphModal({
     dark?: boolean
     nodeTypes?: NodeTypes
 }) {
-    const searchContext = useContext(FairDOSearchContext)
+    const searchContext = useContext(ReactSearchComponentContext)
 
     const localSearchFor = useCallback(
         (query: string) => {
@@ -44,7 +44,7 @@ export function RelationsGraphModal({
                     <DialogTitle>Relationship graph</DialogTitle>
                 </VisuallyHidden.Root>
 
-                <FairDOSearchContext.Provider
+                <ReactSearchComponentContext.Provider
                     value={{
                         searchFor: localSearchFor,
                         searchTerm: searchContext.searchTerm,
@@ -54,7 +54,7 @@ export function RelationsGraphModal({
                     }}
                 >
                     <RelationsGraph nodes={nodes} resultView={resultView} options={options} dark={dark} nodeTypes={nodeTypes} />
-                </FairDOSearchContext.Provider>
+                </ReactSearchComponentContext.Provider>
 
                 <div className="rfs-absolute rfs-right-4 rfs-top-4">
                     <Button variant="outline" onClick={() => onOpenChange(false)}>

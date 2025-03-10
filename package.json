@@ -1,6 +1,6 @@
 {
-  "name": "@kit-data-manager/react-fairdo-search",
-  "version": "0.1.0",
+  "name": "@kit-data-manager/react-search-component",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "type": "module",
   "author": {
@@ -54,7 +54,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.5.2",
-    "lucide-react": "^0.476.0",
+    "lucide-react": "^0.479.0",
     "luxon": "^3.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -80,7 +80,7 @@
     "@storybook/react": "^8.4.7",
     "@storybook/react-vite": "^8.4.7",
     "@storybook/test": "^8.4.7",
-    "@storybook/test-runner": "^0.21.0",
+    "@storybook/test-runner": "^0.22.0",
     "@types/luxon": "^3.4.2",
     "@types/node": "^22.10.1",
     "@types/react": "^18.3.12",
@@ -116,7 +116,7 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
-  "description": "All-in-one component for rendering an elastic search UI for searching fair digital objects or anything else.",
+  "description": "All-in-one component for rendering an elastic search UI for searching anything. Built-in support for visualizing related items in a graph and resolving unique identifiers.",
   "maintainers": [
     {
       "name": "Christopher Raquet",
@@ -125,10 +125,10 @@
     }
   ],
   "license": "Apache-2.0",
-  "homepage": "https://kit-data-manager.github.io/react-fairdo-search/",
+  "homepage": "https://kit-data-manager.github.io/react-search-component/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kit-data-manager/react-fairdo-search"
+    "url": "https://github.com/kit-data-manager/react-search-component"
   },
   "contributors": [
     {

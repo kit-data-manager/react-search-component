@@ -1,13 +1,13 @@
 import type { FacetConfiguration, SearchDriverOptions, SearchFieldConfiguration, SearchQuery } from "@elastic/search-ui"
-import type { FairDOConfig, FairDODateRangeFacetConfig, FairDOFacetConfig, FairDONumericRangeFacetConfig } from "./FairDOConfig"
+import type { SearchConfig, DateRangeFacetConfig, FacetConfig, NumericRangeFacetConfig } from "./SearchConfig"
 import ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
 import { DateRangeBuilder } from "@/lib/config/date/DateRangeBuilder"
 import { parseStringValueToNumber } from "@/lib/utils"
 
-export class FairDOConfigBuilder {
-    private readonly config: FairDOConfig
+export class SearchConfigBuilder {
+    private readonly config: SearchConfig
 
-    constructor(config: FairDOConfig) {
+    constructor(config: SearchConfig) {
         this.config = config
     }
 
@@ -39,7 +39,7 @@ export class FairDOConfigBuilder {
     }
 
     getFacetFields() {
-        const facets: FairDOFacetConfig[] = []
+        const facets: FacetConfig[] = []
         const uniqueKeys: string[] = []
         for (const index of this.getConfig().indices) {
             for (const facet of index.facets) {
@@ -124,7 +124,7 @@ export class FairDOConfigBuilder {
         return allFacets
     }
 
-    buildNumericRangeFacet(facetConfig: FairDONumericRangeFacetConfig) {
+    buildNumericRangeFacet(facetConfig: NumericRangeFacetConfig) {
         const ranges = facetConfig.ranges
         // ranges are an array which each element in the format <X or X-Y or >Y
         return ranges?.reduce((acc: { to?: number; from?: number; name: string }[], n) => {
@@ -152,7 +152,7 @@ export class FairDOConfigBuilder {
         }, [])
     }
 
-    buildDateRangeFacet(facetConfig: FairDODateRangeFacetConfig) {
+    buildDateRangeFacet(facetConfig: DateRangeFacetConfig) {
         if (facetConfig.type === "date_year") {
             return DateRangeBuilder.dateYears()
         } else if (facetConfig.type === "date_time") {

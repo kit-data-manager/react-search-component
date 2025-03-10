@@ -2,7 +2,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { PidNameDisplay } from "@/components/result/PidNameDisplay"
 import { FacetValue } from "@elastic/search-ui"
-import { FairDOFacetConfig } from "@/lib/config/FairDOConfig"
+import { FacetConfig } from "@/lib/config/SearchConfig"
 import { useMemo } from "react"
 import { prettyPrintURL } from "@/lib/utils"
 
@@ -13,7 +13,7 @@ export function DefaultFacetOption({
     onRemove
 }: {
     option: FacetValue
-    facetConfig: FairDOFacetConfig
+    facetConfig: FacetConfig
     onSelect(v: string): void
     onRemove(v: string): void
 }) {
@@ -25,10 +25,10 @@ export function DefaultFacetOption({
         if (facetConfig.singleValueMapper) {
             return facetConfig.singleValueMapper(value)
         } else if (value && facetConfig.prettyPrintURLs) {
-            console.warn("[react-fairdo-search] Used deprecated facet config `prettyPrintURLs`")
+            console.warn("[react-search-component] Used deprecated facet config `prettyPrintURLs`")
             return prettyPrintURL(value)
         } else if (value && facetConfig.usePidResolver) {
-            console.warn("[react-fairdo-search] Used deprecated facet config `usePidResolver`")
+            console.warn("[react-search-component] Used deprecated facet config `usePidResolver`")
             return <PidNameDisplay pid={value} />
         } else return value
     }, [facetConfig, value])

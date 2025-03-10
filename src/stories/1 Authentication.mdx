@@ -22,7 +22,7 @@ import "../index.css"
 function MyComponent() {
     const myAccessToken = useAccessToken() // This will depend on your authentication library
 
-    const config: FairDOConfig = useMemo(() => ({
+    const config: SearchConfig = useMemo(() => ({
         // ...
         host: "https://example.org/elastic-auth-proxy"
         connectionOptions: {
@@ -46,7 +46,7 @@ function MyComponent() {
 
     <Source code={`
 function MyComponent() {
-    const config: FairDOConfig = useMemo(() => ({
+    const config: SearchConfig = useMemo(() => ({
         // ...
         apiKey: "your key here"
     }), [])

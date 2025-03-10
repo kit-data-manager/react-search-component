@@ -3,8 +3,8 @@ import { Handle, Position, ReactFlowProvider } from "@xyflow/react"
 import { RelationsGraph } from "@/components/graph/RelationsGraph"
 import { GenericResultView } from "@/components/result"
 import { resultCache } from "@/lib/ResultCache"
-import { FairDOSearchProvider } from "@/components/FairDOSearchProvider"
-import { FairDOConfig } from "@/lib/config/FairDOConfig"
+import { ReactSearchComponentContextProvider } from "@/components/ReactSearchComponentContextProvider"
+import { SearchConfig } from "@/lib/config/SearchConfig"
 import { GraphNodeUtils } from "@/components/graph"
 
 const meta = {
@@ -16,7 +16,7 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const emptyConfig: FairDOConfig = { host: "", indices: [] }
+const emptyConfig: SearchConfig = { host: "", indices: [] }
 
 export const Default: Story = {
     decorators: [
@@ -33,11 +33,11 @@ export const Default: Story = {
 
             return (
                 <ReactFlowProvider>
-                    <FairDOSearchProvider config={emptyConfig}>
+                    <ReactSearchComponentContextProvider config={emptyConfig}>
                         <div style={{ width: "100%", height: "min(70vh, 700px)" }}>
                             <Story />
                         </div>
-                    </FairDOSearchProvider>
+                    </ReactSearchComponentContextProvider>
                 </ReactFlowProvider>
             )
         }
@@ -53,11 +53,11 @@ export const CustomNode: Story = {
         (Story) => {
             return (
                 <ReactFlowProvider>
-                    <FairDOSearchProvider config={emptyConfig}>
+                    <ReactSearchComponentContextProvider config={emptyConfig}>
                         <div style={{ width: "100%", height: "min(70vh, 700px)" }}>
                             <Story />
                         </div>
-                    </FairDOSearchProvider>
+                    </ReactSearchComponentContextProvider>
                 </ReactFlowProvider>
             )
         }
