@@ -74,8 +74,8 @@ export default function Home() {
         }
     }, []) // Make sure to add all non-static dependencies here! E.g. access code
 
-    // To display our results we have to define a result view. Since every FDOs can look very different, the different
-    // field names have to be defined here. You can also define your own component for rendering results.
+    // To display our results we have to define a result view. The
+    // field names of your elastic index have to be referenced here. You can also define your own component for rendering results.
     const resultView = useCallback((props: ResultViewProps) => {
         // GenericResultView is a configurable fallback component for displaying simple results
         return (

@@ -56,12 +56,12 @@ export interface GenericResultViewProps {
     landingPageLocationField?: string
 
     /**
-     * The elastic field where the PID of the current FDO will be read from. Can be omitted if you don't have a PID
+     * The elastic field where the PID of the current result will be read from. Can be omitted if you don't have a PID
      */
     pidField?: string
 
     /**
-     * The elastic field where the unique identifier of the child item(s) of the current FDO will be read from. Should be an array of PIDs or otherwise unique identifiers. Will be displayed in a related items graph.
+     * The elastic field where the unique identifier of the child item(s) of the current result will be read from. Should be an array of PIDs or otherwise unique identifiers. Will be displayed in a related items graph.
      */
     childItemPidField?: string
 
@@ -74,17 +74,17 @@ export interface GenericResultViewProps {
     relatedItemsPrefetchOptions?: { searchFields?: Record<string, SearchFieldConfiguration> }
 
     /**
-     * The elastic field where the unique identifier of the parent item(s) of the current FDO will be read from. Should be an array of PIDs or otherwise unique identifiers. Will be displayed in a related items graph.
+     * The elastic field where the unique identifier of the parent item(s) of the current result will be read from. Should be an array of PIDs or otherwise unique identifiers. Will be displayed in a related items graph.
      */
     parentItemPidField?: string
 
     /**
-     * The elastic field where the creation date of the FDO will be read from. Will be parsed as an ISO Date.
+     * The elastic field where the creation date of the result will be read from. Will be parsed as an ISO Date.
      */
     creationDateField?: string
 
     /**
-     * The elastic field where the edited date of the FDO will be read from. Will be parsed as an ISO Date.
+     * The elastic field where the edited date of the result will be read from. Will be parsed as an ISO Date.
      */
     editedDateField?: string
 
