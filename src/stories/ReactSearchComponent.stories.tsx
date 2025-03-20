@@ -16,6 +16,15 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
+function mapPrimarySource(pid: string) {
+    // Hardcoded PIDs for NEP, can't be resolved
+    if (pid === "21.T11981/935ad20c-e8f7-485d-8987-b4f22431ff4b") {
+        return "chemotion-repository.net"
+    } else if (pid === "21.T11981/352621cf-b0c6-4105-89a4-324f16cf7776") {
+        return "nmrxiv.org"
+    }
+}
+
 const demoConfig: SearchConfig = {
     debug: false,
     alwaysSearchOnInitialLoad: true,
@@ -33,7 +42,7 @@ const demoConfig: SearchConfig = {
                 {
                     key: "hadPrimarySource.keyword",
                     label: "Source",
-                    singleValueMapper: (v) => <PidNameDisplay pid={v + ""} />
+                    singleValueMapper: (v) => mapPrimarySource(v + "")
                 },
                 {
                     key: "NMR_Method.keyword",
@@ -161,7 +170,7 @@ export const GenericResultRenderer: Story = {
                     {
                         icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                         field: "hadPrimarySource",
-                        singleValueMapper: (v) => <PidNameDisplay pid={v} />,
+                        singleValueMapper: (v) => mapPrimarySource(v),
                         label: "Source",
                         onClick: (e) =>
                             "innerText" in e.target &&
