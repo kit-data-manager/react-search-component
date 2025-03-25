@@ -29,7 +29,7 @@ const demoConfig: SearchConfig = {
     debug: false,
     alwaysSearchOnInitialLoad: true,
     // host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
-    host: "https://ddaa9283-f114-4496-b6ed-af12ee34b107.ka.bw-cloud-instance.org:9200",
+    host: "https://ddaa9283-f114-4496-b6ed-af12ee34b107.ka.bw-cloud-instance.org",
     apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
     indices: [
         {
