@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 import animatePlugin from "tailwindcss-animate"
-import nestingPlugin from "tailwindcss/nesting"
+import { isolateInsideOfContainer, scopedPreflightStyles } from "tailwindcss-scoped-preflight"
 
 export default {
     darkMode: ["class", `[class="dark"]`],
@@ -71,5 +71,10 @@ export default {
             }
         }
     },
-    plugins: [animatePlugin, nestingPlugin]
+    plugins: [
+        animatePlugin,
+        scopedPreflightStyles({
+            isolationStrategy: isolateInsideOfContainer(".rfs-root", {})
+        })
+    ]
 }

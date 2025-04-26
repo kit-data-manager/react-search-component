@@ -38,7 +38,7 @@ const DialogContent = React.forwardRef<
         <DialogPrimitive.Content
             ref={ref}
             className={cn(
-                "rfs-fixed rfs-left-[50%] rfs-top-[50%] rfs-z-50 rfs-grid rfs-w-full rfs-max-w-lg rfs-translate-x-[-50%] rfs-translate-y-[-50%] rfs-gap-4 rfs-border rfs-bg-background rfs-p-6 rfs-shadow-lg rfs-duration-200 data-[state=open]:rfs-animate-in data-[state=closed]:rfs-animate-out data-[state=closed]:rfs-fade-out-0 data-[state=open]:rfs-fade-in-0 data-[state=closed]:rfs-zoom-out-95 data-[state=open]:rfs-zoom-in-95 data-[state=closed]:rfs-slide-out-to-left-1/2 data-[state=closed]:rfs-slide-out-to-top-[48%] data-[state=open]:rfs-slide-in-from-left-1/2 data-[state=open]:rfs-slide-in-from-top-[48%] sm:rfs-rounded-lg",
+                "rfs-root rfs-fixed rfs-left-[50%] rfs-top-[50%] rfs-z-50 rfs-grid rfs-w-full rfs-max-w-lg rfs-translate-x-[-50%] rfs-translate-y-[-50%] rfs-gap-4 rfs-border rfs-bg-background rfs-p-6 rfs-shadow-lg rfs-duration-200 data-[state=open]:rfs-animate-in data-[state=closed]:rfs-animate-out data-[state=closed]:rfs-fade-out-0 data-[state=open]:rfs-fade-in-0 data-[state=closed]:rfs-zoom-out-95 data-[state=open]:rfs-zoom-in-95 data-[state=closed]:rfs-slide-out-to-left-1/2 data-[state=closed]:rfs-slide-out-to-top-[48%] data-[state=open]:rfs-slide-in-from-left-1/2 data-[state=open]:rfs-slide-in-from-top-[48%] sm:rfs-rounded-lg",
                 className
             )}
             {...props}

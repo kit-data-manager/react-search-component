@@ -128,6 +128,7 @@ export function ReactSearchComponent({
                                 return (
                                     <ErrorBoundary view={ErrorView}>
                                         <Layout
+                                            className={"rfs-root"}
                                             header={
                                                 <SearchBox
                                                     autocompleteMinimumCharacters={3}
