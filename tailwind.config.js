@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 import animatePlugin from "tailwindcss-animate"
+import nestingPlugin from "tailwindcss/nesting"
 
 export default {
     darkMode: ["class", `[class="dark"]`],
@@ -70,5 +71,5 @@ export default {
             }
         }
     },
-    plugins: [animatePlugin]
+    plugins: [animatePlugin, nestingPlugin]
 }

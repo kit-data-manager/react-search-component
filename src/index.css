@@ -2,80 +2,82 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-@layer base {
+.sui-layout {
     :root {
-        --rfs-background: 0 0% 100%;
-        --rfs-foreground: 0 0% 3.9%;
-        --rfs-card: 0 0% 100%;
-        --rfs-card-foreground: 0 0% 3.9%;
-        --rfs-popover: 0 0% 100%;
-        --rfs-popover-foreground: 0 0% 3.9%;
-        --rfs-primary: 215 100% 50%;
-        --rfs-primary-foreground: 0 0% 98%;
-        --rfs-secondary: 0 0% 96.1%;
-        --rfs-secondary-foreground: 0 0% 9%;
-        --rfs-muted: 0 0% 96.1%;
-        --rfs-muted-foreground: 0 0% 45.1%;
-        --rfs-accent: 0 0% 96.1%;
-        --rfs-accent-foreground: 0 0% 9%;
-        --rfs-destructive: 0 84.2% 60.2%;
-        --rfs-destructive-foreground: 0 0% 98%;
-        --rfs-border: 0 0% 89.8%;
-        --rfs-input: 0 0% 89.8%;
-        --rfs-ring: 0 0% 3.9%;
-        --rfs-chart-1: 12 76% 61%;
-        --rfs-chart-2: 173 58% 39%;
-        --rfs-chart-3: 197 37% 24%;
-        --rfs-chart-4: 43 74% 66%;
-        --rfs-chart-5: 27 87% 67%;
-        --rfs-radius: 0.5rem;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
 
-    .dark {
-        --rfs-background: 0 0% 3.9%;
-        --rfs-foreground: 0 0% 98%;
-        --rfs-card: 0 0% 3.9%;
-        --rfs-card-foreground: 0 0% 98%;
-        --rfs-popover: 0 0% 3.9%;
-        --rfs-popover-foreground: 0 0% 98%;
-        --rfs-primary: 215 100% 40%;
-        --rfs-primary-foreground: 0 0% 98%;
-        --rfs-secondary: 0 0% 14.9%;
-        --rfs-secondary-foreground: 0 0% 98%;
-        --rfs-muted: 0 0% 14.9%;
-        --rfs-muted-foreground: 0 0% 63.9%;
-        --rfs-accent: 0 0% 14.9%;
-        --rfs-accent-foreground: 0 0% 98%;
-        --rfs-destructive: 0 62.8% 30.6%;
-        --rfs-destructive-foreground: 0 0% 98%;
-        --rfs-border: 0 0% 14.9%;
-        --rfs-input: 0 0% 14.9%;
-        --rfs-ring: 0 0% 83.1%;
-        --rfs-chart-1: 220 70% 50%;
-        --rfs-chart-2: 160 60% 45%;
-        --rfs-chart-3: 30 80% 55%;
-        --rfs-chart-4: 280 65% 60%;
-        --rfs-chart-5: 340 75% 55%;
+    @layer base {
+        :root {
+            --rfs-background: 0 0% 100%;
+            --rfs-foreground: 0 0% 3.9%;
+            --rfs-card: 0 0% 100%;
+            --rfs-card-foreground: 0 0% 3.9%;
+            --rfs-popover: 0 0% 100%;
+            --rfs-popover-foreground: 0 0% 3.9%;
+            --rfs-primary: 215 100% 50%;
+            --rfs-primary-foreground: 0 0% 98%;
+            --rfs-secondary: 0 0% 96.1%;
+            --rfs-secondary-foreground: 0 0% 9%;
+            --rfs-muted: 0 0% 96.1%;
+            --rfs-muted-foreground: 0 0% 45.1%;
+            --rfs-accent: 0 0% 96.1%;
+            --rfs-accent-foreground: 0 0% 9%;
+            --rfs-destructive: 0 84.2% 60.2%;
+            --rfs-destructive-foreground: 0 0% 98%;
+            --rfs-border: 0 0% 89.8%;
+            --rfs-input: 0 0% 89.8%;
+            --rfs-ring: 0 0% 3.9%;
+            --rfs-chart-1: 12 76% 61%;
+            --rfs-chart-2: 173 58% 39%;
+            --rfs-chart-3: 197 37% 24%;
+            --rfs-chart-4: 43 74% 66%;
+            --rfs-chart-5: 27 87% 67%;
+            --rfs-radius: 0.5rem;
+        }
+
+        .dark {
+            --rfs-background: 0 0% 3.9%;
+            --rfs-foreground: 0 0% 98%;
+            --rfs-card: 0 0% 3.9%;
+            --rfs-card-foreground: 0 0% 98%;
+            --rfs-popover: 0 0% 3.9%;
+            --rfs-popover-foreground: 0 0% 98%;
+            --rfs-primary: 215 100% 40%;
+            --rfs-primary-foreground: 0 0% 98%;
+            --rfs-secondary: 0 0% 14.9%;
+            --rfs-secondary-foreground: 0 0% 98%;
+            --rfs-muted: 0 0% 14.9%;
+            --rfs-muted-foreground: 0 0% 63.9%;
+            --rfs-accent: 0 0% 14.9%;
+            --rfs-accent-foreground: 0 0% 98%;
+            --rfs-destructive: 0 62.8% 30.6%;
+            --rfs-destructive-foreground: 0 0% 98%;
+            --rfs-border: 0 0% 14.9%;
+            --rfs-input: 0 0% 14.9%;
+            --rfs-ring: 0 0% 83.1%;
+            --rfs-chart-1: 220 70% 50%;
+            --rfs-chart-2: 160 60% 45%;
+            --rfs-chart-3: 30 80% 55%;
+            --rfs-chart-4: 280 65% 60%;
+            --rfs-chart-5: 340 75% 55%;
+        }
     }
 }
 
 @layer base {
-    * {
+    .sui-layout * {
         @apply rfs-border-border;
     }
 
-    body {
+    .sui-layout {
         @apply rfs-bg-background rfs-text-foreground;
     }
 
-    ul, ol {
+    .sui-layout ul, .sui-layout ol {
         list-style: revert;
         margin: revert;
         padding: revert;
