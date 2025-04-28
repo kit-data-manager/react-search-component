@@ -21,7 +21,7 @@ const DialogOverlay = React.forwardRef<
     <DialogPrimitive.Overlay
         ref={ref}
         className={cn(
-            "rfs-fixed rfs-inset-0 rfs-z-50 rfs-bg-black/80 rfs- data-[state=open]:rfs-animate-in data-[state=closed]:rfs-animate-out data-[state=closed]:rfs-fade-out-0 data-[state=open]:rfs-fade-in-0",
+            "rfs-root rfs-fixed rfs-inset-0 rfs-z-50 rfs-bg-black/80 rfs- data-[state=open]:rfs-animate-in data-[state=closed]:rfs-animate-out data-[state=closed]:rfs-fade-out-0 data-[state=open]:rfs-fade-in-0",
             className
         )}
         {...props}

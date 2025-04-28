@@ -69,11 +69,11 @@
 }
 
 @layer base {
-    .sui-layout * {
+    .rfs-root, .rfs-root * {
         border-color: hsl(var(--rfs-border));
     }
 
-    #storybook-root {
+    .rfs-root {
         background-color: hsl(var(--rfs-background));
         color: hsl(var(--rfs-foreground));
     }
