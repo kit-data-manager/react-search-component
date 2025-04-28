@@ -62,7 +62,7 @@ Then simply pass your custom component to the search component.
 ### Styling
 
 Styling is done using tailwind and css variables. Feel free to override these variables in your own CSS.
-
+More information can be found in the Storybook.
 
 ## Contributing
 
