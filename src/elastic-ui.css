@@ -11,13 +11,6 @@
     padding-top: 32px;
 }
 
-/**
- * Body
- */
-.sui-layout-body {
-    background: hsl(var(--rfs-background));
-}
-
 @media (max-width: 800px) {
     .sui-layout-body:after {
         display: none;

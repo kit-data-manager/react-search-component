@@ -2,6 +2,7 @@ import type { Preview } from "@storybook/react"
 import { withThemeByClassName } from "@storybook/addon-themes"
 
 import "../src/index.css"
+import { withRootClass } from "./decorators/RootClass"
 
 const preview: Preview = {
     parameters: {
@@ -24,7 +25,8 @@ const preview: Preview = {
                 dark: "dark"
             },
             defaultTheme: "light"
-        })
+        }),
+        withRootClass
     ]
 }
 
