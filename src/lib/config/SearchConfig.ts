@@ -1,4 +1,4 @@
-import { FilterType, FilterValueValue, RequestState, SearchFieldConfiguration, SortOption } from "@elastic/search-ui"
+import { FieldValue, FilterType, RequestState, SearchFieldConfiguration, SortOption } from "@elastic/search-ui"
 import { ReactNode } from "react"
 
 export interface CoreFacetConfig {
@@ -32,7 +32,7 @@ export interface CoreFacetConfig {
      *
      * @param value
      */
-    singleValueMapper?: (value: FilterValueValue) => ReactNode
+    singleValueMapper?: (value: FieldValue) => ReactNode
 
     /**
      * Not properly implemented at the moment. Use with caution.
