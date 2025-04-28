@@ -123,14 +123,14 @@ export const Full: Story = {
             {
                 icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                 field: "hadPrimarySource",
-                singleValueMapper: prettyPrintURL,
+                singleValueMapper: (v) => prettyPrintURL(v + ""),
                 label: "Primary Source",
                 clickBehavior: "follow-url"
             },
             {
                 icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
                 field: "licenseURL",
-                singleValueMapper: prettyPrintURL,
+                singleValueMapper: (v) => prettyPrintURL(v + ""),
                 label: "License URL",
                 clickBehavior: "follow-url"
             },
@@ -161,7 +161,7 @@ export const Full: Story = {
             },
             {
                 field: "stringArrayTest",
-                singleValueMapper: (v) => v.toUpperCase()
+                singleValueMapper: (v) => (v + "").toUpperCase()
             }
         ]
     }

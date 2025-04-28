@@ -1,7 +1,7 @@
 import { MouseEvent, ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
-import { SearchResult } from "@elastic/search-ui"
+import { SearchResult, FieldValue } from "@elastic/search-ui"
 import { useCopyToClipboard } from "usehooks-ts"
 import { CheckIcon } from "lucide-react"
 import { autoUnwrap } from "@/lib/utils"
@@ -11,6 +11,10 @@ export interface GenericResultViewTagProps {
      * The elasticsearch field that this tag will display
      */
     field: string
+    /**
+     * When specified, does not read the field from elastic and instead just displays this value
+     */
+    valueOverride?: string | number | boolean
     result: SearchResult
     /**
      * Icon for this tag, can be any react component. Ideally a [lucide icon](https://lucide.dev) with 16px by 16px site.
@@ -25,27 +29,20 @@ export interface GenericResultViewTagProps {
      * Can't the used together with `singleValueMapper`
      * @param value
      */
-    valueMapper?: (value: string | string[]) => ReactNode
+    valueMapper?: (value: FieldValue) => ReactNode
     /**
      * Optional, here you can map each value of the elasticsearch field to a string or a React component. Can't be used
      * together with `valueMapper`
      * @param value
      */
-    singleValueMapper?: (value: string) => ReactNode
-    onClick?: (e: MouseEvent<HTMLDivElement>, tagValue: ReactNode, fieldValue: string | string[]) => void
+    singleValueMapper?: (value: string | number | boolean) => ReactNode
+    onClick?: (e: MouseEvent<HTMLDivElement>, tagValue: ReactNode, fieldValue: FieldValue) => void
     clickBehavior?: "copy-text" | "follow-url" | string
 }
 
-export function GenericResultViewTag({
-    field,
-    result,
-    icon,
-    label,
-    valueMapper,
-    singleValueMapper,
-    clickBehavior = "copy-text",
-    onClick
-}: GenericResultViewTagProps) {
+export function GenericResultViewTag(props: GenericResultViewTagProps) {
+    const { field, valueOverride, result, icon, label, valueMapper, singleValueMapper, clickBehavior = "copy-text", onClick } = props
+
     const [showCopiedNotice, setShowCopiedNotice] = useState(false)
 
     useEffect(() => {
@@ -57,11 +54,12 @@ export function GenericResultViewTag({
     }, [showCopiedNotice])
 
     const fieldValue = useMemo(() => {
-        return autoUnwrap(result[field]) as string | string[]
-    }, [field, result])
+        if (valueOverride !== undefined) return valueOverride
+        return autoUnwrap(result[field]) as FieldValue
+    }, [field, result, valueOverride])
 
     const value = useMemo(() => {
-        if (!fieldValue) return undefined
+        if (fieldValue === null || fieldValue === undefined) return undefined
         if (valueMapper) return valueMapper(fieldValue)
         if (singleValueMapper) return Array.isArray(fieldValue) ? fieldValue.map(singleValueMapper) : singleValueMapper(fieldValue)
         else return fieldValue
@@ -79,13 +77,13 @@ export function GenericResultViewTag({
     )
 
     const handleClick = useCallback(
-        (fieldValue: string | string[], value: ReactNode, e: MouseEvent<HTMLDivElement>) => {
+        (fieldValue: FieldValue, value: ReactNode, e: MouseEvent<HTMLDivElement>) => {
             if (onClick) onClick(e, value, fieldValue)
             if (clickBehavior === "copy-text" && !showCopiedNotice) {
                 copyTagValue(e)
                 setShowCopiedNotice(true)
             } else if (clickBehavior === "follow-url" && !Array.isArray(fieldValue)) {
-                window.open(fieldValue, "_blank")
+                window.open(fieldValue.toString(), "_blank")
             }
         },
         [clickBehavior, copyTagValue, onClick, showCopiedNotice]
@@ -101,7 +99,7 @@ export function GenericResultViewTag({
     }, [clickBehavior, onClick])
 
     const base = useCallback(
-        (fieldValue: string | string[], value: ReactNode, key?: string) => {
+        (fieldValue: FieldValue, value: ReactNode, key?: string) => {
             return (
                 <Badge key={key} variant="secondary" className="rfs-truncate" onClick={(e) => handleClick(fieldValue, value, e)}>
                     <span className="rfs-flex rfs-truncate">
@@ -121,19 +119,12 @@ export function GenericResultViewTag({
         [handleClick, icon, showCopiedNotice]
     )
 
-    if (!label) return Array.isArray(value) ? value.map((v, i) => base(fieldValue[value.indexOf(v)], v, field + i)) : base(fieldValue, value)
-    if (!value) return null
+    if (value === undefined) return null
 
-    if (Array.isArray(value)) {
-        return value.map((entry, i) => (
-            <Tooltip delayDuration={500} key={field + i}>
-                <TooltipTrigger>{base(fieldValue[value.indexOf(entry)], entry)}</TooltipTrigger>
-                <TooltipContent>
-                    <div>{label}</div>
-                    <div className="rfs-text-xs rfs-text-muted-foreground">{clickBehaviourText}</div>
-                </TooltipContent>
-            </Tooltip>
-        ))
+    if (Array.isArray(value) && Array.isArray(fieldValue)) {
+        return value.map((entry, i) => <GenericResultViewTag {...props} key={field + i} valueOverride={fieldValue[value.indexOf(entry)]} />)
+    } else if (!label) {
+        return base(fieldValue, value)
     }
 
     return (

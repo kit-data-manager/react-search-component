@@ -26,7 +26,7 @@ export function prettyPrintURL(url: string) {
 }
 
 export function autoUnwrap<E>(item?: E | { raw?: E }) {
-    if (!item) {
+    if (item === undefined || item === null) {
         return undefined
     } else if (typeof item === "object" && "raw" in item) {
         return item.raw
