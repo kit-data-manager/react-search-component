@@ -898,8 +898,8 @@
 }
 
 .sui-results-container {
-    padding: 0;
-    list-style: none;
+    padding: 0!important;
+    list-style: none!important;
 }
 
 .sui-results-per-page {
