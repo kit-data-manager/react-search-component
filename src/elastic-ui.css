@@ -99,8 +99,13 @@
         font-weight: 500;
         color: hsl(var(--rfs-secondary-foreground));
         background-color: hsl(var(--rfs-secondary));
-        border: 1px solid hsl(var(--rfs-border));
         border-radius: 4px;
+    }
+
+    /* Bug in elasticsearch-ui: Filter toggle button has bad attribute "hidden" */
+    .sui-layout-sidebar-toggle:where([hidden=""]) {
+        /* Ignore hidden and display it always (we are in max-width: 800px) */
+        display: block !important;
     }
 
     .sui-layout-sidebar .sui-layout-sidebar-toggle {
