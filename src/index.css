@@ -65,6 +65,10 @@
             --rfs-chart-4: 280 65% 60%;
             --rfs-chart-5: 340 75% 55%;
         }
+
+        [hidden]:where(:not([hidden="until-found"])) {
+            display: none !important;
+        }
     }
 }
 
