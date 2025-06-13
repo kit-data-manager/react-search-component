@@ -1,9 +1,8 @@
 "use client"
 
-import type { ResponseState } from "@elastic/search-ui"
-import type ElasticsearchAPIConnector from "@elastic/search-ui-elasticsearch-connector"
 import { createContext } from "react"
 import { SearchConfig } from "@/lib/config/SearchConfig"
+import { estypes } from "@elastic/elasticsearch"
 
 /**
  * Extends the elasticsearch SearchContext with additional utilities
@@ -22,14 +21,13 @@ export interface ReactSearchComponentContext {
      * @param query
      * @return May return undefined if the elastic connector is not reachable (`SearchProvider` not mounted)
      */
-    searchForBackground: (query: string) => Promise<ResponseState | undefined>
+    searchForBackground: (query: string) => Promise<estypes.SearchHit[] | undefined>
 
     /**
      * The current search term
      */
     searchTerm: string
 
-    elasticConnector?: ElasticsearchAPIConnector
     config: SearchConfig
 }
 
@@ -41,10 +39,7 @@ export const ReactSearchComponentContext = createContext<ReactSearchComponentCon
         console.error(`ReactSearchComponentContext not mounted, but searchFor was executed`)
     },
     searchTerm: "",
-    get elasticConnector() {
-        return undefined
-    },
-    async searchForBackground(): Promise<ResponseState | undefined> {
+    async searchForBackground(): Promise<estypes.SearchHit[] | undefined> {
         console.error(`ReactSearchComponentContext not mounted, but searchFor was executed`)
         return undefined
     },

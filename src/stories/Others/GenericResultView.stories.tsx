@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 
 import { GenericResultView } from "@/components/result/GenericResultView"
 import { AtomIcon, GlobeIcon, GraduationCap, ScaleIcon } from "lucide-react"

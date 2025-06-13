@@ -2,8 +2,9 @@ cff-version: 1.2.0
 message: If you use this software, please cite it using these metadata.
 type: software
 title: '@kit-data-manager/react-search-component'
-abstract: All-in-one component for rendering an elastic search UI for searching anything.
-  Built-in support for visualizing related items in a graph and resolving unique identifiers.
+abstract: All-in-one component for rendering an elastic search UI for searching
+  anything. Built-in support for visualizing related items in a graph and
+  resolving unique identifiers.
 version: 0.2.0
 keywords:
   - react

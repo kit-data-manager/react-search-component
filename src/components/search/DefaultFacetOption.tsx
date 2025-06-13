@@ -4,7 +4,7 @@ import { PidNameDisplay } from "@/components/result/PidNameDisplay"
 import { FacetValue } from "@elastic/search-ui"
 import { FacetConfig } from "@/lib/config/SearchConfig"
 import { useMemo } from "react"
-import { prettyPrintURL } from "@/lib/utils"
+import { filterValueToString, prettyPrintURL } from "@/lib/utils"
 
 export function DefaultFacetOption({
     option,
@@ -18,7 +18,7 @@ export function DefaultFacetOption({
     onRemove(v: string): void
 }) {
     const value = useMemo(() => {
-        return option.value.toString()
+        return filterValueToString(option.value)
     }, [option.value])
 
     const parsedValue = useMemo(() => {

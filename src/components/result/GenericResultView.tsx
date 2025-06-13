@@ -15,7 +15,8 @@ import { GenericResultViewImage } from "@/components/result/GenericResultViewIma
 import { GraphNodeUtils } from "@/components/graph/GraphNodeUtils"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { PidComponent } from "@kit-data-manager/react-pid-component"
-import { autoUnwrap, autoUnwrapArray, toArray } from "@/lib/utils"
+import { autoUnwrap, autoUnwrapArray, fieldOptionsToArray, injectMeta, toArray } from "@/lib/utils"
+import { relatedItemsQuery } from "@/lib/queries"
 
 const HTTP_REGEX = /https?:\/\/.*/
 
@@ -133,7 +134,7 @@ export function GenericResultView({
     showInspectFDO = true
 }: GenericResultViewProps) {
     const { openOrAddToRelationsGraph } = useContext(RelationsGraphContext)
-    const { searchTerm, elasticConnector, searchFor, config } = useContext(ReactSearchComponentContext)
+    const { searchTerm, searchFor, config } = useContext(ReactSearchComponentContext)
     const addToResultCache = useStore(resultCache, (s) => s.set)
     const [loadingRelatedItems, setLoadingRelatedItems] = useState(false)
     const [showInspectDialog, setShowInspectDialog] = useState(false)
@@ -267,21 +268,27 @@ export function GenericResultView({
     const fetchRelatedItems = useCallback(
         async (term: string, amount: number) => {
             try {
-                const search = await elasticConnector?.onSearch(
-                    { searchTerm: term, resultsPerPage: amount + 5 },
-                    {
-                        result_fields: {},
-                        searchTerm: term,
-                        search_fields: relatedItemsPrefetchOptions?.searchFields ?? { [pidField ?? "pid"]: {} },
-                        resultsPerPage: amount
-                    }
-                )
+                const search = await relatedItemsQuery(config, {
+                    amount,
+                    term,
+                    index: config.indices.map((i) => i.name),
+                    searchFields: relatedItemsPrefetchOptions.searchFields
+                        ? fieldOptionsToArray(Object.keys(relatedItemsPrefetchOptions.searchFields))
+                        : undefined,
+                    pidField
+                })
 
-                if (search) {
-                    for (const entry of search.results) {
-                        const pid = autoUnwrap(entry[pidField ?? "pid"])
-                        if (!pid) continue
-                        addToResultCache(pid, entry)
+                if (search.hits.hits) {
+                    for (const entry of search.hits.hits) {
+                        if (entry._source) {
+                            const fields = entry._source as { [key: string]: string }
+                            const pid = autoUnwrap(fields[pidField ?? "pid"])
+                            if (!pid) continue
+                            injectMeta(fields, entry._index)
+                            addToResultCache(pid, fields)
+                        } else {
+                            console.error("Got empty hit from elastic", entry)
+                        }
                     }
                 }
             } catch (e) {
@@ -289,7 +296,7 @@ export function GenericResultView({
                 alert("Failed to fetch related items, graph may be incomplete")
             }
         },
-        [addToResultCache, elasticConnector, pidField, relatedItemsPrefetchOptions?.searchFields]
+        [addToResultCache, config, pidField, relatedItemsPrefetchOptions.searchFields]
     )
 
     const showRelatedItemsGraph = useCallback(async () => {
