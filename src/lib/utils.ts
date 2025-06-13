@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
-export function arrayToObjectEntries(array: (string | { field: string })[]) {
+export function fieldOptionsToObject(array: (string | { field: string })[]) {
     const obj: Record<string, Record<string, unknown>> = {}
     for (const key of array) {
         if (typeof key === "string") {
@@ -17,6 +17,18 @@ export function arrayToObjectEntries(array: (string | { field: string })[]) {
     return obj
 }
 
+export function fieldOptionsToArray(array: (string | { field: string })[]) {
+    const arr = []
+    for (const key of array) {
+        if (typeof key === "string") {
+            arr.push(key)
+        } else {
+            arr.push(key.field)
+        }
+    }
+    return arr
+}
+
 export function prettyPrintURL(url: string) {
     if (URL.canParse(url)) {
         const parsed = new URL(url)
@@ -25,11 +37,13 @@ export function prettyPrintURL(url: string) {
     } else return url
 }
 
-export function autoUnwrap<E>(item?: E | { raw?: E }) {
+export function autoUnwrap<E>(item?: E | { raw?: E | undefined }) {
     if (item === undefined || item === null) {
         return undefined
-    } else if (typeof item === "object" && "raw" in item) {
-        return item.raw
+    } else if (typeof item === "object") {
+        if ("raw" in item) {
+            return item.raw
+        } else return JSON.stringify(item)
     } else return item
 }
 
@@ -56,4 +70,12 @@ export function parseStringValueToNumber(value: string) {
         return Number.parseFloat(value)
     }
     return Number.parseInt(value)
+}
+
+export function injectMeta(obj: { [key: string]: unknown }, index: string) {
+    obj._meta = {
+        rawHit: {
+            _index: index
+        }
+    }
 }
