@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { FilterValue } from "@elastic/search-ui"
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
@@ -78,4 +79,12 @@ export function injectMeta(obj: { [key: string]: unknown }, index: string) {
             _index: index
         }
     }
+}
+
+export function filterValueToString(fv: FilterValue) {
+    if (Array.isArray(fv)) {
+        return fv.join(",")
+    } else if (typeof fv === "object") {
+        return fv.name
+    } else return fv + ""
 }
