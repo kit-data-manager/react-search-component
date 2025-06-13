@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 
 import { DefaultFacet } from "@/components/search/DefaultFacet"
 import { SearchConfigBuilder } from "@/lib/config/SearchConfigBuilder"

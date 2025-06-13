@@ -1,6 +1,6 @@
 import type { SearchConfig } from "@/lib/config/SearchConfig.ts"
 
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 import { ReactSearchComponent } from "@/components/ReactSearchComponent"
 import { GenericResultView } from "@/components/result/GenericResultView"
 import { AtomIcon, AudioLines, CircleDot, FlaskConical, GlobeIcon, GraduationCap, Microscope, ScaleIcon, UserIcon } from "lucide-react"
