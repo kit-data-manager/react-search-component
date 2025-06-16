@@ -56,8 +56,6 @@
     "embla-carousel-react": "^8.5.2",
     "lucide-react": "^0.515.0",
     "luxon": "^3.5.0",
-    "react": "^19",
-    "react-dom": "^19",
     "swr": "^2.3.0",
     "tailwind-merge": "^3.0.1",
     "usehooks-ts": "^3.1.0",
@@ -108,6 +106,10 @@
     "vite": "^6.0.9",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19"
   },
   "files": [
     "dist"
