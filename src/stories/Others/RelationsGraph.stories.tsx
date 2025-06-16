@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Handle, Position, ReactFlowProvider } from "@xyflow/react"
 import { RelationsGraph } from "@/components/graph/RelationsGraph"
 import { GenericResultView } from "@/components/result"

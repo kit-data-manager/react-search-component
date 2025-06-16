@@ -10,6 +10,7 @@ import { DefaultFacetOption } from "@/components/search/DefaultFacetOption"
 import type { FacetValue } from "@elastic/search-ui"
 import type { FacetConfig } from "@/lib/config/SearchConfig"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { filterValueToString } from "@/lib/utils"
 
 export interface OptionViewProps {
     option: FacetValue
@@ -62,10 +63,9 @@ export function DefaultFacet(props: FacetViewProps & { config: SearchConfigBuild
                     </Popover>
                 )}
             </div>
-
             {props.options.map((option) => (
                 <ActualOptionView
-                    key={option.value.toString()}
+                    key={filterValueToString(option.value)}
                     option={option}
                     facetConfig={selfConfig}
                     onSelect={props.onSelect}

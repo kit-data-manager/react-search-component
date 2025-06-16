@@ -15,13 +15,13 @@ export function DefaultSorting() {
             setValue(value)
             if (value.startsWith("-")) {
                 const field = value.replace("-", "")
-                search.driver.setSort([{ field, direction: "" }], "")
+                search.driver.actions.setSort([{ field, direction: "" }], "")
             } else if (value.startsWith("asc-")) {
                 const field = value.replace("asc-", "")
-                search.driver.setSort([{ field, direction: "asc" }], "asc")
+                search.driver.actions.setSort([{ field, direction: "asc" }], "asc")
             } else {
                 const field = value.replace("desc-", "")
-                search.driver.setSort([{ field, direction: "desc" }], "desc")
+                search.driver.actions.setSort([{ field, direction: "desc" }], "desc")
             }
         },
         [search]

@@ -49,7 +49,6 @@ export function RelationsGraphModal({
                         searchFor: localSearchFor,
                         searchTerm: searchContext.searchTerm,
                         searchForBackground: searchContext.searchForBackground,
-                        elasticConnector: searchContext.elasticConnector,
                         config: searchContext.config
                     }}
                 >

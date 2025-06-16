@@ -124,7 +124,7 @@ export function ReactSearchComponent({
                                 isLoading
                             })}
                         >
-                            {({ wasSearched, isLoading }: SearchContextState) => {
+                            {({ wasSearched, isLoading }) => {
                                 return (
                                     <ErrorBoundary view={ErrorView}>
                                         <Layout
