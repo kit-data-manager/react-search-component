@@ -140,13 +140,6 @@ const demoConfig: SearchConfig = {
     imageProxy: (src) => `https://wsrv.nl/?url=${src}&h=1000&output=webp&ll`
 }
 
-export const NoResultRenderer: Story = {
-    args: {
-        config: demoConfig,
-        resultView: null!
-    }
-}
-
 export const GenericResultRenderer: Story = {
     args: {
         config: demoConfig,
@@ -226,5 +219,12 @@ export const GenericResultRenderer: Story = {
                 showOpenInFairDoScope
             />
         )
+    }
+}
+
+export const NoResultRenderer: Story = {
+    args: {
+        config: demoConfig,
+        resultView: null!
     }
 }
