@@ -23,7 +23,7 @@ jobs:
         with:
           fetch-depth: 0
       # Set up Node
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
       #👇 Add Storybook build and deploy to GitHub Pages as a step in the workflow
