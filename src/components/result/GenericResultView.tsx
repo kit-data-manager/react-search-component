@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { RelationsGraphContext } from "@/components/graph/RelationsGraphContext"
 import { ReactSearchComponentContext } from "@/components/ReactSearchComponentContext"
-import { useStore } from "zustand/index"
+import { useStore } from "zustand"
 import { resultCache } from "@/lib/ResultCache"
 import { DateTime } from "luxon"
 import { ChevronDown, Download, GitFork, LoaderCircle, Microscope, Pencil, PlusIcon, SearchIcon, TableProperties } from "lucide-react"
@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { SearchFieldConfiguration } from "@elastic/search-ui"
 import { GenericResultViewTag, GenericResultViewTagProps } from "@/components/result/GenericResultViewTag"
-import { z } from "zod"
+import * as z from "zod/mini"
 import { GenericResultViewImage } from "@/components/result/GenericResultViewImage"
 import { GraphNodeUtils } from "@/components/graph/GraphNodeUtils"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
@@ -143,12 +143,7 @@ export function GenericResultView({
         (field: string) => {
             try {
                 const value = autoUnwrap(
-                    z
-                        .string()
-                        .or(z.number())
-                        .or(z.object({ raw: z.string().or(z.number()) }))
-                        .optional()
-                        .parse(result[field])
+                    z.optional(z.union([z.string(), z.number(), z.object({ raw: z.union([z.string(), z.number()]) })])).parse(result[field])
                 )
 
                 return value ? value + "" : undefined
@@ -165,12 +160,14 @@ export function GenericResultView({
             try {
                 const value = autoUnwrapArray<string | number>(
                     z
-                        .string()
-                        .array()
-                        .or(z.number().array())
-                        .or(z.object({ raw: z.string().array() }))
-                        .or(z.object({ raw: z.number().array() }))
-                        .optional()
+                        .optional(
+                            z.union([
+                                z.array(z.string()),
+                                z.array(z.number()),
+                                z.object({ raw: z.array(z.number()) }),
+                                z.object({ raw: z.array(z.string()) })
+                            ])
+                        )
                         .parse(result[field])
                 )
                 return value ? value.map((v) => v + "") : []

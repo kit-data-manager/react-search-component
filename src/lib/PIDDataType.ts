@@ -1,9 +1,9 @@
-import { z } from "zod"
+import * as z from "zod/mini"
 
 export const PIDDataSchema = z.object({
     identifier: z.string(),
     name: z.string(),
-    description: z.string().optional()
+    description: z.optional(z.string())
 })
 
 export type PIDData = z.infer<typeof PIDDataSchema>

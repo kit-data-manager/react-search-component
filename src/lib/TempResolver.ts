@@ -1,4 +1,4 @@
-import { z } from "zod"
+import * as z from "zod/mini"
 
 /**
  * !TODO Replace with resolver from pid-component
@@ -6,7 +6,7 @@ import { z } from "zod"
 
 const TS4TIBResponse = z.object({
     response: z.object({
-        docs: z.object({ label: z.string(), iri: z.string() }).array()
+        docs: z.array(z.object({ label: z.string(), iri: z.string() }))
     })
 })
 
