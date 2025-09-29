@@ -1,7 +1,7 @@
 import { ResultViewProps } from "@elastic/react-search-ui-views"
 import { ComponentType, useMemo } from "react"
 import { PlaceholderResultView } from "@/components/result/PlaceholderResultView"
-import { z } from "zod"
+import * as z from "zod/mini"
 
 interface ResultViewSelectorProps {
     resultView?: ComponentType<ResultViewProps>
