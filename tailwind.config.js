@@ -71,11 +71,5 @@ export default {
                 "rfs-outline-ping": "outline-ping 1s ease-in-out"
             }
         }
-    },
-    plugins: [
-        nestingPlugin(postcssNesting),
-        scopedPreflightStyles({
-            isolationStrategy: isolateInsideOfContainer(".rfs-root", {})
-        })
-    ]
+    }
 }
