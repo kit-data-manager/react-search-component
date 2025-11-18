@@ -1,75 +1,147 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss' prefix(rfs);
 
-.rfs-root {
+@custom-variant dark (&:is([class="dark"] *));
+
+@theme {
+  --radius-lg: var(--rfs-radius);
+  --radius-md: calc(var(--rfs-radius) - 2px);
+  --radius-sm: calc(var(--rfs-radius) - 4px);
+
+  --color-background: hsl(var(--rfs-background));
+  --color-foreground: hsl(var(--rfs-foreground));
+
+  --color-card: hsl(var(--rfs-card));
+  --color-card-foreground: hsl(var(--rfs-card-foreground));
+
+  --color-popover: hsl(var(--rfs-popover));
+  --color-popover-foreground: hsl(var(--rfs-popover-foreground));
+
+  --color-primary: hsl(var(--rfs-primary));
+  --color-primary-foreground: hsl(var(--rfs-primary-foreground));
+
+  --color-secondary: hsl(var(--rfs-secondary));
+  --color-secondary-foreground: hsl(var(--rfs-secondary-foreground));
+
+  --color-muted: hsl(var(--rfs-muted));
+  --color-muted-foreground: hsl(var(--rfs-muted-foreground));
+
+  --color-accent: hsl(var(--rfs-accent));
+  --color-accent-foreground: hsl(var(--rfs-accent-foreground));
+
+  --color-destructive: hsl(var(--rfs-destructive));
+  --color-destructive-foreground: hsl(var(--rfs-destructive-foreground));
+
+  --color-border: hsl(var(--rfs-border));
+  --color-input: hsl(var(--rfs-input));
+  --color-ring: hsl(var(--rfs-ring));
+
+  --color-chart-1: hsl(var(--rfs-chart-1));
+  --color-chart-2: hsl(var(--rfs-chart-2));
+  --color-chart-3: hsl(var(--rfs-chart-3));
+  --color-chart-4: hsl(var(--rfs-chart-4));
+  --color-chart-5: hsl(var(--rfs-chart-5));
+
+  --animate-rfs-outline-ping: outline-ping 1s ease-in-out;
+
+  @keyframes outline-ping {
+    0%,
+    100% {
+      outline: 5px solid transparent;
+    }
+    75% {
+      outline: 5px solid hsl(var(--rfs-primary));
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@layer utilities {
+  .rfs-root {
     :root {
-        font-synthesis: none;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     @layer base {
-        :root {
-            --rfs-background: 0 0% 100%;
-            --rfs-foreground: 0 0% 3.9%;
-            --rfs-card: 0 0% 100%;
-            --rfs-card-foreground: 0 0% 3.9%;
-            --rfs-popover: 0 0% 100%;
-            --rfs-popover-foreground: 0 0% 3.9%;
-            --rfs-primary: 215 100% 50%;
-            --rfs-primary-foreground: 0 0% 98%;
-            --rfs-secondary: 0 0% 96.1%;
-            --rfs-secondary-foreground: 0 0% 9%;
-            --rfs-muted: 0 0% 96.1%;
-            --rfs-muted-foreground: 0 0% 45.1%;
-            --rfs-accent: 0 0% 96.1%;
-            --rfs-accent-foreground: 0 0% 9%;
-            --rfs-destructive: 0 84.2% 60.2%;
-            --rfs-destructive-foreground: 0 0% 98%;
-            --rfs-border: 0 0% 89.8%;
-            --rfs-input: 0 0% 89.8%;
-            --rfs-ring: 0 0% 3.9%;
-            --rfs-chart-1: 12 76% 61%;
-            --rfs-chart-2: 173 58% 39%;
-            --rfs-chart-3: 197 37% 24%;
-            --rfs-chart-4: 43 74% 66%;
-            --rfs-chart-5: 27 87% 67%;
-            --rfs-radius: 0.5rem;
-        }
+      :root {
+        --rfs-background: 0 0% 100%;
+        --rfs-foreground: 0 0% 3.9%;
+        --rfs-card: 0 0% 100%;
+        --rfs-card-foreground: 0 0% 3.9%;
+        --rfs-popover: 0 0% 100%;
+        --rfs-popover-foreground: 0 0% 3.9%;
+        --rfs-primary: 215 100% 50%;
+        --rfs-primary-foreground: 0 0% 98%;
+        --rfs-secondary: 0 0% 96.1%;
+        --rfs-secondary-foreground: 0 0% 9%;
+        --rfs-muted: 0 0% 96.1%;
+        --rfs-muted-foreground: 0 0% 45.1%;
+        --rfs-accent: 0 0% 96.1%;
+        --rfs-accent-foreground: 0 0% 9%;
+        --rfs-destructive: 0 84.2% 60.2%;
+        --rfs-destructive-foreground: 0 0% 98%;
+        --rfs-border: 0 0% 89.8%;
+        --rfs-input: 0 0% 89.8%;
+        --rfs-ring: 0 0% 3.9%;
+        --rfs-chart-1: 12 76% 61%;
+        --rfs-chart-2: 173 58% 39%;
+        --rfs-chart-3: 197 37% 24%;
+        --rfs-chart-4: 43 74% 66%;
+        --rfs-chart-5: 27 87% 67%;
+        --rfs-radius: 0.5rem;
+      }
 
-        .dark {
-            --rfs-background: 0 0% 3.9%;
-            --rfs-foreground: 0 0% 98%;
-            --rfs-card: 0 0% 3.9%;
-            --rfs-card-foreground: 0 0% 98%;
-            --rfs-popover: 0 0% 3.9%;
-            --rfs-popover-foreground: 0 0% 98%;
-            --rfs-primary: 215 100% 40%;
-            --rfs-primary-foreground: 0 0% 98%;
-            --rfs-secondary: 0 0% 14.9%;
-            --rfs-secondary-foreground: 0 0% 98%;
-            --rfs-muted: 0 0% 14.9%;
-            --rfs-muted-foreground: 0 0% 63.9%;
-            --rfs-accent: 0 0% 14.9%;
-            --rfs-accent-foreground: 0 0% 98%;
-            --rfs-destructive: 0 62.8% 30.6%;
-            --rfs-destructive-foreground: 0 0% 98%;
-            --rfs-border: 0 0% 14.9%;
-            --rfs-input: 0 0% 14.9%;
-            --rfs-ring: 0 0% 83.1%;
-            --rfs-chart-1: 220 70% 50%;
-            --rfs-chart-2: 160 60% 45%;
-            --rfs-chart-3: 30 80% 55%;
-            --rfs-chart-4: 280 65% 60%;
-            --rfs-chart-5: 340 75% 55%;
-        }
+      .dark {
+        --rfs-background: 0 0% 3.9%;
+        --rfs-foreground: 0 0% 98%;
+        --rfs-card: 0 0% 3.9%;
+        --rfs-card-foreground: 0 0% 98%;
+        --rfs-popover: 0 0% 3.9%;
+        --rfs-popover-foreground: 0 0% 98%;
+        --rfs-primary: 215 100% 40%;
+        --rfs-primary-foreground: 0 0% 98%;
+        --rfs-secondary: 0 0% 14.9%;
+        --rfs-secondary-foreground: 0 0% 98%;
+        --rfs-muted: 0 0% 14.9%;
+        --rfs-muted-foreground: 0 0% 63.9%;
+        --rfs-accent: 0 0% 14.9%;
+        --rfs-accent-foreground: 0 0% 98%;
+        --rfs-destructive: 0 62.8% 30.6%;
+        --rfs-destructive-foreground: 0 0% 98%;
+        --rfs-border: 0 0% 14.9%;
+        --rfs-input: 0 0% 14.9%;
+        --rfs-ring: 0 0% 83.1%;
+        --rfs-chart-1: 220 70% 50%;
+        --rfs-chart-2: 160 60% 45%;
+        --rfs-chart-3: 30 80% 55%;
+        --rfs-chart-4: 280 65% 60%;
+        --rfs-chart-5: 340 75% 55%;
+      }
 
-        [hidden]:where(:not([hidden="until-found"])) {
-            display: none !important;
-        }
+      [hidden]:where(:not([hidden='until-found'])) {
+        display: none !important;
+      }
     }
+  }
 }
 
 @layer base {

@@ -118,7 +118,7 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
                 <div
                     ref={ref}
                     onKeyDownCapture={handleKeyDown}
-                    className={cn("rfs-relative", className)}
+                    className={cn("rfs:relative", className)}
                     role="region"
                     aria-roledescription="carousel"
                     {...props}
@@ -135,8 +135,8 @@ const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
     const { carouselRef, orientation } = useCarousel()
 
     return (
-        <div ref={carouselRef} className="rfs-root rfs-overflow-hidden">
-            <div ref={ref} className={cn("rfs-flex", orientation === "horizontal" ? "rfs--ml-4" : "rfs--mt-4 rfs-flex-col", className)} {...props} />
+        <div ref={carouselRef} className="rfs-root rfs:overflow-hidden">
+            <div ref={ref} className={cn("rfs:flex", orientation === "horizontal" ? "rfs:-ml-4" : "rfs:-mt-4 rfs:flex-col", className)} {...props} />
         </div>
     )
 })
@@ -150,7 +150,7 @@ const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
             ref={ref}
             role="group"
             aria-roledescription="slide"
-            className={cn("rfs-min-w-0 rfs-shrink-0 rfs-grow-0 rfs-basis-full", orientation === "horizontal" ? "rfs-pl-4" : "rfs-pt-4", className)}
+            className={cn("rfs:min-w-0 rfs:shrink-0 rfs:grow-0 rfs:basis-full", orientation === "horizontal" ? "rfs:pl-4" : "rfs:pt-4", className)}
             {...props}
         />
     )
@@ -167,18 +167,18 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
                 variant={variant}
                 size={size}
                 className={cn(
-                    "rfs-absolute rfs-h-8 rfs-w-8 rfs-rounded-full",
+                    "rfs:absolute rfs:h-8 rfs:w-8 rfs:rounded-full",
                     orientation === "horizontal"
-                        ? "rfs-left-0 rfs-top-1/2 rfs--translate-y-1/2"
-                        : "rfs--top-12 rfs-left-1/2 rfs--translate-x-1/2 rfs-rotate-90",
+                        ? "rfs:left-0 rfs:top-1/2 rfs:-translate-y-1/2"
+                        : "rfs:-top-12 rfs:left-1/2 rfs:-translate-x-1/2 rfs:rotate-90",
                     className
                 )}
                 disabled={!canScrollPrev}
                 onClick={scrollPrev}
                 {...props}
             >
-                <ArrowLeft className="rfs-h-4 rfs-w-4" />
-                <span className="rfs-sr-only">Previous slide</span>
+                <ArrowLeft className="rfs:h-4 rfs:w-4" />
+                <span className="rfs:sr-only">Previous slide</span>
             </Button>
         )
     }
@@ -195,18 +195,18 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
                 variant={variant}
                 size={size}
                 className={cn(
-                    "rfs-absolute rfs-h-8 rfs-w-8 rfs-rounded-full",
+                    "rfs:absolute rfs:h-8 rfs:w-8 rfs:rounded-full",
                     orientation === "horizontal"
-                        ? "rfs-right-0 rfs-top-1/2 rfs--translate-y-1/2"
-                        : "rfs--bottom-12 rfs-left-1/2 rfs--translate-x-1/2 rfs-rotate-90",
+                        ? "rfs:right-0 rfs:top-1/2 rfs:-translate-y-1/2"
+                        : "rfs:-bottom-12 rfs:left-1/2 rfs:-translate-x-1/2 rfs:rotate-90",
                     className
                 )}
                 disabled={!canScrollNext}
                 onClick={scrollNext}
                 {...props}
             >
-                <ArrowRight className="rfs-h-4 rfs-w-4" />
-                <span className="rfs-sr-only">Next slide</span>
+                <ArrowRight className="rfs:h-4 rfs:w-4" />
+                <span className="rfs:sr-only">Next slide</span>
             </Button>
         )
     }

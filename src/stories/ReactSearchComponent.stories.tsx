@@ -149,19 +149,19 @@ export const GenericResultRenderer: Story = {
                 invertImageInDarkMode
                 tags={[
                     {
-                        icon: <UserIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <UserIcon className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                         label: "Contact",
                         field: "contact",
                         singleValueMapper: (v) => <OrcidDisplay orcid={v + ""} />,
                         clickBehavior: "follow-url"
                     },
                     {
-                        icon: <GraduationCap className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <GraduationCap className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                         label: "Resource Type",
                         field: "resourceType"
                     },
                     {
-                        icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <GlobeIcon className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                         field: "hadPrimarySource",
                         singleValueMapper: (v) => mapPrimarySource(v + ""),
                         label: "Source",
@@ -171,37 +171,37 @@ export const GenericResultRenderer: Story = {
                             window.open("https://" + e.target.innerText, "_blank")
                     },
                     {
-                        icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <ScaleIcon className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                         field: "licenseURL",
                         singleValueMapper: (v) => <PidNameDisplay pid={v + ""} />,
                         label: "License URL",
                         clickBehavior: "follow-url"
                     },
                     {
-                        icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <AtomIcon className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                         field: "Compound.Molar_mass",
                         label: "Molar Mass",
                         singleValueMapper: (v) => v + " g/mol"
                     },
                     {
-                        icon: <Microscope className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <Microscope className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                         label: "NMR Method",
                         field: "NMR_Method",
                         singleValueMapper: (v) => <PidNameDisplay pid={v + ""} />
                     },
                     {
-                        icon: <FlaskConical className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <FlaskConical className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                         label: "NMR Solvent",
                         field: "NMR_Solvent",
                         singleValueMapper: (v) => <PidNameDisplay pid={v + ""} />
                     },
                     {
-                        icon: <AudioLines className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <AudioLines className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                         label: "Pulse Sequence Name",
                         field: "Pulse_Sequence_Name"
                     },
                     {
-                        icon: <CircleDot className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                        icon: <CircleDot className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                         label: "Acquisition Nucleus",
                         field: "Acquisition_Nucleus",
                         singleValueMapper: (v) => <PidNameDisplay pid={v + ""} />

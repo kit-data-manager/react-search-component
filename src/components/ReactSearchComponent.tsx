@@ -163,8 +163,8 @@ export function ReactSearchComponent({
                                             bodyContent={
                                                 <>
                                                     {isLoading && !wasSearched && (
-                                                        <div className="rfs-flex rfs-justify-center">
-                                                            <LoaderCircle className="rfs-size-6 rfs-animate-spin" />
+                                                        <div className="rfs:flex rfs:justify-center">
+                                                            <LoaderCircle className="rfs:size-6 rfs:animate-spin" />
                                                         </div>
                                                     )}
 
@@ -172,7 +172,7 @@ export function ReactSearchComponent({
                                                 </>
                                             }
                                             bodyHeader={
-                                                <div className="rfs-flex rfs-w-full rfs-items-center rfs-justify-between rfs-p-2">
+                                                <div className="rfs:flex rfs:w-full rfs:items-center rfs:justify-between rfs:p-2">
                                                     {wasSearched && (
                                                         <PagingInfo
                                                             view={(props) => (
@@ -186,7 +186,7 @@ export function ReactSearchComponent({
                                                 </div>
                                             }
                                             bodyFooter={
-                                                <div className="rfs-flex rfs-items-center rfs-flex-col rfs-gap-2 md:rfs-grid rfs-grid-cols-[1fr_auto_1fr] rfs-w-full rfs-p-2">
+                                                <div className="rfs:flex rfs:items-center rfs:flex-col rfs:gap-2 rfs:md:grid rfs:grid-cols-[1fr_auto_1fr] rfs:w-full rfs:p-2">
                                                     <div />
                                                     <Paging />
                                                     {wasSearched && (
@@ -194,13 +194,13 @@ export function ReactSearchComponent({
                                                             options={[20, 50, 100, 250]}
                                                             view={(props) => {
                                                                 return (
-                                                                    <div className="rfs-flex rfs-h-full rfs-items-center rfs-gap-2 rfs-justify-self-end">
-                                                                        <div className="rfs-text-xs rfs-text-muted-foreground">Results per Page</div>
+                                                                    <div className="rfs:flex rfs:h-full rfs:items-center rfs:gap-2 rfs:justify-self-end">
+                                                                        <div className="rfs:text-xs rfs:text-muted-foreground">Results per Page</div>
                                                                         <Select
                                                                             value={`${props.value}`}
                                                                             onValueChange={(v) => props.onChange(Number.parseInt(v))}
                                                                         >
-                                                                            <SelectTrigger className="rfs-w-[80px]">
+                                                                            <SelectTrigger className="rfs:w-[80px]">
                                                                                 <SelectValue />
                                                                             </SelectTrigger>
                                                                             <SelectContent>

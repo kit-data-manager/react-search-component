@@ -73,7 +73,7 @@ export const CustomNode: Story = {
             custom: (props) => (
                 <>
                     <Handle type={"target"} position={Position.Left} />
-                    <div className="rfs-p-4 rfs-bg-green-300">This is a custom Node Component ({props.id})</div>
+                    <div className="rfs:p-4 rfs:bg-green-300">This is a custom Node Component ({props.id})</div>
                     <Handle type={"source"} position={Position.Right} />
                 </>
             )

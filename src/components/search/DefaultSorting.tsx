@@ -64,15 +64,15 @@ export function DefaultSorting() {
 
     return (
         <Select value={value} onValueChange={handleChange}>
-            <SelectTrigger className="rfs-max-w-[400px]">
-                <div className="rfs-flex rfs-items-center rfs-gap-2">
-                    <ArrowUpDown className={"rfs-size-4"} />
+            <SelectTrigger className="rfs:max-w-[400px]">
+                <div className="rfs:flex rfs:items-center rfs:gap-2">
+                    <ArrowUpDown className={"rfs:size-4"} />
                     <SelectValue />
                 </div>
             </SelectTrigger>
             <SelectContent>
                 {config.sortOptions.map((item) => (
-                    <SelectItem className="rfs-flex rfs-items-center" key={makeKey(item)} value={makeKey(item)}>
+                    <SelectItem className="rfs:flex rfs:items-center" key={makeKey(item)} value={makeKey(item)}>
                         {item.label ?? (item.field + " " + item.direction === "asc" ? " (ascending)" : " (descending)")}
                     </SelectItem>
                 ))}

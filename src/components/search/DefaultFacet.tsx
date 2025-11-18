@@ -40,11 +40,11 @@ export function DefaultFacet(props: FacetViewProps & { config: SearchConfigBuild
     }, [props.optionView])
 
     return (
-        <div className="rfs-px-4 rfs-pt-0 rfs-pb-8">
-            <div className="rfs-flex rfs-items-center rfs-justify-between rfs-pb-2">
+        <div className="rfs:px-4 rfs:pt-0 rfs:pb-8">
+            <div className="rfs:flex rfs:items-center rfs:justify-between rfs:pb-2">
                 <Tooltip disableHoverableContent={true} open={selfConfig.description ? undefined : false}>
                     <TooltipTrigger asChild>
-                        <div className="rfs-text-sm rfs-font-bold">{props.label}</div>
+                        <div className="rfs:text-sm rfs:font-bold">{props.label}</div>
                     </TooltipTrigger>
                     <TooltipContent>{selfConfig.description}</TooltipContent>
                 </Tooltip>
@@ -53,7 +53,7 @@ export function DefaultFacet(props: FacetViewProps & { config: SearchConfigBuild
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button variant={search ? "default" : "ghost"} size="icon">
-                                <Search className="rfs-size-4" />
+                                <Search className="rfs:size-4" />
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent>
@@ -74,8 +74,8 @@ export function DefaultFacet(props: FacetViewProps & { config: SearchConfigBuild
             ))}
 
             {props.showMore ? (
-                <Button className="rfs-p-1" onClick={props.onMoreClick} size="sm" variant="link">
-                    <PlusIcon className="rfs-size-4" /> Show more
+                <Button className="rfs:p-1" onClick={props.onMoreClick} size="sm" variant="link">
+                    <PlusIcon className="rfs:size-4" /> Show more
                 </Button>
             ) : null}
         </div>

@@ -26,7 +26,7 @@ const demoConfig: SearchConfig = {
                 { label: "My Facet", key: "facet1" },
                 { label: "Pretty URLs", key: "facet2", singleValueMapper: (v) => prettyPrintURL(v + "") },
                 { label: "With Pid Resolver", key: "facet3", singleValueMapper: (v) => <PidNameDisplay pid={v + ""} /> },
-                { label: "Fully Custom", key: "facet4", singleValueMapper: (v) => <div className="rfs-bg-green-500 rfs-p-2">{v}</div> }
+                { label: "Fully Custom", key: "facet4", singleValueMapper: (v) => <div className="rfs:bg-green-500 rfs:p-2">{v}</div> }
             ],
             resultFields: [], // Leave empty to get all fields
             searchFields: []
@@ -40,7 +40,7 @@ export const Default: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <div className="rfs-max-w-60">
+                <div className="rfs:max-w-60">
                     <Story />
                 </div>
             </TooltipProvider>
@@ -71,7 +71,7 @@ export const PrettyURL: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <div className="rfs-max-w-60">
+                <div className="rfs:max-w-60">
                     <Story />
                 </div>
             </TooltipProvider>
@@ -100,7 +100,7 @@ export const WithPidResolver: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <div className="rfs-max-w-60">
+                <div className="rfs:max-w-60">
                     <Story />
                 </div>
             </TooltipProvider>
@@ -129,7 +129,7 @@ export const FullyCustom: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <div className="rfs-max-w-60">
+                <div className="rfs:max-w-60">
                     <Story />
                 </div>
             </TooltipProvider>

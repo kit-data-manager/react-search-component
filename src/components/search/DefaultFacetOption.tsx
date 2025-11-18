@@ -34,12 +34,12 @@ export function DefaultFacetOption({
     }, [facetConfig, value])
 
     return (
-        <div key={value} className="rfs-flex rfs-max-w-full rfs-items-center rfs-gap-2 rfs-break-words rfs-p-1 rfs-pb-2">
+        <div key={value} className="rfs:flex rfs:max-w-full rfs:items-center rfs:gap-2 rfs:wrap-break-word rfs:p-1 rfs:pb-2">
             <Checkbox id={value + facetConfig.key} checked={option.selected} onCheckedChange={(v) => (v ? onSelect(value) : onRemove(value))} />
-            <Label htmlFor={value + facetConfig.key} className="rfs-min-w-0 rfs-grow rfs-break-words">
-                {parsedValue || <span className="rfs-text-muted-foreground">None</span>}
+            <Label htmlFor={value + facetConfig.key} className="rfs:min-w-0 rfs:grow rfs:wrap-break-word">
+                {parsedValue || <span className="rfs:text-muted-foreground">None</span>}
             </Label>
-            <div className="rfs-text-xs rfs-text-muted-foreground">{option.count}</div>
+            <div className="rfs:text-xs rfs:text-muted-foreground">{option.count}</div>
         </div>
     )
 }
