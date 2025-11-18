@@ -6,6 +6,7 @@ import { resultCache } from "@/lib/ResultCache"
 import { ReactSearchComponentContextProvider } from "@/components/ReactSearchComponentContextProvider"
 import { SearchConfig } from "@/lib/config/SearchConfig"
 import { GraphNodeUtils } from "@/components/graph"
+import { MockSearchProvider } from "@/components/storybook/MockSearchProvider"
 
 const meta = {
     component: RelationsGraph,
@@ -33,11 +34,13 @@ export const Default: Story = {
 
             return (
                 <ReactFlowProvider>
-                    <ReactSearchComponentContextProvider config={emptyConfig}>
-                        <div style={{ width: "100%", height: "min(70vh, 700px)" }}>
-                            <Story />
-                        </div>
-                    </ReactSearchComponentContextProvider>
+                    <MockSearchProvider>
+                        <ReactSearchComponentContextProvider config={emptyConfig}>
+                            <div style={{ width: "100%", height: "min(70vh, 700px)" }}>
+                                <Story />
+                            </div>
+                        </ReactSearchComponentContextProvider>
+                    </MockSearchProvider>
                 </ReactFlowProvider>
             )
         }
@@ -53,11 +56,13 @@ export const CustomNode: Story = {
         (Story) => {
             return (
                 <ReactFlowProvider>
-                    <ReactSearchComponentContextProvider config={emptyConfig}>
-                        <div style={{ width: "100%", height: "min(70vh, 700px)" }}>
-                            <Story />
-                        </div>
-                    </ReactSearchComponentContextProvider>
+                    <MockSearchProvider>
+                        <ReactSearchComponentContextProvider config={emptyConfig}>
+                            <div style={{ width: "100%", height: "min(70vh, 700px)" }}>
+                                <Story />
+                            </div>
+                        </ReactSearchComponentContextProvider>
+                    </MockSearchProvider>
                 </ReactFlowProvider>
             )
         }
