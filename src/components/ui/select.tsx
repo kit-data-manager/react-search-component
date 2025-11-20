@@ -63,28 +63,30 @@ const SelectContent = React.forwardRef<
     React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
 >(({ className, children, position = "popper", ...props }, ref) => (
     <SelectPrimitive.Portal>
-        <SelectPrimitive.Content
-            ref={ref}
-            className={cn(
-                "rfs:relative rfs:z-50 rfs:max-h-[--radix-select-content-available-height] rfs:min-w-[8rem] rfs:overflow-y-auto rfs:overflow-x-hidden rfs:rounded-md rfs:border rfs:border-input rfs:bg-popover rfs:text-popover-foreground rfs:shadow-md rfs:data-[state=open]:animate-in rfs:data-[state=closed]:animate-out rfs:data-[state=closed]:fade-out-0 rfs:data-[state=open]:fade-in-0 rfs:data-[state=closed]:zoom-out-95 rfs:data-[state=open]:zoom-in-95 rfs:data-[side=bottom]:slide-in-from-top-2 rfs:data-[side=left]:slide-in-from-right-2 rfs:data-[side=right]:slide-in-from-left-2 rfs:data-[side=top]:slide-in-from-bottom-2 rfs:origin-[--radix-select-content-transform-origin]",
-                position === "popper" &&
-                    "rfs:data-[side=bottom]:translate-y-1 rfs:data-[side=left]:-translate-x-1 rfs:data-[side=right]:translate-x-1 rfs:data-[side=top]:-translate-y-1",
-                className
-            )}
-            position={position}
-            {...props}
-        >
-            <SelectScrollUpButton />
-            <SelectPrimitive.Viewport
+        <div className="rfs:contents rfs-root">
+            <SelectPrimitive.Content
+                ref={ref}
                 className={cn(
-                    "rfs:p-1",
-                    position === "popper" && "rfs:h-[var(--radix-select-trigger-height)] rfs:w-full rfs:min-w-[var(--radix-select-trigger-width)]"
+                    "rfs:relative rfs:z-50 rfs:max-h-[--radix-select-content-available-height] rfs:min-w-[8rem] rfs:overflow-y-auto rfs:overflow-x-hidden rfs:rounded-md rfs:border rfs:border-input rfs:bg-popover rfs:text-popover-foreground rfs:shadow-md rfs:data-[state=open]:animate-in rfs:data-[state=closed]:animate-out rfs:data-[state=closed]:fade-out-0 rfs:data-[state=open]:fade-in-0 rfs:data-[state=closed]:zoom-out-95 rfs:data-[state=open]:zoom-in-95 rfs:data-[side=bottom]:slide-in-from-top-2 rfs:data-[side=left]:slide-in-from-right-2 rfs:data-[side=right]:slide-in-from-left-2 rfs:data-[side=top]:slide-in-from-bottom-2 rfs:origin-[--radix-select-content-transform-origin]",
+                    position === "popper" &&
+                        "rfs:data-[side=bottom]:translate-y-1 rfs:data-[side=left]:-translate-x-1 rfs:data-[side=right]:translate-x-1 rfs:data-[side=top]:-translate-y-1",
+                    className
                 )}
+                position={position}
+                {...props}
             >
-                {children}
-            </SelectPrimitive.Viewport>
-            <SelectScrollDownButton />
-        </SelectPrimitive.Content>
+                <SelectScrollUpButton />
+                <SelectPrimitive.Viewport
+                    className={cn(
+                        "rfs:p-1",
+                        position === "popper" && "rfs:h-[var(--radix-select-trigger-height)] rfs:w-full rfs:min-w-[var(--radix-select-trigger-width)]"
+                    )}
+                >
+                    {children}
+                </SelectPrimitive.Viewport>
+                <SelectScrollDownButton />
+            </SelectPrimitive.Content>
+        </div>
     </SelectPrimitive.Portal>
 ))
 SelectContent.displayName = SelectPrimitive.Content.displayName

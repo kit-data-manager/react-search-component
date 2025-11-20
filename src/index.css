@@ -1,4 +1,8 @@
-@import 'tailwindcss' prefix(rfs);
+@layer rfs-theme, rfs-base, rfs-components, rfs-utilities;
+
+@import "tailwindcss/theme.css" layer(rfs-theme) prefix(rfs) important;
+@import "tailwindcss/preflight.css" layer(rfs-base);
+@import "tailwindcss/utilities.css" layer(rfs-utilities) prefix(rfs) important;
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is([class="dark"] *));
@@ -63,7 +67,7 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
-@layer base {
+@layer rfs-base {
     *,
     ::after,
     ::before,
@@ -147,7 +151,7 @@
     }
 }
 
-@layer utilities {
+@layer rfs-utilities {
     .rfs-root {
         :root {
             font-synthesis: none;

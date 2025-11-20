@@ -32,23 +32,25 @@ const DialogContent = React.forwardRef<
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & { hideCloseButton?: boolean }
 >(({ className, children, ...props }, ref) => (
     <DialogPortal>
-        <DialogOverlay />
-        <DialogPrimitive.Content
-            ref={ref}
-            className={cn(
-                "rfs:fixed rfs:left-[50%] rfs:top-[50%] rfs:z-50 rfs:grid rfs:w-full rfs:max-w-lg rfs:translate-x-[-50%] rfs:translate-y-[-50%] rfs:gap-4 rfs:border rfs:bg-background rfs:p-6 rfs:shadow-lg rfs:duration-200 rfs:data-[state=open]:animate-in rfs:data-[state=closed]:animate-out rfs:data-[state=closed]:fade-out-0 rfs:data-[state=open]:fade-in-0 rfs:data-[state=closed]:zoom-out-95 rfs:data-[state=open]:zoom-in-95 rfs:sm:rounded-lg",
-                className
-            )}
-            {...props}
-        >
-            {children}
-            {!props.hideCloseButton && (
-                <DialogPrimitive.Close className="rfs:absolute rfs:right-4 rfs:top-4 rfs:rounded-sm rfs:opacity-70 rfs:ring-offset-background rfs:transition-opacity rfs:hover:opacity-100 rfs:focus:outline-none rfs:focus:ring-2 rfs:focus:ring-ring rfs:focus:ring-offset-2 rfs:disabled:pointer-events-none rfs:data-[state=open]:bg-accent rfs:data-[state=open]:text-muted-foreground">
-                    <X className="rfs:h-4 rfs:w-4" />
-                    <span className="rfs:sr-only">Close</span>
-                </DialogPrimitive.Close>
-            )}
-        </DialogPrimitive.Content>
+        <div className="rfs:contents rfs-root">
+            <DialogOverlay />
+            <DialogPrimitive.Content
+                ref={ref}
+                className={cn(
+                    "rfs:fixed rfs:left-[50%] rfs:top-[50%] rfs:z-50 rfs:grid rfs:w-full rfs:max-w-lg rfs:translate-x-[-50%] rfs:translate-y-[-50%] rfs:gap-4 rfs:border rfs:bg-background rfs:p-6 rfs:shadow-lg rfs:duration-200 rfs:data-[state=open]:animate-in rfs:data-[state=closed]:animate-out rfs:data-[state=closed]:fade-out-0 rfs:data-[state=open]:fade-in-0 rfs:data-[state=closed]:zoom-out-95 rfs:data-[state=open]:zoom-in-95 rfs:sm:rounded-lg",
+                    className
+                )}
+                {...props}
+            >
+                {children}
+                {!props.hideCloseButton && (
+                    <DialogPrimitive.Close className="rfs:absolute rfs:right-4 rfs:top-4 rfs:rounded-sm rfs:opacity-70 rfs:ring-offset-background rfs:transition-opacity rfs:hover:opacity-100 rfs:focus:outline-none rfs:focus:ring-2 rfs:focus:ring-ring rfs:focus:ring-offset-2 rfs:disabled:pointer-events-none rfs:data-[state=open]:bg-accent rfs:data-[state=open]:text-muted-foreground">
+                        <X className="rfs:h-4 rfs:w-4" />
+                        <span className="rfs:sr-only">Close</span>
+                    </DialogPrimitive.Close>
+                )}
+            </DialogPrimitive.Content>
+        </div>
     </DialogPortal>
 ))
 DialogContent.displayName = DialogPrimitive.Content.displayName
