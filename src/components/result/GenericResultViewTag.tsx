@@ -101,11 +101,11 @@ export function GenericResultViewTag(props: GenericResultViewTagProps) {
     const base = useCallback(
         (fieldValue: FieldValue, value: ReactNode, key?: string) => {
             return (
-                <Badge key={key} variant="secondary" className="rfs-truncate" onClick={(e) => handleClick(fieldValue, value, e)}>
-                    <span className="rfs-flex rfs-truncate">
+                <Badge key={key} variant="secondary" className="rfs:truncate" onClick={(e) => handleClick(fieldValue, value, e)}>
+                    <span className="rfs:flex rfs:truncate">
                         {showCopiedNotice ? (
                             <>
-                                <CheckIcon className="rfs-size-4 rfs-mr-2" /> <span>Copied</span>
+                                <CheckIcon className="rfs:size-4 rfs:mr-2" /> <span>Copied</span>
                             </>
                         ) : (
                             <>
@@ -132,7 +132,7 @@ export function GenericResultViewTag(props: GenericResultViewTagProps) {
             <TooltipTrigger>{base(fieldValue, value)}</TooltipTrigger>
             <TooltipContent>
                 <div>{label}</div>
-                <div className="rfs-text-xs rfs-text-muted-foreground">{clickBehaviourText}</div>
+                <div className="rfs:text-xs rfs:text-muted-foreground">{clickBehaviourText}</div>
             </TooltipContent>
         </Tooltip>
     )

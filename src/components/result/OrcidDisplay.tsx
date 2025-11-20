@@ -35,5 +35,5 @@ export function OrcidDisplay({ orcid }: { orcid: string }) {
 
     if (familyName && givenName) return givenName + " " + familyName
     if (error) return orcid
-    return <Skeleton className="rfs-h-4 rfs-w-14 rfs-bg-muted-foreground/10" />
+    return <Skeleton className="rfs:h-4 rfs:w-14 rfs:bg-muted-foreground/10" />
 }

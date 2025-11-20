@@ -39,7 +39,7 @@ export function RelationsGraphModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className="rfs-h-[calc(100vh-40px)] rfs-max-w-none !rfs-w-[calc(100vw-40px)] !rfs-p-0" hideCloseButton>
+            <DialogContent className="rfs:h-[calc(100vh-40px)] rfs:max-w-none rfs:w-[calc(100vw-40px)]! rfs:p-0!" hideCloseButton>
                 <VisuallyHidden.Root>
                     <DialogTitle>Relationship graph</DialogTitle>
                 </VisuallyHidden.Root>
@@ -55,9 +55,9 @@ export function RelationsGraphModal({
                     <RelationsGraph nodes={nodes} resultView={resultView} options={options} dark={dark} nodeTypes={nodeTypes} />
                 </ReactSearchComponentContext.Provider>
 
-                <div className="rfs-absolute rfs-right-4 rfs-top-4">
+                <div className="rfs:absolute rfs:right-4 rfs:top-4">
                     <Button variant="outline" onClick={() => onOpenChange(false)}>
-                        <X className="rfs-size-4" /> Close <span className="rfs-font-mono rfs-text-muted-foreground rfs-ml-2">Esc</span>
+                        <X className="rfs:size-4" /> Close <span className="rfs:font-mono rfs:text-muted-foreground rfs:ml-2">Esc</span>
                     </Button>
                 </div>
             </DialogContent>

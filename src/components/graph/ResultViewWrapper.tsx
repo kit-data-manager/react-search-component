@@ -25,16 +25,16 @@ export function ResultViewWrapper({ resultView: ResultView, id }: NodeProps & { 
     }, [id, searchFor])
 
     return (
-        <div className="rfs-w-[800px] -rfs-m-2">
+        <div className="rfs:w-[800px] rfs:-m-2">
             <Handle type="target" position={Position.Left} />
             {!data || dataEmpty ? (
-                <div className="rfs-m-2 rfs-p-4 rfs-rounded-lg rfs-bg-background rfs-border rfs-flex rfs-justify-between rfs-items-center">
+                <div className="rfs:m-2 rfs:p-4 rfs:rounded-lg rfs:bg-background rfs:border rfs:flex rfs:justify-between rfs:items-center">
                     <div>
                         <div>{id}</div>
-                        <div className="rfs-text-muted-foreground">Not found in cache, try searching for it</div>
+                        <div className="rfs:text-muted-foreground">Not found in cache, try searching for it</div>
                     </div>
                     <Button onClick={searchForThis}>
-                        <SearchIcon className={"rfs-size-4 rfs-mr-1"} /> Search
+                        <SearchIcon className={"rfs:size-4 rfs:mr-1"} /> Search
                     </Button>
                 </div>
             ) : (

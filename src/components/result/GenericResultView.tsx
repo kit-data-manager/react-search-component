@@ -336,30 +336,30 @@ export function GenericResultView({
 
     return (
         <div
-            className={`rfs-m-2 rfs-rounded-lg rfs-border rfs-border-border rfs-bg-background rfs-p-4 rfs-group/resultView ${exactPidMatch ? "rfs-outline-primary rfs-outline" : ""}`}
+            className={`rfs:m-2 rfs:rounded-lg rfs:border rfs:border-border rfs:bg-background rfs:p-4 rfs:group/result-view ${exactPidMatch ? "rfs:outline-primary rfs:outline" : ""}`}
         >
             <div
-                className={`rfs-grid ${imageField ? "rfs-grid-rows-[150px_1fr] md:rfs-grid-cols-[200px_1fr] md:rfs-grid-rows-1" : ""} rfs-gap-4 rfs-overflow-x-auto md:rfs-max-w-full`}
+                className={`rfs:grid ${imageField ? "rfs:grid-rows-[150px_1fr] rfs:md:grid-cols-[200px_1fr] rfs:md:grid-rows-1" : ""} rfs:gap-4 rfs:overflow-x-auto rfs:md:max-w-full`}
             >
                 {imageField && <GenericResultViewImage previewImage={previewImage} title={title} invertImageInDarkMode={invertImageInDarkMode} />}
-                <div className="rfs-flex rfs-flex-col rfs-overflow-x-auto md:rfs-max-w-full">
+                <div className="rfs:flex rfs:flex-col rfs:overflow-x-auto rfs:md:max-w-full">
                     {exactPidMatch && (
-                        <div className="rfs-mb-2">
+                        <div className="rfs:mb-2">
                             <Badge>Exact Match</Badge>
                         </div>
                     )}
                     <div>
-                        <div className="rfs-font-bold md:rfs-text-xl rfs-mr-2">{title}</div>
-                        <div className="rfs-flex rfs-text-sm rfs-font-normal rfs-text-muted-foreground rfs-gap-3">
+                        <div className="rfs:font-bold rfs:md:text-xl rfs:mr-2">{title}</div>
+                        <div className="rfs:flex rfs:text-sm rfs:font-normal rfs:text-muted-foreground rfs:gap-3">
                             {identifier}
                             {creationDate && (
-                                <div className="rfs-flex rfs-items-center">
-                                    <PlusIcon className="rfs-size-3 rfs-mr-0.5" /> {creationDate}
+                                <div className="rfs:flex rfs:items-center">
+                                    <PlusIcon className="rfs:size-3 rfs:mr-0.5" /> {creationDate}
                                 </div>
                             )}
                             {editedDate && (
-                                <div className="rfs-flex rfs-items-center">
-                                    <Pencil className="rfs-size-3 rfs-mr-0.5" /> {editedDate}
+                                <div className="rfs:flex rfs:items-center">
+                                    <Pencil className="rfs:size-3 rfs:mr-0.5" /> {editedDate}
                                 </div>
                             )}
                         </div>
@@ -367,33 +367,33 @@ export function GenericResultView({
                     <a
                         href={`https://hdl.handle.net/${pid}?noredirect`}
                         target="_blank"
-                        className="rfs-mb-2 rfs-block rfs-leading-3 hover:rfs-underline"
+                        className="rfs:mb-2 rfs:block rfs:leading-3 rfs:hover:underline"
                     >
-                        <span className="rfs-text-sm rfs-text-muted-foreground">{pid}</span>
+                        <span className="rfs:text-sm rfs:text-muted-foreground">{pid}</span>
                     </a>
-                    <div className="rfs-flex rfs-flex-wrap rfs-gap-2 rfs-truncate rfs-items-center">
+                    <div className="rfs:flex rfs:flex-wrap rfs:gap-2 rfs:truncate rfs:items-center">
                         {tags && tags.map((tag, i) => <GenericResultViewTag key={i} result={result} {...tag} />)}
                     </div>
-                    <div className="rfs-grow">{description}</div>
-                    <div className="rfs-mt-8 rfs-flex rfs-flex-col rfs-flex-wrap rfs-justify-end rfs-gap-2 md:rfs-flex-row md:rfs-items-center md:rfs-gap-4">
+                    <div className="rfs:grow">{description}</div>
+                    <div className="rfs:mt-8 rfs:flex rfs:flex-col rfs:flex-wrap rfs:justify-end rfs:gap-2 rfs:md:flex-row rfs:md:items-center rfs:md:gap-4">
                         {showRelatedItemsButton && (
-                            <div className="rfs-flex rfs-items-center">
+                            <div className="rfs:flex rfs:items-center">
                                 <Button
-                                    className="rfs-grow rfs-rounded-r-none"
+                                    className="rfs:grow rfs:rounded-r-none"
                                     disabled={loadingRelatedItems}
                                     size="sm"
                                     variant="secondary"
                                     onClick={showRelatedItemsGraph}
                                 >
                                     {loadingRelatedItems ? (
-                                        <LoaderCircle className="rfs-mr-1 rfs-size-4 rfs-animate-spin" />
+                                        <LoaderCircle className="rfs:mr-1 rfs:size-4 rfs:animate-spin" />
                                     ) : (
-                                        <GitFork className="rfs-mr-1 rfs-size-4" />
+                                        <GitFork className="rfs:mr-1 rfs:size-4" />
                                     )}
                                     Show Related Items
                                 </Button>
                                 <Button
-                                    className="rfs-rounded-l-none rfs-border-l rfs-border-l-border rfs-text-xs rfs-font-bold"
+                                    className="rfs:rounded-l-none rfs:border-l rfs:border-l-border rfs:text-xs rfs:font-bold"
                                     size="sm"
                                     variant="secondary"
                                     onClick={showRelatedItemsGraph}
@@ -404,32 +404,32 @@ export function GenericResultView({
                         )}
 
                         {landingPageLocation && (
-                            <div className="rfs-flex rfs-items-center">
-                                <a href={landingPageLocation} target="_blank" className="rfs-grow">
-                                    <Button size="sm" className="rfs-w-full rfs-rounded-r-none rfs-px-4">
+                            <div className="rfs:flex rfs:items-center">
+                                <a href={landingPageLocation} target="_blank" className="rfs:grow">
+                                    <Button size="sm" className="rfs:w-full rfs:rounded-r-none rfs:px-4">
                                         Open
                                     </Button>
                                 </a>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button size="sm" className="rfs-rounded-l-none rfs-border-l">
-                                            <ChevronDown className="rfs-mr-1 rfs-size-4" />
+                                        <Button size="sm" className="rfs:rounded-l-none rfs:border-l">
+                                            <ChevronDown className="rfs:mr-1 rfs:size-4" />
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent>
                                         <a href={doLocation} target="_blank">
                                             <DropdownMenuItem>
-                                                <Download className="rfs-mr-1 rfs-size-4" /> Download Digital Object
+                                                <Download className="rfs:mr-1 rfs:size-4" /> Download Digital Object
                                             </DropdownMenuItem>
                                         </a>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem onClick={searchForThis}>
-                                            <SearchIcon className="rfs-mr-1 rfs-size-4" /> Search for this
+                                            <SearchIcon className="rfs:mr-1 rfs:size-4" /> Search for this
                                         </DropdownMenuItem>
                                         {showOpenInFairDoScope && (
                                             <a href={`https://kit-data-manager.github.io/fairdoscope/?pid=${pid}`} target="_blank">
                                                 <DropdownMenuItem>
-                                                    <Microscope className="rfs-mr-1 rfs-size-4" /> Open in FAIR-DOscope
+                                                    <Microscope className="rfs:mr-1 rfs:size-4" /> Open in FAIR-DOscope
                                                 </DropdownMenuItem>
                                             </a>
                                         )}
@@ -437,7 +437,7 @@ export function GenericResultView({
                                             <>
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem onClick={() => setShowInspectDialog(true)}>
-                                                    <TableProperties className="rfs-size-4 rfs-mr-1" /> Inspect FDO
+                                                    <TableProperties className="rfs:size-4 rfs:mr-1" /> Inspect FDO
                                                 </DropdownMenuItem>
                                             </>
                                         )}
@@ -451,10 +451,10 @@ export function GenericResultView({
 
             {showInspectFDO && (
                 <Dialog open={showInspectDialog} onOpenChange={setShowInspectDialog}>
-                    <DialogContent className="!rfs-max-w-[calc(100vw-40px)] !rfs-min-w-[min(1200px,calc(100vw-40px))]">
+                    <DialogContent className="rfs:max-w-[calc(100vw-40px)]! rfs:min-w-[min(1200px,calc(100vw-40px))]!">
                         <DialogTitle>Inspect Result</DialogTitle>
 
-                        <div className={"rfs-overflow-auto"}>
+                        <div className={"rfs:overflow-auto"}>
                             <PidComponent openByDefault value={pid} levelOfSubcomponents={10} />
                         </div>
                     </DialogContent>

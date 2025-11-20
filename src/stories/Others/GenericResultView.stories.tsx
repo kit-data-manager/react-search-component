@@ -6,6 +6,7 @@ import { prettyPrintURL } from "@/lib/utils"
 import { RelationsGraphProvider } from "@/components/graph/RelationsGraphProvider"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { ReactSearchComponentContextProvider } from "@/components/ReactSearchComponentContextProvider"
+import { MockSearchProvider } from "@/components/storybook/MockSearchProvider"
 
 const meta = {
     component: GenericResultView,
@@ -22,11 +23,13 @@ export const Simple: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <ReactSearchComponentContextProvider config={emptyConfig}>
-                    <RelationsGraphProvider resultView={(props) => <GenericResultView {...props} {...Simple.args} />}>
-                        <Story />
-                    </RelationsGraphProvider>
-                </ReactSearchComponentContextProvider>
+                <MockSearchProvider>
+                    <ReactSearchComponentContextProvider config={emptyConfig}>
+                        <RelationsGraphProvider resultView={(props) => <GenericResultView {...props} {...Simple.args} />}>
+                            <Story />
+                        </RelationsGraphProvider>
+                    </ReactSearchComponentContextProvider>
+                </MockSearchProvider>
             </TooltipProvider>
         )
     ],
@@ -46,11 +49,13 @@ export const MultipleImages: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <ReactSearchComponentContextProvider config={emptyConfig}>
-                    <RelationsGraphProvider resultView={(props) => <GenericResultView {...props} {...MultipleImages.args} />}>
-                        <Story />
-                    </RelationsGraphProvider>
-                </ReactSearchComponentContextProvider>
+                <MockSearchProvider>
+                    <ReactSearchComponentContextProvider config={emptyConfig}>
+                        <RelationsGraphProvider resultView={(props) => <GenericResultView {...props} {...MultipleImages.args} />}>
+                            <Story />
+                        </RelationsGraphProvider>
+                    </ReactSearchComponentContextProvider>
+                </MockSearchProvider>
             </TooltipProvider>
         )
     ],
@@ -77,11 +82,13 @@ export const Full: Story = {
     decorators: [
         (Story) => (
             <TooltipProvider>
-                <ReactSearchComponentContextProvider config={emptyConfig}>
-                    <RelationsGraphProvider resultView={(props) => <GenericResultView {...props} {...Full.args} />}>
-                        <Story />
-                    </RelationsGraphProvider>
-                </ReactSearchComponentContextProvider>
+                <MockSearchProvider>
+                    <ReactSearchComponentContextProvider config={emptyConfig}>
+                        <RelationsGraphProvider resultView={(props) => <GenericResultView {...props} {...Full.args} />}>
+                            <Story />
+                        </RelationsGraphProvider>
+                    </ReactSearchComponentContextProvider>
+                </MockSearchProvider>
             </TooltipProvider>
         )
     ],
@@ -116,26 +123,26 @@ export const Full: Story = {
         invertImageInDarkMode: true,
         tags: [
             {
-                icon: <GraduationCap className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                icon: <GraduationCap className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                 label: "Resource Type",
                 field: "resourceType"
             },
             {
-                icon: <GlobeIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                icon: <GlobeIcon className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                 field: "hadPrimarySource",
                 singleValueMapper: (v) => prettyPrintURL(v + ""),
                 label: "Primary Source",
                 clickBehavior: "follow-url"
             },
             {
-                icon: <ScaleIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                icon: <ScaleIcon className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                 field: "licenseURL",
                 singleValueMapper: (v) => prettyPrintURL(v + ""),
                 label: "License URL",
                 clickBehavior: "follow-url"
             },
             {
-                icon: <AtomIcon className="rfs-shrink-0 rfs-size-4 rfs-mr-2" />,
+                icon: <AtomIcon className="rfs:shrink-0 rfs:size-4 rfs:mr-2" />,
                 field: "Compound",
                 label: "Compound"
             },
