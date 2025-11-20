@@ -19,7 +19,7 @@ const PopoverContent = React.forwardRef<
             align={align}
             sideOffset={sideOffset}
             className={cn(
-                "rfs-root rfs:z-50 rfs:w-72 rfs:rounded-md rfs:border rfs:bg-popover rfs:p-4 rfs:text-popover-foreground rfs:shadow-md rfs:outline-hidden data-[state=open]:rfs-animate-in data-[state=closed]:rfs-animate-out data-[state=closed]:rfs-fade-out-0 data-[state=open]:rfs-fade-in-0 data-[state=closed]:rfs-zoom-out-95 data-[state=open]:rfs-zoom-in-95 data-[side=bottom]:rfs-slide-in-from-top-2 data-[side=left]:rfs-slide-in-from-right-2 data-[side=right]:rfs-slide-in-from-left-2 data-[side=top]:rfs-slide-in-from-bottom-2",
+                "rfs-root rfs:z-50 rfs:w-72 rfs:rounded-md rfs:border rfs:bg-popover rfs:p-4 rfs:text-popover-foreground rfs:shadow-md rfs:outline-hidden rfs:data-[state=open]:animate-in rfs:data-[state=closed]:animate-out rfs:data-[state=closed]:fade-out-0 rfs:data-[state=open]:fade-in-0 rfs:data-[state=closed]:zoom-out-95 rfs:data-[state=open]:zoom-in-95 rfs:data-[side=bottom]:slide-in-from-top-2 rfs:data-[side=left]:slide-in-from-right-2 rfs:data-[side=right]:slide-in-from-left-2 rfs:data-[side=top]:slide-in-from-bottom-2",
                 className
             )}
             {...props}

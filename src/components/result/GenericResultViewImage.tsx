@@ -23,7 +23,7 @@ export function GenericResultViewImage({
                                 <Button
                                     size="icon"
                                     variant={"outline"}
-                                    className="rfs:p-0 rfs:absolute rfs:right-0 rfs:top-0 rfs:bottom-0 rfs:m-auto rfs:translate-y-[50px] rfs:w-8 rfs:h-8 rfs:opacity-0 rfs:group-hover/resultView:opacity-100 rfs:transition-opacity"
+                                    className="rfs:p-0 rfs:absolute rfs:right-0 rfs:top-0 rfs:bottom-0 rfs:m-auto rfs:translate-y-[50px] rfs:w-8 rfs:h-8 rfs:opacity-0 rfs:group-hover/result-view:opacity-100 rfs:transition-opacity"
                                 >
                                     <Fullscreen className="rfs:size-4" />
                                 </Button>

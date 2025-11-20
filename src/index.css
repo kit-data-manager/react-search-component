@@ -1,4 +1,5 @@
 @import 'tailwindcss' prefix(rfs);
+@plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is([class="dark"] *));
 
@@ -80,9 +81,11 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+  }
+}
 
-    @layer base {
-      :root {
+@layer base {
+    :root {
         --rfs-background: 0 0% 100%;
         --rfs-foreground: 0 0% 3.9%;
         --rfs-card: 0 0% 100%;
@@ -108,9 +111,9 @@
         --rfs-chart-4: 43 74% 66%;
         --rfs-chart-5: 27 87% 67%;
         --rfs-radius: 0.5rem;
-      }
+    }
 
-      .dark {
+    .dark {
         --rfs-background: 0 0% 3.9%;
         --rfs-foreground: 0 0% 98%;
         --rfs-card: 0 0% 3.9%;
@@ -135,16 +138,12 @@
         --rfs-chart-3: 30 80% 55%;
         --rfs-chart-4: 280 65% 60%;
         --rfs-chart-5: 340 75% 55%;
-      }
-
-      [hidden]:where(:not([hidden='until-found'])) {
-        display: none !important;
-      }
     }
-  }
-}
 
-@layer base {
+    [hidden]:where(:not([hidden='until-found'])) {
+        display: none !important;
+    }
+
     .rfs-root, .rfs-root * {
         border-color: hsl(var(--rfs-border));
     }

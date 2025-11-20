@@ -24,7 +24,7 @@ export function GenericResultViewImageCarousel({ images, title, fullSize }: { im
                     </CarouselItem>
                 ))}
             </CarouselContent>
-            <div className={fullSize ? "" : "rfs:opacity-0 rfs:group-hover/resultView:opacity-100 rfs:transition-opacity"}>
+            <div className={fullSize ? "" : "rfs:opacity-0 rfs:group-hover/result-view:opacity-100 rfs:transition-opacity"}>
                 <CarouselPrevious />
                 <CarouselNext />
             </div>
