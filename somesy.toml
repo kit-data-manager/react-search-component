@@ -1,6 +1,6 @@
 [project]
 name = "@kit-data-manager/react-search-component"
-version = "0.2.2"
+version = "0.3.0"
 description = "All-in-one component for rendering an elastic search UI for searching anything. Built-in support for visualizing related items in a graph and resolving unique identifiers."
 license = "Apache-2.0"
 repository = "https://github.com/kit-data-manager/react-search-component"
