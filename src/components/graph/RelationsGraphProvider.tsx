@@ -9,7 +9,12 @@ import { GraphNode } from "@/components/graph/GraphNode"
 import { RelationsGraphOptions } from "@/components/graph/RelationsGraphOptions"
 
 export function RelationsGraphProvider(
-    props: PropsWithChildren<{ resultView: ComponentType<ResultViewProps>; dark?: boolean; nodeTypes?: NodeTypes }>
+    props: PropsWithChildren<{
+        resultView: ComponentType<ResultViewProps>
+        /** @deprecated This property is deprecated and will be removed in the future. Dark mode is automatically enabled when any parent element has the `dark` class. */
+        dark?: boolean
+        nodeTypes?: NodeTypes
+    }>
 ) {
     const [state, setState] = useState<{
         nodes: GraphNode[]

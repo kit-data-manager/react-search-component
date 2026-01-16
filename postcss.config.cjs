@@ -6,5 +6,5 @@ const PostCSSPrefixWrap = require("postcss-prefixwrap")
  */
 
 module.exports = {
-    plugins: [PostCSSPrefixWrap(".rfs-root")]
+    plugins: [PostCSSPrefixWrap(".rfs-root", { ignoredSelectors: [".dark", ":root:where(*)"] })]
 }

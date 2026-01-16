@@ -5,7 +5,7 @@
 @import "tailwindcss/utilities.css" layer(rfs-utilities) prefix(rfs) important;
 @plugin "tailwindcss-animate";
 
-@custom-variant dark (&:is([class="dark"] *));
+@custom-variant dark (&:is(.dark *));
 
 @theme {
   --radius-lg: var(--rfs-radius);
@@ -76,7 +76,8 @@
         border-color: var(--color-gray-200, currentcolor);
     }
 
-    :root {
+    /* Equivalent to :root. The selector is extended here so it can be whitelisted from prefix wrap, so that this rule always applies. */
+    :root:where(*) {
         --rfs-background: 0 0% 100%;
         --rfs-foreground: 0 0% 3.9%;
         --rfs-card: 0 0% 100%;
