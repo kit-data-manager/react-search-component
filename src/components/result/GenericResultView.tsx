@@ -412,7 +412,7 @@ export function GenericResultView({
                                 </a>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button size="sm" className="rfs:rounded-l-none rfs:border-l">
+                                        <Button size="sm" className="rfs:rounded-l-none rfs:border-l rfs:border-l-border">
                                             <ChevronDown className="rfs:mr-1 rfs:size-4" />
                                         </Button>
                                     </DropdownMenuTrigger>
