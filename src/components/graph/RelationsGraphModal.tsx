@@ -24,6 +24,7 @@ export function RelationsGraphModal({
     nodes: GraphNode[]
     options?: RelationsGraphOptions
     resultView: ComponentType<ResultViewProps>
+    /** @deprecated This property is deprecated and will be removed in the future. Dark mode is automatically enabled when any parent element has the `dark` class. */
     dark?: boolean
     nodeTypes?: NodeTypes
 }) {

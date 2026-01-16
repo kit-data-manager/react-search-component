@@ -88,7 +88,8 @@ export function ReactSearchComponent({
     graphNodeTypes?: NodeTypes
 
     /**
-     * Set to true to enable dark mode
+     * Setting this to true will add the `dark` class to the root element of the document (typically `<html/>`). This will enable dark mode.
+     * @deprecated This property is deprecated and will be removed in the future. Dark mode is automatically enabled when any parent element has the `dark` class.
      */
     dark?: boolean
 }) {
