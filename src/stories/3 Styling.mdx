@@ -5,8 +5,7 @@ import { Meta, Source } from "@storybook/addon-docs/blocks"
 # Styling
 
 This component uses Tailwind and shadcn/ui for styling and structuring the component. You can customize many aspects of
-the theme, like colors and edge radius. You can also switch between dark and light mode by using the `dark` prop on
-`<ReactSearchComponent dark={currentTheme === "dark"} />`
+the theme, like colors and edge radius. Dark mode is also supported and automatically enabled if any parent element has the `dark` class.
 
 ## CSS Variables
 
@@ -77,4 +76,4 @@ The following CSS variables can be overwritten to match your needs. Shown are th
 
 CSS classes with prefix `sui-` are specified in the `elastic-ui.css` file, these classes can be directly overwritten in your CSS.
 
-Tailwind classes start with `rfs-`. Colors should be overwritten by using the color variables above.
+Tailwind classes start with `rfs:`. Colors should be overwritten by using the color variables above.

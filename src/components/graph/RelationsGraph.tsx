@@ -28,6 +28,7 @@ export function RelationsGraph(props: {
     nodes: GraphNode[]
     options?: RelationsGraphOptions
     resultView: ComponentType<ResultViewProps>
+    /** @deprecated This property is deprecated and will be removed in the future. Dark mode is automatically enabled when any parent element has the `dark` class. */
     dark?: boolean
     nodeTypes?: NodeTypes
 }) {
@@ -35,6 +36,7 @@ export function RelationsGraph(props: {
 
     useEffect(() => {
         const dark = document.querySelector("html")?.classList.contains("dark")
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         if (dark === true) setColorMode("dark")
         else setColorMode("light")
     }, [])
