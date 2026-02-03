@@ -47,6 +47,10 @@ export class SearchConfigBuilder {
                 if (!uniqueKeys.includes(facet.key)) {
                     facets.push(facet)
                     uniqueKeys.push(facet.key)
+                } else {
+                    console.warn(
+                        `[react-search-component] Facet "${facet.key}" is defined in multiple indices. The definition in index "${index.name}" has no effect. Only the first definition will be used for all indices.`
+                    )
                 }
             }
         }
