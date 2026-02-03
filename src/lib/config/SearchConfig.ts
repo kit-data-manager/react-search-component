@@ -88,7 +88,8 @@ export interface IndexConfig {
      */
     resultFields: string[]
     /**
-     * Facets for this index
+     * Facets for this index. If you define facets with the same key in multiple indices, only the
+     * first definition will be effective. The facet will be populated with results from all indices.
      */
     facets: FacetConfig[]
 }
