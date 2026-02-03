@@ -132,9 +132,12 @@
         --rfs-chart-5: 340 75% 55%;
     }
 
-    [hidden]:where(:not([hidden='until-found'])) {
-        display: none !important;
+    @media(max-width: 800px) {
+        [hidden]:where(:not([hidden="until-found"])) {
+            display: revert !important;
+        }
     }
+
 
     .rfs-root, .rfs-root * {
         border-color: hsl(var(--rfs-border));
