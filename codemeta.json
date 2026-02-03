@@ -20,7 +20,7 @@
   ],
   "name": "@kit-data-manager/react-search-component",
   "description": "All-in-one component for rendering an elastic search UI for searching anything. Built-in support for visualizing related items in a graph and resolving unique identifiers.",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "keywords": [
     "react",
     "reactjs",
