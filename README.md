@@ -3,6 +3,9 @@
 [![Static Badge](https://img.shields.io/badge/npm-red?logo=npm)](https://www.npmjs.com/package/@kit-data-manager/react-search-component)
 [![Node.js CI](https://github.com/kit-data-manager/react-search-component/actions/workflows/build.yml/badge.svg)](https://github.com/kit-data-manager/react-search-component/actions/workflows/build.yml)
 ![NPM Type Definitions](https://img.shields.io/npm/types/%40kit-data-manager%2Freact-search-component)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15000699.svg)](https://doi.org/10.5281/zenodo.15000699)
+
+
 
 All-in-one, highly configurable React component for rendering an elastic search UI based on the provided configuration. Includes
 an **interactive graph** of related records and **unique identifier resolving**.
