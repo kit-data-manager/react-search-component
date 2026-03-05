@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: '24'
       #👇 Add Storybook build and deploy to GitHub Pages as a step in the workflow
-      - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
+      - uses: bitovi/github-actions-storybook-to-github-pages@b75ece8f984a32b2adb322065d7a8a2cc8db2d52 # v1.0.3
         with:
           install_command: npm ci # default: npm ci
           build_command: npm run storybook:build # default: npm run build-storybook
