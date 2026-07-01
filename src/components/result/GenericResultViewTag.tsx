@@ -55,7 +55,7 @@ export function GenericResultViewTag(props: GenericResultViewTagProps) {
 
     const fieldValue = useMemo(() => {
         if (valueOverride !== undefined) return valueOverride
-        return autoUnwrap(result[field]) as FieldValue
+        return autoUnwrap<FieldValue>(result[field])
     }, [field, result, valueOverride])
 
     const value = useMemo(() => {

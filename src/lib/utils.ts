@@ -38,13 +38,13 @@ export function prettyPrintURL(url: string) {
     } else return url
 }
 
-export function autoUnwrap<E>(item?: E | { raw?: E | undefined }) {
+export function autoUnwrap<E>(item: E | { raw: E }): E {
     if (item === undefined || item === null) {
-        return undefined
+        return item
     } else if (typeof item === "object") {
         if ("raw" in item) {
             return item.raw
-        } else return JSON.stringify(item)
+        } else return item as E
     } else return item
 }
 
