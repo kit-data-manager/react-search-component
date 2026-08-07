@@ -1,27 +1,29 @@
 import js from "@eslint/js"
 import globals from "globals"
-import reactHooks from "eslint-plugin-react-hooks"
-import reactRefresh from "eslint-plugin-react-refresh"
+import eslintReact from "@eslint-react/eslint-plugin"
 import tseslint from "typescript-eslint"
+import eslintStorybook from "eslint-plugin-storybook"
 
 export default tseslint.config(
-    { ignores: ["dist"] },
+    { ignores: ["dist", "storybook-static"] },
     {
-        extends: [js.configs.recommended, ...tseslint.configs.recommended],
+        extends: [js.configs.recommended, tseslint.configs.recommended, eslintReact.configs["recommended-typescript"]],
         files: ["**/*.{ts,tsx}"],
         languageOptions: {
             ecmaVersion: 2020,
             globals: globals.browser
         },
-        plugins: {
-            "react-hooks": reactHooks,
-            "react-refresh": reactRefresh
-        },
         rules: {
-            ...reactHooks.configs.recommended.rules,
-            "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
             "no-unused-vars": ["off"],
             "@typescript-eslint/no-unused-vars": ["warn"]
+        }
+    },
+    {
+        extends: [eslintStorybook.configs["flat/recommended"]],
+        files: ["src/stories/**/*.{ts,tsx}"],
+        languageOptions: {
+            ecmaVersion: 2020,
+            globals: globals.browser
         }
     }
 )
