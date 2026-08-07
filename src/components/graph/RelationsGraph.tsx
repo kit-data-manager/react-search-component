@@ -36,7 +36,6 @@ export function RelationsGraph(props: {
 
     useEffect(() => {
         const dark = document.querySelector("html")?.classList.contains("dark")
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         if (dark === true) setColorMode("dark")
         else setColorMode("light")
     }, [])
