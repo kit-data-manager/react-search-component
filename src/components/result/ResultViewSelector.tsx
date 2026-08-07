@@ -39,9 +39,7 @@ export function ResultViewSelector({ resultProps, resultView, resultViewPerIndex
         } else return null
     }, [index, resultViewPerIndex])
 
-    const Selected = useMemo(() => {
-        return specificResultView ?? fallbackResultView
-    }, [fallbackResultView, specificResultView])
+    const Selected = specificResultView ?? fallbackResultView
 
     return <Selected {...resultProps} />
 }

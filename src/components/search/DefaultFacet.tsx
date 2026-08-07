@@ -35,9 +35,7 @@ export function DefaultFacet(props: FacetViewProps & { config: SearchConfigBuild
         onSearchDebounced.current(search)
     }, [search])
 
-    const ActualOptionView = useMemo(() => {
-        return props.optionView ?? DefaultFacetOption
-    }, [props.optionView])
+    const ActualOptionView = props.optionView ?? DefaultFacetOption
 
     return (
         <div className="rfs:px-4 rfs:pt-0 rfs:pb-8">

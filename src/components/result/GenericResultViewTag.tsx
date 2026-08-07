@@ -122,7 +122,7 @@ export function GenericResultViewTag(props: GenericResultViewTagProps) {
     if (value === undefined) return null
 
     if (Array.isArray(value) && Array.isArray(fieldValue)) {
-        return value.map((entry, i) => <GenericResultViewTag {...props} key={field + i} valueOverride={fieldValue[value.indexOf(entry)]} />)
+        return value.map((entry, i) => <GenericResultViewTag key={field + i} {...props} valueOverride={fieldValue[value.indexOf(entry)]} />)
     } else if (!label) {
         return base(fieldValue, value)
     }
