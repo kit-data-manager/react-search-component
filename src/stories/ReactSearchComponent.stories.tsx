@@ -29,11 +29,11 @@ const demoConfig: SearchConfig = {
     debug: false,
     alwaysSearchOnInitialLoad: true,
     // host: "https://matwerk.datamanager.kit.edu/search-proxy/api/v1",
-    host: "https://ddaa9283-f114-4496-b6ed-af12ee34b107.ka.bw-cloud-instance.org",
-    apiKey: "UGNoTW1KUUJ3WmluUHBTcEVpalo6cGloOUVKZ0tTdnlMYVlpTzV4SXBrUQ==",
+    host: "https://nmr.fdo.datamanager.kit.edu/es_proxy/",
+    apiKey: "KGaCwwv12HWHgWZOvUQuJ0a6SBf5vMVPAVZ1tJGO9M0P6eaUOQSGlwBF8DaYpPjE",
     indices: [
         {
-            name: "fdo-prod",
+            name: "nmr-prod",
             facets: [
                 {
                     key: "resourceType.keyword",
@@ -212,7 +212,7 @@ export const GenericResultRenderer: Story = {
                 editedDateField={"dateModified"}
                 additionalIdentifierField="identifier"
                 digitalObjectLocationField="digitalObjectLocation"
-                imageField="locationPreview/Sample"
+                imageField="locationPreview"
                 parentItemPidField="hasMetadata"
                 childItemPidField="isMetadataFor"
                 pidField="pid"
