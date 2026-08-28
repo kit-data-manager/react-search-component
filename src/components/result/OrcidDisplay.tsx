@@ -21,12 +21,22 @@ export function OrcidDisplay({ orcid }: { orcid: string }) {
 
     const familyName = useMemo(() => {
         if (!data) return null
-        return data["person"]["name"]["family-name"]["value"]
+        try {
+            return data["person"]["name"]["family-name"]["value"]
+        } catch (error) {
+            console.error("OrcidDisplay.familyName", error)
+            return "Unknown"
+        }
     }, [data])
 
     const givenName = useMemo(() => {
         if (!data) return null
-        return data["person"]["name"]["given-names"]["value"]
+        try {
+            return data["person"]["name"]["given-names"]["value"]
+        } catch (error) {
+            console.error("OrcidDisplay.givenName", error)
+            return "Unknown"
+        }
     }, [data])
 
     useEffect(() => {

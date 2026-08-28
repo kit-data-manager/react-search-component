@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { FilterValue } from "@elastic/search-ui"
+import { FieldValue, FilterValue } from "@elastic/search-ui"
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
@@ -38,14 +38,18 @@ export function prettyPrintURL(url: string) {
     } else return url
 }
 
-export function autoUnwrap<E>(item?: E | { raw?: E | undefined }) {
+export function autoUnwrap(item: unknown): FieldValue | undefined {
     if (item === undefined || item === null) {
         return undefined
+    } else if (Array.isArray(item)) {
+        return item.map((i) => (typeof i === "string" || typeof i === "number" || typeof i === "boolean" ? i : JSON.stringify(i)))
     } else if (typeof item === "object") {
         if ("raw" in item) {
-            return item.raw
+            return autoUnwrap(item.raw)
         } else return JSON.stringify(item)
-    } else return item
+    } else if (typeof item === "string" || typeof item === "number" || typeof item === "boolean") {
+        return item
+    } else return JSON.stringify(item)
 }
 
 export function autoUnwrapArray<E>(item?: E[] | { raw?: E[] }) {

@@ -282,7 +282,7 @@ export function GenericResultView({
                             const pid = autoUnwrap(fields[pidField ?? "pid"])
                             if (!pid) continue
                             injectMeta(fields, entry._index)
-                            addToResultCache(pid, fields)
+                            addToResultCache(String(pid), fields)
                         } else {
                             console.error("Got empty hit from elastic", entry)
                         }
