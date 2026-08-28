@@ -55,7 +55,7 @@ export function GenericResultViewTag(props: GenericResultViewTagProps) {
 
     const fieldValue = useMemo(() => {
         if (valueOverride !== undefined) return valueOverride
-        return autoUnwrap(result[field]) as FieldValue
+        return autoUnwrap(result[field])
     }, [field, result, valueOverride])
 
     const value = useMemo(() => {
@@ -124,12 +124,12 @@ export function GenericResultViewTag(props: GenericResultViewTagProps) {
     if (Array.isArray(value) && Array.isArray(fieldValue)) {
         return value.map((entry, i) => <GenericResultViewTag key={field + i} {...props} valueOverride={fieldValue[value.indexOf(entry)]} />)
     } else if (!label) {
-        return base(fieldValue, value)
+        return base(fieldValue ?? "no value", value)
     }
 
     return (
         <Tooltip delayDuration={500}>
-            <TooltipTrigger>{base(fieldValue, value)}</TooltipTrigger>
+            <TooltipTrigger>{base(fieldValue ?? "no value", value)}</TooltipTrigger>
             <TooltipContent>
                 <div>{label}</div>
                 <div className="rfs:text-xs rfs:text-muted-foreground">{clickBehaviourText}</div>
