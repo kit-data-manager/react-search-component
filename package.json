@@ -84,7 +84,7 @@
     "postcss-cli": "11.0.1",
     "postcss-prefixwrap": "1.58.0",
     "prettier": "3.9.6",
-    "storybook": "10.5.10",
+    "storybook": "10.6.4",
     "tailwindcss": "4.3.3",
     "tailwindcss-animate": "1.0.7",
     "tsc-alias": "1.9.2",
